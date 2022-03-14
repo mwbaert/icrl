@@ -1,0 +1,217 @@
+wandb_version: 1
+
+_wandb:
+  desc: null
+  value:
+    cli_version: 0.10.12
+    framework: torch
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    python_version: 3.8.12
+batch_size:
+  desc: null
+  value: 64
+budget:
+  desc: null
+  value: 0.0
+clip_range:
+  desc: null
+  value: 0.2
+clip_range_cost_vf:
+  desc: null
+  value: null
+clip_range_reward_vf:
+  desc: null
+  value: null
+cn_acs_select_dim:
+  desc: null
+  value: null
+cn_device:
+  desc: null
+  value: null
+cn_obs_select_dim:
+  desc: null
+  value: null
+cn_path:
+  desc: null
+  value: null
+cnn_features_dim:
+  desc: null
+  value: 512
+config_file:
+  desc: null
+  value: config.json
+cost_gae_lambda:
+  desc: null
+  value: 0.95
+cost_gamma:
+  desc: null
+  value: 0.99
+cost_info_str:
+  desc: null
+  value: cost
+cost_vf_coef:
+  desc: null
+  value: 0.5
+cost_vf_layers:
+  desc: null
+  value:
+  - 64
+  - 64
+derivative_control_coeff:
+  desc: null
+  value: 0
+derivative_cost_ema_alpha:
+  desc: null
+  value: 0.5
+device:
+  desc: null
+  value: cpu
+dont_normalize:
+  desc: null
+  value: false
+dont_normalize_cost:
+  desc: null
+  value: false
+dont_normalize_obs:
+  desc: null
+  value: false
+dont_normalize_reward:
+  desc: null
+  value: false
+ent_coef:
+  desc: null
+  value: 0.0
+eval_env_id:
+  desc: null
+  value: CLGW-v0
+eval_every:
+  desc: null
+  value: 2048
+file_to_run:
+  desc: null
+  value: cpg
+group:
+  desc: null
+  value: null
+integral_control_coeff:
+  desc: null
+  value: 0.0001
+learning_rate:
+  desc: null
+  value: 0.0003
+load_gail:
+  desc: null
+  value: false
+max_grad_norm:
+  desc: null
+  value: 0.5
+message:
+  desc: null
+  value: null
+n_epochs:
+  desc: null
+  value: 10
+n_steps:
+  desc: null
+  value: 2048
+name:
+  desc: null
+  value: LGW-v0_CLGW-v0_tk_0.01_s_20_sid_0_s_20_sid_-1
+num_threads:
+  desc: null
+  value: 1
+penalty_initial_value:
+  desc: null
+  value: 1
+penalty_learning_rate:
+  desc: null
+  value: 0.1
+pid_delay:
+  desc: null
+  value: 1
+plot_every:
+  desc: null
+  value: 2048
+policy_layers:
+  desc: null
+  value:
+  - 64
+  - 64
+policy_name:
+  desc: null
+  value: TwoCriticsMlpPolicy
+project:
+  desc: null
+  value: CPG-2
+proportional_control_coeff:
+  desc: null
+  value: 10
+proportional_cost_ema_alpha:
+  desc: null
+  value: 0.5
+reward_gae_lambda:
+  desc: null
+  value: 0.95
+reward_gamma:
+  desc: null
+  value: 0.99
+reward_vf_coef:
+  desc: null
+  value: 0.5
+reward_vf_layers:
+  desc: null
+  value:
+  - 64
+  - 64
+save_dir:
+  desc: null
+  value: ./cpg/wandb/run-20220311_104832-1qtq6v0m/files
+save_every:
+  desc: null
+  value: 100000.0
+sde_sample_freq:
+  desc: null
+  value: -1
+seed:
+  desc: null
+  value: 20
+shared_layers:
+  desc: null
+  value: null
+sync_wandb:
+  desc: null
+  value: false
+target_kl:
+  desc: null
+  value: 0.01
+timesteps:
+  desc: null
+  value: 100000.0
+train_env_id:
+  desc: null
+  value: LGW-v0
+update_penalty_after:
+  desc: null
+  value: 1
+use_curiosity_driven_exploration:
+  desc: null
+  value: false
+use_lambda_shaping:
+  desc: null
+  value: false
+use_null_cost:
+  desc: null
+  value: false
+use_pid:
+  desc: null
+  value: false
+use_sde:
+  desc: null
+  value: false
+verbose:
+  desc: null
+  value: 2
+wandb_sweep:
+  desc: null
+  value: false

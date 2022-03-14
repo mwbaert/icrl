@@ -57,19 +57,19 @@ def cpg(config):
             action_low, action_high = train_env.action_space.low, train_env.action_space.high
 
         gail = GailDiscriminator.load(
-                config.cn_path,
-                obs_dim=obs_dim,
-                acs_dim=acs_dim,
-                is_discrete=is_discrete,
-                obs_select_dim=config.cn_obs_select_dim,
-                acs_select_dim=config.cn_acs_select_dim,
-                clip_obs=None,
-                obs_mean=None,
-                obs_var=None,
-                action_low=action_low,
-                action_high=action_high,
-                device=config.cn_device,
-                )
+            config.cn_path,
+            obs_dim=obs_dim,
+            acs_dim=acs_dim,
+            is_discrete=is_discrete,
+            obs_select_dim=config.cn_obs_select_dim,
+            acs_select_dim=config.cn_acs_select_dim,
+            clip_obs=None,
+            obs_mean=None,
+            obs_var=None,
+            action_low=action_low,
+            action_high=action_high,
+            device=config.cn_device,
+        )
 
         def cost_function(obs, acs):
             return gail.reward_function(obs, acs, apply_log=False)
@@ -77,7 +77,7 @@ def cpg(config):
         # Assuming we are using 1d or 2d gail here
         gail.plot_HC(os.path.join(config.save_dir, 'gail.png'))
 
-        #plot_constraints(cost_function, eval_env, config.eval_env_id, constraint_net.select_dim,
+        # plot_constraints(cost_function, eval_env, config.eval_env_id, constraint_net.select_dim,
         #            obs_dim, acs_dim, os.path.join(config.save_dir, 'constraint_net.png'))
     else:
         # Load CN.
@@ -87,23 +87,23 @@ def cpg(config):
             action_low, action_high = train_env.action_space.low, train_env.action_space.high
 
         constraint_net = ConstraintNet.load(
-                config.cn_path,
-                obs_dim=obs_dim,
-                acs_dim=acs_dim,
-                is_discrete=is_discrete,
-                obs_select_dim=config.cn_obs_select_dim,
-                acs_select_dim=config.cn_acs_select_dim,
-                clip_obs=None,
-                obs_mean=None,
-                obs_var=None,
-                action_low=action_low,
-                action_high=action_high,
-                device=config.cn_device,
-                )
+            config.cn_path,
+            obs_dim=obs_dim,
+            acs_dim=acs_dim,
+            is_discrete=is_discrete,
+            obs_select_dim=config.cn_obs_select_dim,
+            acs_select_dim=config.cn_acs_select_dim,
+            clip_obs=None,
+            obs_mean=None,
+            obs_var=None,
+            action_low=action_low,
+            action_high=action_high,
+            device=config.cn_device,
+        )
         cost_function = constraint_net.cost_function
 
         plot_constraints(cost_function, eval_env, config.eval_env_id, constraint_net.select_dim,
-                    obs_dim, acs_dim, os.path.join(config.save_dir, 'constraint_net.png'))
+                         obs_dim, acs_dim, os.path.join(config.save_dir, 'constraint_net.png'))
     # Pass cost function to environment if applicable
     if use_cost_wrapper_train:
         train_env.set_cost_function(cost_function)
@@ -117,84 +117,87 @@ def cpg(config):
         policy_kwargs.update(dict(features_extractor_kwargs=d))
 
     model = PPOLagrangian(
-                policy=config.policy_name,
-                env=train_env,
-                algo_type='pidlagrangian' if config.use_pid else 'lagrangian',
-                learning_rate=config.learning_rate,
-                n_steps=config.n_steps,
-                batch_size=config.batch_size,
-                n_epochs=config.n_epochs,
-                reward_gamma=config.reward_gamma,
-                reward_gae_lambda=config.reward_gae_lambda,
-                cost_gamma=config.cost_gamma,
-                cost_gae_lambda=config.cost_gae_lambda,
-                clip_range=config.clip_range,
-                clip_range_reward_vf=config.clip_range_reward_vf,
-                clip_range_cost_vf=config.clip_range_cost_vf,
-                ent_coef=config.ent_coef,
-                reward_vf_coef=config.reward_vf_coef,
-                cost_vf_coef=config.cost_vf_coef,
-                max_grad_norm=config.max_grad_norm,
-                use_sde=config.use_sde,
-                sde_sample_freq=config.sde_sample_freq,
-                target_kl=config.target_kl,
-                penalty_initial_value=config.penalty_initial_value,
-                penalty_learning_rate=config.penalty_learning_rate,
-                update_penalty_after=config.update_penalty_after,
-                budget=config.budget,
-                seed=config.seed,
-                device=config.device,
-                verbose=config.verbose,
-                pid_kwargs=dict(alpha=config.budget,
-                                penalty_init=config.penalty_initial_value,
-                                Kp=config.proportional_control_coeff,
-                                Ki=config.integral_control_coeff,
-                                Kd=config.derivative_control_coeff,
-                                pid_delay=config.pid_delay,
-                                delta_p_ema_alpha=config.proportional_cost_ema_alpha,
-                                delta_d_ema_alpha=config.derivative_cost_ema_alpha,),
-                policy_kwargs=dict(net_arch=utils.get_net_arch(config))
+        policy=config.policy_name,
+        env=train_env,
+        algo_type='pidlagrangian' if config.use_pid else 'lagrangian',
+        learning_rate=config.learning_rate,
+        n_steps=config.n_steps,
+        batch_size=config.batch_size,
+        n_epochs=config.n_epochs,
+        reward_gamma=config.reward_gamma,
+        reward_gae_lambda=config.reward_gae_lambda,
+        cost_gamma=config.cost_gamma,
+        cost_gae_lambda=config.cost_gae_lambda,
+        clip_range=config.clip_range,
+        clip_range_reward_vf=config.clip_range_reward_vf,
+        clip_range_cost_vf=config.clip_range_cost_vf,
+        ent_coef=config.ent_coef,
+        reward_vf_coef=config.reward_vf_coef,
+        cost_vf_coef=config.cost_vf_coef,
+        max_grad_norm=config.max_grad_norm,
+        use_sde=config.use_sde,
+        sde_sample_freq=config.sde_sample_freq,
+        target_kl=config.target_kl,
+        penalty_initial_value=config.penalty_initial_value,
+        penalty_learning_rate=config.penalty_learning_rate,
+        update_penalty_after=config.update_penalty_after,
+        budget=config.budget,
+        seed=config.seed,
+        device=config.device,
+        verbose=config.verbose,
+        pid_kwargs=dict(alpha=config.budget,
+                        penalty_init=config.penalty_initial_value,
+                        Kp=config.proportional_control_coeff,
+                        Ki=config.integral_control_coeff,
+                        Kd=config.derivative_control_coeff,
+                        pid_delay=config.pid_delay,
+                        delta_p_ema_alpha=config.proportional_cost_ema_alpha,
+                        delta_d_ema_alpha=config.derivative_cost_ema_alpha,),
+        policy_kwargs=dict(net_arch=utils.get_net_arch(config))
     )
 
     # All callbacks
     save_periodically = callbacks.CheckpointCallback(
-            config.save_every, os.path.join(config.save_dir, "models"),
-            verbose=0
+        config.save_every, os.path.join(config.save_dir, "models"),
+        verbose=0
     )
     save_env_stats = utils.SaveEnvStatsCallback(train_env, config.save_dir)
     save_best = callbacks.EvalCallback(
-            eval_env, eval_freq=config.eval_every,
-            best_model_save_path=config.save_dir, verbose=0,
-            deterministic=False,
-            callback_on_new_best=save_env_stats
+        eval_env, eval_freq=config.eval_every,
+        best_model_save_path=config.save_dir, verbose=0,
+        deterministic=False,
+        callback_on_new_best=save_env_stats
     )
-    adjusted_reward = utils.AdjustedRewardCallback(get_true_cost_function(config.eval_env_id))
+    adjusted_reward = utils.AdjustedRewardCallback(
+        get_true_cost_function(config.eval_env_id))
 
     # Organize all callbacks in list
     all_callbacks = [save_periodically, save_best, adjusted_reward]
 
     # Exploration reward callback
     if config.use_curiosity_driven_exploration:
-        explorationCallback = ExplorationRewardCallback(obs_dim, acs_dim, device=config.device)
+        explorationCallback = ExplorationRewardCallback(
+            obs_dim, acs_dim, device=config.device)
         all_callbacks.append(explorationCallback)
 
     # Lambda shaping callback
     if config.use_lambda_shaping:
-        lambdaCallback = LambdaShapingCallback(obs_dim, acs_dim, device=config.device)
+        lambdaCallback = LambdaShapingCallback(
+            obs_dim, acs_dim, device=config.device)
         all_callbacks.append(lambdaCallback)
 
     # Plotting callback
     if (config.train_env_id in ['C2B-v0', 'PointCircle-v0', 'AntCircle-v0', 'AntWallBroken-v0',
-                               'AntWall-v0', 'DD2B-v0'] or 'Point' in config.train_env_id):
+                                'AntWall-v0', 'DD2B-v0'] or 'Point' in config.train_env_id):
         plot_func = get_plot_func(config.train_env_id)
         plot_callback = utils.PlotCallback(
-                plot_func, train_env_id=config.train_env_id,
-                plot_freq=config.plot_every, plot_save_dir=config.save_dir
+            plot_func, train_env_id=config.train_env_id,
+            plot_freq=config.plot_every, plot_save_dir=config.save_dir
         )
         all_callbacks.append(plot_callback)
 
     # Callback to log actions magnitude
-    if any(env in config.train_env_id for env in['Ant', 'HalfCheetah','Point', 'Swimmer', 'Walker', 'HC']):
+    if any(env in config.train_env_id for env in ['Ant', 'HalfCheetah', 'Point', 'Swimmer', 'Walker', 'HC']):
         all_callbacks.append(utils.LogTorqueCallback())
 
     # Train
@@ -210,6 +213,7 @@ def cpg(config):
 
     if config.sync_wandb:
         utils.sync_wandb(config.save_dir, 120)
+
 
 def main():
     start = time.time()
@@ -227,23 +231,32 @@ def main():
     parser.add_argument("--wandb_sweep", "-ws", type=bool, default=False)
     parser.add_argument("--sync_wandb", "-sw", action="store_true")
     # ============================ Cost ============================= #
-    parser.add_argument("--cost_info_str", "-cis", type=lambda x: None if str(x).lower() == "none" else str(x), default="cost")
+    parser.add_argument("--cost_info_str", "-cis", type=lambda x: None if str(
+        x).lower() == "none" else str(x), default="cost")
     # ======================== Environment ========================== #
-    parser.add_argument("--train_env_id", "-tei", type=str, default="HalfCheetah-v3")
-    parser.add_argument("--eval_env_id", "-eei", type=str, default="HalfCheetah-v3")
+    parser.add_argument("--train_env_id", "-tei",
+                        type=str, default="HalfCheetah-v3")
+    parser.add_argument("--eval_env_id", "-eei", type=str,
+                        default="HalfCheetah-v3")
     parser.add_argument("--dont_normalize_obs", "-dno", action="store_true")
     parser.add_argument("--dont_normalize_reward", "-dnr", action="store_true")
     parser.add_argument("--dont_normalize_cost", "-dnc", action="store_true")
     parser.add_argument("--seed", "-s", type=int, default=None)
     # ======================== Networks ============================== #
-    parser.add_argument("--policy_name", "-pn", type=str, default="TwoCriticsMlpPolicy")
-    parser.add_argument("--shared_layers", "-sl", type=int, default=None, nargs='*')
-    parser.add_argument("--policy_layers", "-pl", type=int, default=[64,64], nargs='*')
-    parser.add_argument("--reward_vf_layers", "-rl", type=int, default=[64,64], nargs='*')
-    parser.add_argument("--cost_vf_layers", "-cl", type=int, default=[64,64], nargs='*')
+    parser.add_argument("--policy_name", "-pn", type=str,
+                        default="TwoCriticsMlpPolicy")
+    parser.add_argument("--shared_layers", "-sl",
+                        type=int, default=None, nargs='*')
+    parser.add_argument("--policy_layers", "-pl", type=int,
+                        default=[64, 64], nargs='*')
+    parser.add_argument("--reward_vf_layers", "-rl",
+                        type=int, default=[64, 64], nargs='*')
+    parser.add_argument("--cost_vf_layers", "-cl",
+                        type=int, default=[64, 64], nargs='*')
     parser.add_argument("--cnn_features_dim", "-cfd", type=int, default=512)
     # ========================= Training ============================ #
-    parser.add_argument("--timesteps", "-t", type=lambda x: int(float(x)), default=1e6)
+    parser.add_argument("--timesteps", "-t",
+                        type=lambda x: int(float(x)), default=1e6)
     parser.add_argument("--n_steps", "-ns", type=int, default=2048)
     parser.add_argument("--batch_size", "-bs", type=int, default=64)
     parser.add_argument("--n_epochs", "-ne", type=int, default=10)
@@ -253,13 +266,16 @@ def main():
     parser.add_argument("--plot_every", "-pe", type=float, default=2048)
     # =========================== MDP =============================== #
     parser.add_argument("--reward_gamma", "-rg", type=float, default=0.99)
-    parser.add_argument("--reward_gae_lambda", "-rgl", type=float, default=0.95)
+    parser.add_argument("--reward_gae_lambda", "-rgl",
+                        type=float, default=0.95)
     parser.add_argument("--cost_gamma", "-cg", type=float, default=0.99)
     parser.add_argument("--cost_gae_lambda", "-cgl", type=float, default=0.95)
     # ========================= Losses ============================== #
     parser.add_argument("--clip_range", "-cr", type=float, default=0.2)
-    parser.add_argument("--clip_range_reward_vf", "-crv", type=float, default=None)
-    parser.add_argument("--clip_range_cost_vf", "-ccv", type=float, default=None)
+    parser.add_argument("--clip_range_reward_vf",
+                        "-crv", type=float, default=None)
+    parser.add_argument("--clip_range_cost_vf", "-ccv",
+                        type=float, default=None)
     parser.add_argument("--ent_coef", "-ec", type=float, default=0.)
     parser.add_argument("--reward_vf_coef", "-rvc", type=float, default=0.5)
     parser.add_argument("--cost_vf_coef", "-cvc", type=float, default=0.5)
@@ -269,29 +285,38 @@ def main():
     # ======================= Lagrangian ============================ #
     # (a) General Arguments
     parser.add_argument("--use_pid", "-upid", action="store_true")
-    parser.add_argument("--penalty_initial_value", "-piv", type=float, default=1)
+    parser.add_argument("--penalty_initial_value",
+                        "-piv", type=float, default=1)
     parser.add_argument("--budget", "-b", type=float, default=0.0)
     parser.add_argument("--update_penalty_after", "-upa", type=int, default=1)
     # (b) PID Lagrangian
-    parser.add_argument("--proportional_control_coeff", "-kp", type=float, default=10)
-    parser.add_argument("--derivative_control_coeff", "-kd", type=float, default=0)
-    parser.add_argument("--integral_control_coeff", "-ki", type=float, default=0.0001)
-    parser.add_argument("--proportional_cost_ema_alpha", "-pema", type=float, default=0.5)
-    parser.add_argument("--derivative_cost_ema_alpha", "-dema", type=float, default=0.5)
+    parser.add_argument("--proportional_control_coeff",
+                        "-kp", type=float, default=10)
+    parser.add_argument("--derivative_control_coeff",
+                        "-kd", type=float, default=0)
+    parser.add_argument("--integral_control_coeff",
+                        "-ki", type=float, default=0.0001)
+    parser.add_argument("--proportional_cost_ema_alpha",
+                        "-pema", type=float, default=0.5)
+    parser.add_argument("--derivative_cost_ema_alpha",
+                        "-dema", type=float, default=0.5)
     parser.add_argument("--pid_delay", "-pidd", type=int, default=1)
     # (c) Traditional Lagrangian
     parser.add_argument("--penalty_learning_rate", "-plr", type=float, default=0.1,
                         help="Sets Learning Rate of Dual Variables if not using PID Lagrangian.")
     # ======================= Exploration============================= #
     parser.add_argument("--use_sde", "-us", action="store_true")
-    parser.add_argument("--use_curiosity_driven_exploration", "-ucde", action="store_true")
+    parser.add_argument("--use_curiosity_driven_exploration",
+                        "-ucde", action="store_true")
     parser.add_argument("--use_lambda_shaping", "-uls", action="store_true")
     parser.add_argument("--sde_sample_freq", "-ssf", type=int, default=-1)
     # ===================== Constraint Net ========================== #
     parser.add_argument("--use_null_cost", "-unc", action="store_true")
     parser.add_argument("--cn_path", "-cp", type=str, default=None)
-    parser.add_argument('--cn_obs_select_dim', '-cosd', type=int, default=None, nargs='+')
-    parser.add_argument('--cn_acs_select_dim', '-casd', type=int, default=None, nargs='+')
+    parser.add_argument('--cn_obs_select_dim', '-cosd',
+                        type=int, default=None, nargs='+')
+    parser.add_argument('--cn_acs_select_dim', '-casd',
+                        type=int, default=None, nargs='+')
     parser.add_argument('--cn_device', '-cd', type=str, default=None)
     # ============================= GAIL ============================ #
     parser.add_argument("--load_gail", "-lg", action="store_true")
@@ -315,7 +340,7 @@ def main():
 
     # Choose seed
     if config["seed"] is None:
-        config["seed"] = np.random.randint(0,100)
+        config["seed"] = np.random.randint(0, 100)
 
     # Get name by concatenating arguments with non-default values. Default
     # values are either the one specified in config file or in parser (if both
@@ -329,7 +354,7 @@ def main():
     config = wandb.config
 
     print(utils.colorize("Configured folder %s for saving" % config.save_dir,
-          color="green", bold=True))
+                         color="green", bold=True))
     print(utils.colorize("Name: %s" % config.name, color="green", bold=True))
 
     # Save config
@@ -340,4 +365,4 @@ def main():
 
     end = time.time()
     print(utils.colorize("Time taken: %05.2f minutes" % ((end-start)/60),
-          color="green", bold=True))
+                         color="green", bold=True))
