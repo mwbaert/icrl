@@ -12,6 +12,8 @@ pip install wandb==0.10.12 torch==1.5.0 gym==0.15.7 matplotlib==3.3.2 numpy==1.1
 pip install -e ./custom_envs # To access custom environments through gym interface
 ```
 
+You also have to download mujuco and extract it in ~/.mujoco210
+
 In addition, you will need to setup a (free) [wandb](www.wandb.ai) account. Note that this codebase is based on a fork of stable-baseline3 which is also provided with the code.
 
 To run any experiment present in the code, go to the main directory and run a command from the following list. Experiments typically take 2-3 hours to complete.
