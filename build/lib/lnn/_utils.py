@@ -198,8 +198,7 @@ checkpoints = []
 
 def unpack_checkpoints():
     for t in range(len(checkpoints) - 1):
-        print(
-            f"{checkpoints[t+1][1]}: " f"{checkpoints[t+1][0] - checkpoints[t][0]}")
+        print(f"{checkpoints[t+1][1]}: " f"{checkpoints[t+1][0] - checkpoints[t][0]}")
 
 
 def add_checkpoint(label):

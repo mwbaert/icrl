@@ -188,8 +188,7 @@ class Model:
             str,
             Union[
                 Union[Fact, Tuple[float, float]],
-                Dict[Union[str, Tuple[str, ...]],
-                     Union[Fact, Tuple[float, float]]],
+                Dict[Union[str, Tuple[str, ...]], Union[Fact, Tuple[float, float]]],
             ],
         ],
     ):
@@ -270,8 +269,7 @@ class Model:
         labels: Union[
             Dict[str, Union[Tuple[float, float], Fact]],
             Dict[
-                str, Dict[Union[str, Tuple[str, ...]],
-                          Union[Tuple[float, float], Fact]]
+                str, Dict[Union[str, Tuple[str, ...]], Union[Tuple[float, float], Fact]]
             ],
         ],
     ):
@@ -308,8 +306,7 @@ class Model:
         if direction is Direction.UPWARD:
             nodes = list(nx.dfs_postorder_nodes(self.graph, source))
         elif direction is Direction.DOWNWARD:
-            nodes = list(
-                reversed(list(nx.dfs_postorder_nodes(self.graph, source))))
+            nodes = list(reversed(list(nx.dfs_postorder_nodes(self.graph, source))))
 
         coalesce = torch.tensor(0.0)
         for node in nodes:
@@ -519,8 +516,7 @@ class Model:
         return (running_loss, loss_history), inference_history
 
     def parameters(self):
-        result = list(chain.from_iterable(
-            [self[n].parameters() for n in self.nodes]))
+        result = list(chain.from_iterable([self[n].parameters() for n in self.nodes]))
         return result
 
     def parameters_grouped_by_neuron(self):
@@ -540,8 +536,7 @@ class Model:
         result = dict()
         for n in self.nodes:
             result.update(
-                {f"{n}.{name}": param for name,
-                    param in self[n].named_parameters()}
+                {f"{n}.{name}": param for name, param in self[n].named_parameters()}
             )
         return result
 
@@ -552,8 +547,7 @@ class Model:
     learn = fit
 
     def loss_fn(self, losses):
-        loss_names = ["contradiction", "uncertainty",
-                      "logical", "supervised", "custom"]
+        loss_names = ["contradiction", "uncertainty", "logical", "supervised", "custom"]
         if losses is None:
             raise Exception(
                 "no loss function given, "
@@ -582,8 +576,7 @@ class Model:
                         if (isinstance(losses[loss], dict))
                         else ({"coeff": losses[loss]})
                     )
-                    result.append(self._traverse_execute(
-                        f"{loss}_loss", **kwds))
+                    result.append(self._traverse_execute(f"{loss}_loss", **kwds))
         return result
 
     def print(

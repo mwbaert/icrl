@@ -45,8 +45,7 @@ class DynamicLinear(_DynamicActivation):
             lhs = in_bounds[..., 0]
             rhs = _not(in_bounds[..., 1])
             implies_bounds = torch.stack((lhs, rhs), dim=2)
-            tmp_bounds = self._and(Direction.DOWNWARD)(
-                _not(out_bounds), implies_bounds)
+            tmp_bounds = self._and(Direction.DOWNWARD)(_not(out_bounds), implies_bounds)
             return torch.stack(
                 [tmp_bounds[..., 0], _not(tmp_bounds[..., 1], dim=-1)], dim=-1
             )
@@ -75,10 +74,8 @@ class DynamicLinear(_DynamicActivation):
             x = out_bounds.clone()
             regions = self.output_regions(x)
             x = torch.where(regions == 1, x * self.Gf_inv, x)
-            x = torch.where(regions == 2, self.Xf +
-                            (x - self.Yf) * self.Gz_inv, x)
-            x = torch.where(regions == 3, self.Xt +
-                            (x - self.Yt) * self.Gt_inv, x)
+            x = torch.where(regions == 2, self.Xf + (x - self.Yf) * self.Gz_inv, x)
+            x = torch.where(regions == 3, self.Xt + (x - self.Yt) * self.Gt_inv, x)
             if any(x < 0) or any(x > self.bias):
                 raise ValueError(
                     "input to activation expected in [0, 1], " f"received {x}"
@@ -111,17 +108,13 @@ class DynamicLinear(_DynamicActivation):
         self.Xf = bias - self.alpha * (
             w_m + ((n - k) / (n - 1 + self.eps)) * (bias - w_m)
         )
-        self.Xt = self.alpha * \
-            (w_m + ((k - 1) / (n - 1 + self.eps)) * (bias - w_m))
+        self.Xt = self.alpha * (w_m + ((k - 1) / (n - 1 + self.eps)) * (bias - w_m))
         self.Gf = self.divide(self.Yf, self.Xf, fill=0)
-        self.Gz = self.divide(self.Yt - self.Yf, self.Xt -
-                              self.Xf, fill=float("inf"))
+        self.Gz = self.divide(self.Yt - self.Yf, self.Xt - self.Xf, fill=float("inf"))
         self.Gt = self.divide(1 - self.Yt, self.Xmax - self.Xt, fill=0)
-        self.Gf_inv = self.divide(torch.ones_like(
-            self.Gf), self.Gf, fill=float("inf"))
+        self.Gf_inv = self.divide(torch.ones_like(self.Gf), self.Gf, fill=float("inf"))
         self.Gz_inv = self.divide(torch.ones_like(self.Gz), self.Gz, fill=0)
-        self.Gt_inv = self.divide(torch.ones_like(
-            self.Gt), self.Gt, fill=float("inf"))
+        self.Gt_inv = self.divide(torch.ones_like(self.Gt), self.Gt, fill=float("inf"))
         uniques = [self.Xmin, self.Xf, self.Xt, self.Xmax]
         if len(uniques) < len(set(uniques)):
             raise ValueError(
