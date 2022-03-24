@@ -1,5 +1,5 @@
 from torch import nn
-from neuron import Or
+from lnn.neuron import Or
 import torch
 
 
@@ -8,11 +8,11 @@ class LNN(nn.Module):
         super().__init__()
 
         self.layers = nn.ModuleList()
-        self.layers.append(Or(3))
+        self.layers.append(Or(num_inputs=2))
 
     def forward(self, x):
         x = self.layers[0](x)
-        return x.view(-1, 2, 1)
+        return x
 
     @torch.no_grad()
     def project_params(self):

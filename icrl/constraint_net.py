@@ -4,11 +4,12 @@ from typing import Any, Callable, Dict, Optional, Tuple, Type, Union
 
 import matplotlib.pyplot as plt
 import numpy as np
-import torch as th
+import torch
 from stable_baselines3.common.torch_layers import create_mlp
 from stable_baselines3.common.utils import update_learning_rate
 from torch import nn
 from tqdm import tqdm
+from lnn.model import LNN
 
 
 class ConstraintNet(nn.Module):
@@ -25,7 +26,7 @@ class ConstraintNet(nn.Module):
         regularizer_coeff: float = 0.,
         obs_select_dim: Optional[Tuple[int, ...]] = None,
         acs_select_dim: Optional[Tuple[int, ...]] = None,
-        optimizer_class: Type[th.optim.Optimizer] = th.optim.Adam,
+        optimizer_class: Type[torch.optim.Optimizer] = torch.optim.Adam,
         optimizer_kwargs: Optional[Dict[str, Any]] = None,
         no_importance_sampling: bool = False,
         per_step_importance_sampling: bool = False,
@@ -66,7 +67,7 @@ class ConstraintNet(nn.Module):
         if optimizer_kwargs is None:
             optimizer_kwargs = {}
             # Small values to avoid NaN in Adam optimizer
-            if optimizer_class == th.optim.Adam:
+            if optimizer_class == torch.optim.Adam:
                 optimizer_kwargs["eps"] = 1e-5
         self.optimizer_kwargs = optimizer_kwargs
         self.optimizer_class = optimizer_class
@@ -99,15 +100,17 @@ class ConstraintNet(nn.Module):
         self.input_dims = len(self.select_dim)
 
     def _build(self) -> None:
+        self.model = LNN()
 
         # Create network and add sigmoid at the end
-        self.network = nn.Sequential(
-            *create_mlp(self.input_dims, 1, self.hidden_sizes),
-            nn.Sigmoid()
-        )
-        self.network.to(self.device)
+        # self.network = nn.Sequential(
+        #     *create_mlp(self.input_dims, 1, self.hidden_sizes),
+        #     nn.Sigmoid()
+        # )
+        # self.network.to(self.device)
 
         # Build optimizer
+        # TODO maybe hard code (in the beginning)
         if self.optimizer_class is not None:
             self.optimizer = self.optimizer_class(
                 self.parameters(), lr=self.lr_schedule(1), **self.optimizer_kwargs)
@@ -116,23 +119,33 @@ class ConstraintNet(nn.Module):
         if self.train_gail_lambda:
             self.criterion = nn.BCELoss()
 
-    def forward(self, x: th.tensor) -> th.tensor:
-        return self.network(x)
+    def forward(self, x: torch.tensor) -> torch.tensor:
+        # return self.network(x)
+        return self.model(x)
 
     def cost_function(self, obs: np.ndarray, acs: np.ndarray) -> np.ndarray:
-        assert obs.shape[-1] == self.obs_dim, ""
-        if not self.is_discrete:
-            assert acs.shape[-1] == self.acs_dim, ""
+        # assert obs.shape[-1] == self.obs_dim, ""
+        # if not self.is_discrete:
+        #     assert acs.shape[-1] == self.acs_dim, ""
 
         x = self.prepare_data(obs, acs)
-        with th.no_grad():
+        # does "__call__" correspond with "forward"
+        # __call__ is already defined in nn.Module, will register all hooks and call your forward.
+        # That’s also the reason to call the module directly (output = model(data)) instead of model.forward(data).
+        # attention: no_grad when cost function is used
+
+        with torch.no_grad():
             out = self.__call__(x)
+            # take lower bound
+            out = out[:, 0, :]
+
         cost = 1 - out.detach().cpu().numpy()
         return cost.squeeze(axis=-1)
 
     def call_forward(self, x: np.ndarray):
-        with th.no_grad():
-            out = self.__call__(th.tensor(x, dtype=th.float32).to(self.device))
+        with torch.no_grad():
+            out = self.__call__(torch.tensor(
+                x, dtype=torch.float32).to(self.device))
         return out
 
     def train(
@@ -159,15 +172,15 @@ class ConstraintNet(nn.Module):
 
         # Save current network predictions if using importance sampling
         if self.importance_sampling:
-            with th.no_grad():
+            with torch.no_grad():
                 start_preds = self.forward(nominal_data).detach()
 
         early_stop_itr = iterations
-        loss = th.tensor(np.inf)
+        loss = torch.tensor(np.inf)
         for itr in tqdm(range(iterations)):
             # Compute IS weights
             if self.importance_sampling:
-                with th.no_grad():
+                with torch.no_grad():
                     current_preds = self.forward(nominal_data).detach()
                 is_weights, kl_old_new, kl_new_old = self.compute_is_weights(start_preds.clone(), current_preds.clone(),
                                                                              episode_lengths)
@@ -177,7 +190,7 @@ class ConstraintNet(nn.Module):
                     early_stop_itr = itr
                     break
             else:
-                is_weights = th.ones(nominal_data.shape[0])
+                is_weights = torch.ones(nominal_data.shape[0])
 
             # Do a complete pass on data
             for nom_batch_indices, exp_batch_indices in self.get(nominal_data.shape[0], expert_data.shape[0]):
@@ -193,17 +206,18 @@ class ConstraintNet(nn.Module):
                 # Calculate loss
                 if self.train_gail_lambda:
                     nominal_loss = self.criterion(
-                        nominal_preds, th.zeros(*nominal_preds.size()))
+                        nominal_preds, torch.zeros(*nominal_preds.size()))
                     expert_loss = self.criterion(
-                        expert_preds, th.ones(*expert_preds.size()))
-                    regularizer_loss = th.tensor(0)
+                        expert_preds, torch.ones(*expert_preds.size()))
+                    regularizer_loss = torch.tensor(0)
                     loss = nominal_loss + expert_loss
                 else:
-                    expert_loss = th.mean(th.log(expert_preds + self.eps))
-                    nominal_loss = th.mean(
-                        is_batch * th.log(nominal_preds + self.eps))
+                    expert_loss = torch.mean(
+                        torch.log(expert_preds + self.eps))
+                    nominal_loss = torch.mean(
+                        is_batch * torch.log(nominal_preds + self.eps))
                     regularizer_loss = self.regularizer_coeff * \
-                        (th.mean(1-expert_preds) + th.mean(1-nominal_preds))
+                        (torch.mean(1-expert_preds) + torch.mean(1-nominal_preds))
                     loss = (-expert_loss + nominal_loss) + regularizer_loss
 
                 # Update
@@ -213,18 +227,18 @@ class ConstraintNet(nn.Module):
 
         bw_metrics = {"backward/cn_loss": loss.item(),
                       "backward/expert_loss": expert_loss.item(),
-                      "backward/unweighted_nominal_loss": th.mean(th.log(nominal_preds + self.eps)).item(),
+                      "backward/unweighted_nominal_loss": torch.mean(torch.log(nominal_preds + self.eps)).item(),
                       "backward/nominal_loss": nominal_loss.item(),
                       "backward/regularizer_loss": regularizer_loss.item(),
-                      "backward/is_mean": th.mean(is_weights).detach().item(),
-                      "backward/is_max": th.max(is_weights).detach().item(),
-                      "backward/is_min": th.min(is_weights).detach().item(),
-                      "backward/nominal_preds_max": th.max(nominal_preds).item(),
-                      "backward/nominal_preds_min": th.min(nominal_preds).item(),
-                      "backward/nominal_preds_mean": th.mean(nominal_preds).item(),
-                      "backward/expert_preds_max": th.max(expert_preds).item(),
-                      "backward/expert_preds_min": th.min(expert_preds).item(),
-                      "backward/expert_preds_mean": th.mean(expert_preds).item(), }
+                      "backward/is_mean": torch.mean(is_weights).detach().item(),
+                      "backward/is_max": torch.max(is_weights).detach().item(),
+                      "backward/is_min": torch.min(is_weights).detach().item(),
+                      "backward/nominal_preds_max": torch.max(nominal_preds).item(),
+                      "backward/nominal_preds_min": torch.min(nominal_preds).item(),
+                      "backward/nominal_preds_mean": torch.mean(nominal_preds).item(),
+                      "backward/expert_preds_max": torch.max(expert_preds).item(),
+                      "backward/expert_preds_min": torch.min(expert_preds).item(),
+                      "backward/expert_preds_mean": torch.mean(expert_preds).item(), }
         if self.importance_sampling:
             stop_metrics = {"backward/kl_old_new": kl_old_new.item(),
                             "backward/kl_new_old": kl_new_old.item(),
@@ -233,31 +247,31 @@ class ConstraintNet(nn.Module):
 
         return bw_metrics
 
-    def compute_is_weights(self, preds_old: th.Tensor, preds_new: th.Tensor, episode_lengths: np.ndarray) -> th.tensor:
-        with th.no_grad():
+    def compute_is_weights(self, preds_old: torch.Tensor, preds_new: torch.Tensor, episode_lengths: np.ndarray) -> torch.tensor:
+        with torch.no_grad():
             n_episodes = len(episode_lengths)
             cumulative = [0] + list(accumulate(episode_lengths))
 
             ratio = (preds_new + self.eps) / (preds_old + self.eps)
-            prod = [th.prod(ratio[cumulative[j]:cumulative[j+1]])
+            prod = [torch.prod(ratio[cumulative[j]:cumulative[j+1]])
                     for j in range(n_episodes)]
-            prod = th.tensor(prod)
-            normed = n_episodes * prod / (th.sum(prod) + self.eps)
+            prod = torch.tensor(prod)
+            normed = n_episodes * prod / (torch.sum(prod) + self.eps)
 
             if self.per_step_importance_sampling:
-                is_weights = th.tensor(ratio/th.mean(ratio))
+                is_weights = torch.tensor(ratio/torch.mean(ratio))
             else:
                 is_weights = []
                 for length, weight in zip(episode_lengths, normed):
                     is_weights += [weight] * length
-                is_weights = th.tensor(is_weights)
+                is_weights = torch.tensor(is_weights)
 
             # Compute KL(old, current)
-            kl_old_new = th.mean(-th.log(prod+self.eps))
+            kl_old_new = torch.mean(-torch.log(prod+self.eps))
             # Compute KL(current, old)
-            prod_mean = th.mean(prod)
-            kl_new_old = th.mean(
-                (prod-prod_mean)*th.log(prod+self.eps)/(prod_mean+self.eps))
+            prod_mean = torch.mean(prod)
+            kl_new_old = torch.mean(
+                (prod-prod_mean)*torch.log(prod+self.eps)/(prod_mean+self.eps))
 
         return is_weights.to(self.device), kl_old_new, kl_new_old
 
@@ -265,8 +279,13 @@ class ConstraintNet(nn.Module):
             self,
             obs: np.ndarray,
             acs: np.ndarray,
-    ) -> th.tensor:
+    ) -> torch.tensor:
 
+        x = torch.Tensor([[[0.0, 0.0], [0.0, 0.0]] for i in range(len(acs))])
+        x[:, :, acs[0]] = 1.0
+        return x
+
+        """
         obs = self.normalize_obs(
             obs, self.current_obs_mean, self.current_obs_var, self.clip_obs)
         acs = self.reshape_actions(acs)
@@ -275,9 +294,10 @@ class ConstraintNet(nn.Module):
         concat = self.select_appropriate_dims(
             np.concatenate([obs, acs], axis=-1))
 
-        return th.tensor(concat, dtype=th.float32).to(self.device)
+        return torch.tensor(concat, dtype=torch.float32).to(self.device)
+        """
 
-    def select_appropriate_dims(self, x: Union[np.ndarray, th.tensor]) -> Union[np.ndarray, th.tensor]:
+    def select_appropriate_dims(self, x: Union[np.ndarray, torch.tensor]) -> Union[np.ndarray, torch.tensor]:
         return x[..., self.select_dim]
 
     def normalize_obs(self, obs: np.ndarray, mean: Optional[float] = None, var: Optional[float] = None,
@@ -346,10 +366,10 @@ class ConstraintNet(nn.Module):
             device=self.device,
             hidden_sizes=self.hidden_sizes
         )
-        th.save(state_dict, save_path)
+        torch.save(state_dict, save_path)
 
     def _load(self, load_path):
-        state_dict = th.load(load_path)
+        state_dict = torch.load(load_path)
         if "cn_network" in state_dict:
             self.network.load_state_dict(dic["cn_network"])
         if "cn_optimizer" in state_dict and self.optimizer is not None:
@@ -373,7 +393,7 @@ class ConstraintNet(nn.Module):
         device: str = "auto"
     ):
 
-        state_dict = th.load(load_path)
+        state_dict = torch.load(load_path)
         # If value isn't specified, then get from state_dict
         if obs_dim is None:
             obs_dim = state_dict["obs_dim"]

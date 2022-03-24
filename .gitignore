@@ -3,3 +3,4 @@
 cpg/
 icrl/wandb/
 **.pyc
+wandb/

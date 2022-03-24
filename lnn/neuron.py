@@ -1,5 +1,5 @@
 from torch import nn
-from utils import val_clamp
+from lnn.utils import val_clamp
 import torch
 
 

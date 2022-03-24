@@ -316,7 +316,7 @@ def icrl(config):
             "best_true/best_forward_kl": best_forward_kl,
             "best_true/best_reverse_kl": best_reverse_kl
         }
-        metrics.update({k.replace("train/", "forward/")                        : v for k, v in forward_metrics.items()})
+        metrics.update({k.replace("train/", "forward/"): v for k, v in forward_metrics.items()})
         metrics.update(backward_metrics)
 
         # Log
