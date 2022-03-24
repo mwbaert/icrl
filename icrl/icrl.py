@@ -5,6 +5,7 @@ import os
 import pickle
 import sys
 import time
+import torch
 
 import gym
 import numpy as np
@@ -251,6 +252,17 @@ def icrl(config):
         # Pass updated cost_function to cost wrapper (train_env)
         train_env.set_cost_function(constraint_net.cost_function)
 
+        # print(constraint_net.model.layers[0].parameters())
+        for param in constraint_net.parameters():
+            print(param.data)
+
+        out1 = constraint_net.forward_with_bounds(
+            torch.Tensor([[[1.0, 0.0], [1.0, 0.0]]]))
+        print(out1)
+        out2 = constraint_net.forward_with_bounds(
+            torch.Tensor([[[0.0, 1.0], [0.0, 1.0]]]))
+        print(out2)
+
         # Evaluate:
         # (1): True cost on nominal environment
         average_true_cost = np.mean(
@@ -316,7 +328,7 @@ def icrl(config):
             "best_true/best_forward_kl": best_forward_kl,
             "best_true/best_reverse_kl": best_reverse_kl
         }
-        metrics.update({k.replace("train/", "forward/"): v for k, v in forward_metrics.items()})
+        metrics.update({k.replace("train/", "forward/")                        : v for k, v in forward_metrics.items()})
         metrics.update(backward_metrics)
 
         # Log

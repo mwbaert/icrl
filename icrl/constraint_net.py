@@ -101,6 +101,7 @@ class ConstraintNet(nn.Module):
 
     def _build(self) -> None:
         self.model = LNN()
+        self.model.to(self.device)
 
         # Create network and add sigmoid at the end
         # self.network = nn.Sequential(
@@ -112,8 +113,9 @@ class ConstraintNet(nn.Module):
         # Build optimizer
         # TODO maybe hard code (in the beginning)
         if self.optimizer_class is not None:
-            self.optimizer = self.optimizer_class(
-                self.parameters(), lr=self.lr_schedule(1), **self.optimizer_kwargs)
+            # self.optimizer = self.optimizer_class(
+            #    self.parameters(), lr=self.lr_schedule(1), **self.optimizer_kwargs)
+            self.optimizer = torch.optim.Adam(self.parameters(), lr=5e-2)
         else:
             self.optimizer = None
         if self.train_gail_lambda:
@@ -121,6 +123,11 @@ class ConstraintNet(nn.Module):
 
     def forward(self, x: torch.tensor) -> torch.tensor:
         # return self.network(x)
+        x = self.model(x)
+        # take lower bound as output
+        return x[:, 0, :]
+
+    def forward_with_bounds(self, x: torch.tensor) -> torch.tensor:
         return self.model(x)
 
     def cost_function(self, obs: np.ndarray, acs: np.ndarray) -> np.ndarray:
@@ -129,6 +136,12 @@ class ConstraintNet(nn.Module):
         #     assert acs.shape[-1] == self.acs_dim, ""
 
         x = self.prepare_data(obs, acs)
+        # if(1.0 in acs):
+        #    x = self.prepare_data(obs, acs)
+        #    print(acs)
+        #    print('')
+        #    print(x)
+
         # does "__call__" correspond with "forward"
         # __call__ is already defined in nn.Module, will register all hooks and call your forward.
         # That’s also the reason to call the module directly (output = model(data)) instead of model.forward(data).
@@ -136,8 +149,6 @@ class ConstraintNet(nn.Module):
 
         with torch.no_grad():
             out = self.__call__(x)
-            # take lower bound
-            out = out[:, 0, :]
 
         cost = 1 - out.detach().cpu().numpy()
         return cost.squeeze(axis=-1)
@@ -224,6 +235,8 @@ class ConstraintNet(nn.Module):
                 self.optimizer.zero_grad()
                 loss.backward()
                 self.optimizer.step()
+                # projected gradient descent
+                self.model.project_params()
 
         bw_metrics = {"backward/cn_loss": loss.item(),
                       "backward/expert_loss": expert_loss.item(),
@@ -282,7 +295,9 @@ class ConstraintNet(nn.Module):
     ) -> torch.tensor:
 
         x = torch.Tensor([[[0.0, 0.0], [0.0, 0.0]] for i in range(len(acs))])
-        x[:, :, acs[0]] = 1.0
+        # TODO optimize this by eliminating for loop
+        for i in range(len(acs)):
+            x[i, :, acs[i]] = 1.0
         return x
 
         """
@@ -351,7 +366,7 @@ class ConstraintNet(nn.Module):
 
     def save(self, save_path):
         state_dict = dict(
-            cn_network=self.network.state_dict(),
+            cn_network=self.model.state_dict(),
             cn_optimizer=self.optimizer.state_dict(),
             obs_dim=self.obs_dim,
             acs_dim=self.acs_dim,

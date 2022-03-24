@@ -9,15 +9,15 @@ class LogicNeuron(nn.Module):
 
         self.num_inputs = num_inputs
         self.weights = nn.Parameter(torch.Tensor(self.num_inputs))
-        self.bias = nn.Parameter(torch.Tensor(1))
+        self.bias = 1.0  # nn.Parameter(torch.Tensor(1))
 
         torch.nn.init.constant_(self.weights, 1.0)
-        torch.nn.init.constant_(self.bias, 1.0)
+        #torch.nn.init.constant_(self.bias, 1.0)
 
     @torch.no_grad()
     def project_params(self):
         self.weights.data = self.weights.data.clamp(0, 1)
-        self.bias.data = self.bias.data.clamp(0, self.num_inputs)
+        #self.bias.data = self.bias.data.clamp(0, self.num_inputs)
 
 
 class And(LogicNeuron):
