@@ -1,5 +1,5 @@
 from torch import nn
-from lnn.neuron import Or
+from lnn.neuron import Or, DynamicOr
 import torch
 
 
@@ -8,7 +8,8 @@ class LNN(nn.Module):
         super().__init__()
 
         self.layers = nn.ModuleList()
-        self.layers.append(Or(num_inputs=2))
+        # self.layers.append(Or(num_inputs=2))
+        self.layers.append(DynamicOr(num_inputs=2, alpha=0.75))
 
     def forward(self, x):
         x = self.layers[0](x)
@@ -17,4 +18,5 @@ class LNN(nn.Module):
     @torch.no_grad()
     def project_params(self):
         for layer in self.layers:
-            layer.project_params()
+            pass
+            # layer.project_params()

@@ -43,6 +43,8 @@ class ConstraintNet(nn.Module):
     ):
         super(ConstraintNet, self).__init__()
 
+        torch.autograd.set_detect_anomaly(True)
+
         self.obs_dim = obs_dim
         self.acs_dim = acs_dim
         self.obs_select_dim = obs_select_dim
@@ -113,9 +115,9 @@ class ConstraintNet(nn.Module):
         # Build optimizer
         # TODO maybe hard code (in the beginning)
         if self.optimizer_class is not None:
-            # self.optimizer = self.optimizer_class(
-            #    self.parameters(), lr=self.lr_schedule(1), **self.optimizer_kwargs)
-            self.optimizer = torch.optim.Adam(self.parameters(), lr=5e-2)
+            self.optimizer = self.optimizer_class(
+                self.parameters(), lr=self.lr_schedule(1), **self.optimizer_kwargs)
+            # self.optimizer = torch.optim.Adam(self.parameters(), lr=1e-1)
         else:
             self.optimizer = None
         if self.train_gail_lambda:
@@ -124,8 +126,9 @@ class ConstraintNet(nn.Module):
     def forward(self, x: torch.tensor) -> torch.tensor:
         # return self.network(x)
         x = self.model(x)
+        y = torch.mean(x, -1)
         # take lower bound as output
-        return x[:, 0, :]
+        return y
 
     def forward_with_bounds(self, x: torch.tensor) -> torch.tensor:
         return self.model(x)
@@ -151,7 +154,7 @@ class ConstraintNet(nn.Module):
             out = self.__call__(x)
 
         cost = 1 - out.detach().cpu().numpy()
-        return cost.squeeze(axis=-1)
+        return cost
 
     def call_forward(self, x: np.ndarray):
         with torch.no_grad():
@@ -298,6 +301,14 @@ class ConstraintNet(nn.Module):
         # TODO optimize this by eliminating for loop
         for i in range(len(acs)):
             x[i, :, acs[i]] = 1.0
+
+        return x
+
+        x = torch.Tensor([[[0.0], [0.0]] for i in range(len(acs))])
+        # TODO optimize this by eliminating for loop
+        for i in range(len(acs)):
+            x[i, :, 0] = acs[i]
+
         return x
 
         """
