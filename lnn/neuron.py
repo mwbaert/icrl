@@ -1,7 +1,9 @@
 from re import X
 from torch import nn, no_grad
 from lnn.utils import val_clamp
+from matplotlib import pyplot as plt
 import torch
+import numpy as np
 
 
 class LogicNeuron(nn.Module):
@@ -64,6 +66,9 @@ class DynamicNeuron(nn.Module):
     def forward(self, x):
         return x @ self.weights
 
+    def plotActivation(self):
+        self.f.plot()
+
 
 class DynamicOr(DynamicNeuron):
     def __init__(self, num_inputs, alpha=0.6):
@@ -87,6 +92,10 @@ class DynamicActivation(nn.Module):
     def __init__(self, num_inputs, alpha=0.6):
         super().__init__()
 
+        # bound given in paper
+        assert alpha > (num_inputs/(num_inputs+1)
+                        ), "alpha should be bigger than n/(n+1)"
+
         self.num_inputs = num_inputs
         self.alpha = torch.tensor(alpha)
         self.eps = 1e-2
@@ -101,20 +110,30 @@ class DynamicActivation(nn.Module):
 
     def forward(self, x):
         y = torch.zeros_like(x) - 1
-        #regions = self.input_regions(x.clone())
 
         a = (2*torch.log((1-self.alpha)/self.alpha))/(self.x_f - self.x_t)
         b = torch.log(self.alpha/(1-self.alpha)) + (a*self.x_f)
         y = 1/(1+torch.exp((-a*x)+b))
 
-        #y = torch.where(regions == 1, x * self.g_f, y)
-        #y = torch.where(regions == 2, self.y_f + (x - self.x_f) * self.g_z, y)
-        #y = torch.where(regions == 3, self.y_t + (x - self.x_t) * self.g_t, y)
         if torch.any(y < 0) or torch.any(y > 1) or torch.any(y == -1):
             raise ValueError(
                 "output of activation expected in [0, 1], " f"received {y}"
             )
         return y
+
+    def plot(self):
+        x_max_ = self.x_max.item()
+        x = np.arange(0, x_max_, 0.1)
+        x = [[x[i], x[i]] for i in range(len(x))]
+        x = torch.tensor(x)
+        x_ = x[:, 0].detach().numpy()
+        with torch.no_grad():
+            y = self.forward(x)
+        y_ = y[:, 0].detach().numpy()
+
+        plt.plot(x_, y_)
+        plt.grid()
+        plt.show()
 
     def input_regions(self, x) -> torch.Tensor:
         result = torch.zeros_like(x)
@@ -131,7 +150,7 @@ class DynamicActivation(nn.Module):
         return result
 
     def update_activation(self, weights, kappa):
-        #bias = weights[0] = weights[1:].sum()
+        # bias = weights[0] = weights[1:].sum()
         bias = weights.sum()
         self.x_max = bias
 
@@ -147,6 +166,8 @@ class DynamicActivation(nn.Module):
         # max is the default option
         w_m = weights.max()
 
+        # extra operation which are not mentioned in the paper
+        # I think this is to stabilize training and prevent Nan values
         n = weights.shape[-1]
         k = 1 + kappa * (n - 1)
         self.x_f = bias - self.alpha * (
@@ -170,7 +191,7 @@ class DynamicActivation(nn.Module):
                 f"points, received {uniques}"
             )
 
-    @staticmethod
+    @ staticmethod
     def divide(divident: torch.Tensor, divisor: torch.Tensor, fill=1.0) -> torch.Tensor:
         """
         Divide the bounds tensor (divident) by weights (divisor) while

@@ -8,7 +8,6 @@ class LNN(nn.Module):
         super().__init__()
 
         self.layers = nn.ModuleList()
-        # self.layers.append(Or(num_inputs=2))
         self.layers.append(DynamicOr(num_inputs=2, alpha=0.75))
 
     def forward(self, x):
