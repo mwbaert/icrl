@@ -368,3 +368,25 @@ register(
     reward_threshold=None,
     nondeterministic=False,
 )
+
+# =========================================================================== #
+#                               Scobee World                                  #
+# =========================================================================== #
+
+SCOBEE_WORLD_LEN = 200
+
+register(
+    id="SW-v0",
+    entry_point=ABS_PATH+".scobee_world:ScobeeWorld",
+    max_episode_steps=SCOBEE_WORLD_LEN,
+    reward_threshold=None,
+    nondeterministic=False,
+)
+
+register(
+    id="CSW-v0",
+    entry_point=ABS_PATH+".scobee_world:ConstrainedScobeeWorld",
+    max_episode_steps=SCOBEE_WORLD_LEN,
+    reward_threshold=None,
+    nondeterministic=False,
+)

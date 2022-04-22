@@ -43,10 +43,15 @@ class ScobeeWorld(mujoco_env.MujocoEnv):
         self.normalize = normalize_obs
 
         # Define spaces.
-        self.observation_space = spaces.Box()
         # the x and y coordinate
+        # can we replace this with a discrete space?
         self.observation_space = spaces.Box(
-            low=0.0, high=1.0, shape=(self.grid_size, self.grid_size), dtype=np.float32)
+            np.array([0.0, 0.0]), np.array(
+                [self.grid_size-1, self.grid_size-1])
+        )
+
+        # self.observation_space = spaces.Box(
+        #    low=0.0, high=1.0, shape=(self.grid_size, self.grid_size), dtype=np.float32)
         # four cardinal directions and action zero
         self.action_space = spaces.Discrete(5)
 
@@ -75,28 +80,20 @@ class ScobeeWorld(mujoco_env.MujocoEnv):
         if action == 0:
             new_position = obs
         elif action == 1:
-            new_position = (x+1, y)
+            new_position = (min(x+1, self.grid_size-1), y)
         elif action == 2:
-            new_position = (x-1, y)
+            new_position = (max(x-1, 0), y)
         elif action == 3:
-            new_position = (x, y+1)
+            new_position = (x, min(y+1, self.grid_size-1))
         elif action == 4:
-            new_position = (x, y-1)
+            new_position = (x, max(y-1, 0))
 
         return new_position
 
     def step(self, action):
         done = False
+        self.current_pos = self.get_next_obs(self.current_pos, action)
         x, y = self.current_pos
-
-        if action == 1:
-            x += 1
-        elif action == 2:
-            x -= 1
-        elif action == 3:
-            y += 1
-        elif action == 4:
-            y -= 1
 
         self.current_time += 1
         if self.current_time == self.max_episode_steps:
@@ -106,9 +103,10 @@ class ScobeeWorld(mujoco_env.MujocoEnv):
 
         self.reward_so_far += self.rewards[x, y]
 
-        return ((x, y),
+        return ([x, y],
                 self.rewards[x, y],
-                done)
+                done,
+                {"info": 0})
 
     def _idx_to_xy(self, idx):
         # not needed i think
@@ -122,27 +120,15 @@ class ScobeeWorld(mujoco_env.MujocoEnv):
             return 0, int(self.number_of_cells - idx)
 
     def render(self, mode=None, camera_id=None):
-        # TODO
         agent_position = self.current_pos
         return figure_to_array(self.plot(agent_position))
 
     def plot(self, agent_position, save_name=None):
-        # TODO
-
-        a = np.ones((self.lap_size, self.lap_size))*-1
-        b = self.rewards
-
-        a[:, 0] = b[:self.lap_size]
-        a[-1, 1:] = b[self.lap_size:self.lap_size*2-1]
-        a[1:, -1] = b[self.lap_size*2-2:self.lap_size*3-3][::-1]
-        a[0, 1:] = b[self.lap_size*3-3:self.number_of_cells][::-1]
+        a = np.ones((self.grid_size, self.grid_size))*-1
+        a += self.rewards
 
         # Start should be shaded a little lighter
         a[0, 0] = -0.4
-        a[:, 0] = b[:self.lap_size]
-        a[-1, 1:] = b[self.lap_size:self.lap_size*2-1]
-        a[1:, -1] = b[self.lap_size*2-2:self.lap_size*3-3][::-1]
-        a[0, 1:] = b[self.lap_size*3-3:self.number_of_cells][::-1]
 
         fig, ax = plt.subplots(1, 1, figsize=(15, 15))
         c = ax.pcolor(a, edgecolors='w', linewidths=2,
@@ -150,39 +136,34 @@ class ScobeeWorld(mujoco_env.MujocoEnv):
 
         # To detect agent position, add a dummy value to that point
         arr = c.get_array()
-        arr[np.ravel_multi_index(self._idx_to_xy(agent_position),
-                                 (self.lap_size, self.lap_size))] += 32
+        arr[np.ravel_multi_index((agent_position[0], agent_position[1]),
+                                 (self.grid_size, self.grid_size))] += 32
 
         # Adding text
         for p, value in zip(c.get_paths(), arr):
             x, y = p.vertices[:-2, :].mean(0)
-            if value > 31:
+            if value > 30:
                 ax.text(x, y, 'A', ha="center", va="center",
                         color='#DE6B1F', fontsize=38)
-            # ===
-            # If you want coins + agent in coins cells, uncomment the following block
-            # ===
-            # elif value > 32:
-            #     ax.text(0.5*x, 1.05*y, 'A', ha="left", va="top", color='white', fontsize=25)
-            #     string = str('\$'*int(value - 32))
-            #     print(string)
-            #     ax.text(x, 0.95*y, string, ha="center", va="center", color='#FFDF00', fontsize=25)
-            elif value > 0:
-                string = str('\$'*int(value))
+            elif value >= 0:
+                string = str('\$')
                 ax.text(x, y, string, ha="center", va="center",
                         color='#FFDF00', fontsize=25)
 
         # Add current reward and number of traverals at top
-        fig.text(0, 1.04, 'Score: {}/{}'.format(self.reward_so_far,
-                                                self.traversals),
+        # fig.text(0, 1.04, 'Score: {}/{}'.format(self.reward_so_far,
+        #                                        self.traversals),
+        #         fontsize=25, ha='left', va='top', transform=ax.transAxes)
+        fig.text(0, 1.04, 'Score: {}'.format(self.reward_so_far),
                  fontsize=25, ha='left', va='top', transform=ax.transAxes)
         fig.text(1, 1.04, 'Time: %03d' % self.current_time,
                  fontsize=25, ha='right', va='top', transform=ax.transAxes)
 
-        ob = np.arange(0, 40)
         co_ords = []
-        for i in ob:
-            co_ords.append(self._idx_to_xy(i))
+        for x in range(self.grid_size):
+            for y in range(self.grid_size):
+                co_ords.append((x, y))
+
         x, y = zip(*co_ords)
         x, y = np.array(x) + 0.5, np.array(y) + 0.5
         ax.scatter(x, y)
@@ -202,38 +183,14 @@ class ScobeeWorld(mujoco_env.MujocoEnv):
 
 
 class ConstrainedScobeeWorld(ScobeeWorld):
-    # TODO
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.rewards[4, 0] = -1.0
 
     def step(self, action):
-        done = False
-        if action == 0:
-            self.current_pos += 1
-            if self.current_pos == self.number_of_cells:
-                self.traversals += 1
-                self.current_pos = 0
-            reward = self.rewards[self.current_pos]
-        elif action == 1:
-            reward = -1   # penalize the backward action
+        next_obs, reward, done, info = super().step(action)
+
+        if reward == -1.0:
             done = True
 
-        self.current_time += 1
-        if self.current_time == self.max_episode_steps:
-            done = True
-
-        self.reward_so_far += reward
-
-        obs = self.normalize_obs(np.array([self.current_pos]))
-
-        return (obs,
-                reward,
-                done,
-                {"traversals_so_far": self.traversals})
-
-    def get_next_obs(self, obs, action):
-        if action == 0:
-            new_position = obs + 1
-        elif action == 1:
-            new_position = obs
-        return new_position
+        return next_obs, reward, done, info

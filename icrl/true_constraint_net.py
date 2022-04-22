@@ -27,6 +27,8 @@ def get_true_cost_function(env_id):
         return partial(bridges, dummy_env)
     elif env_id == "CLGW-v0":
         return lap_grid_world
+    elif env_id == "CSW-v0":
+        return scobee_world
     elif env_id in ["AntTest-v0", 'HalfCheetahTest-v0', 'Walker2dTest-v0', 'SwimmerTest-v0']:
         return partial(torque_constraint, 0.5)
     else:
@@ -37,18 +39,23 @@ def get_true_cost_function(env_id):
 # General cost functions
 # ============================================================================
 
+
 def wall_behind(pos, obs, acs):
-    return (obs[...,0] <= pos)
+    return (obs[..., 0] <= pos)
+
 
 def wall_infront(pos, obs, acs):
-    return (obs[...,0] >= pos)
+    return (obs[..., 0] >= pos)
+
 
 def wall_behind_and_infront(pos_back, pos_front, obs, acs):
-    return (obs[...,0] <= pos_back).astype(np.float32) + (obs[...,0] >= pos_front).astype(np.float32)
+    return (obs[..., 0] <= pos_back).astype(np.float32) + (obs[..., 0] >= pos_front).astype(np.float32)
+
 
 def null_cost(x, *args):
     # Zero cost everywhere
     return np.zeros(x.shape[:1])
+
 
 def torque_constraint(threshold, obs, acs):
     return np.any(np.abs(acs) > threshold, axis=-1)
@@ -57,14 +64,15 @@ def torque_constraint(threshold, obs, acs):
 # Specific cost functions
 # ============================================================================
 
+
 def bridges(env, obs, acs):
     obs = copy.deepcopy(obs)
     acs = copy.deepcopy(acs)
     if len(obs.shape) > 2:
-        batch_size, n_envs,_ = obs.shape
+        batch_size, n_envs, _ = obs.shape
         cost_shape = (batch_size, n_envs)
         obs = np.reshape(obs, (batch_size*n_envs, -1))
-        acs = np.reshape(acs, (batch_size*n_envs,-1))
+        acs = np.reshape(acs, (batch_size*n_envs, -1))
     else:
         cost_shape = (obs.shape[0])
 
@@ -101,6 +109,7 @@ def bridges(env, obs, acs):
 
     return cost
 
+
 def lap_grid_world(obs, acs):
     cost = []
     for ac in acs:
@@ -111,9 +120,26 @@ def lap_grid_world(obs, acs):
     return np.array(cost)
 
 
+def scobee_world(obs, acs):
+    cost = []
+    for ob in obs:
+        # shape of ob is (2), when batch processing: (1, 2)
+        if(ob.shape[0] == 2):
+            if (ob[0] == 4) and (ob[1] == 0):
+                cost += [1]
+            else:
+                cost += [0]
+        else:
+            if (ob[0][0] == 4) and (ob[0][1] == 0):
+                cost += [1]
+            else:
+                cost += [0]
+    return np.array(cost)
+
 # ============================================================================
 # Utils
 # ============================================================================
+
 
 def unnormalize(env, obs):
     if env.normalize:

@@ -3,6 +3,7 @@
 #   trained of 1e5 timesteps (original was 1e6)
 #   after training you should copy the "files" directory to icrl/expert_data/LGW_ from the wandb directory
 python run_me.py cpg --config_file config_exp_lgw.json
+python run_me.py cpg --config_file config_exp_sw.json
 
 # generate rollouts from expert policy in LGW environment
 python run_me.py run_policy --load_dir icrl/expert_data/LGW_/ --env_id LGW-v0 -nr 20
