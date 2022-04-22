@@ -252,7 +252,7 @@ def icrl(config):
         # Pass updated cost_function to cost wrapper (train_env)
         train_env.set_cost_function(constraint_net.cost_function)
 
-        # print(constraint_net.model.layers[0].parameters())
+        # --- DEBUG ---
         for param in constraint_net.parameters():
             print(param.data)
 
@@ -263,6 +263,9 @@ def icrl(config):
             torch.Tensor([[[0.0, 1.0], [0.0, 1.0]]]))
         print(out2)
 
+        # constraint_net.model.layers[0].plotActivation()
+
+        # ------------
         # Evaluate:
         # (1): True cost on nominal environment
         average_true_cost = np.mean(
