@@ -81,31 +81,33 @@ def bridges(env, obs, acs):
     cost = []
     for ob, ac in zip(obs, acs):
         # Need to unnormalize obs
-        ob = unnormalize(env, ob)
-
-        if 'action_map_dict' in env.__dict__:
-            # For discrete classes
-            ac = env.action_map_dict[int(ac)]
-            next_ob = np.around(ob+ac, 6)
-        else:
-            # For continuous classes
-            ac = np.clip(ac, a_min=env.action_space.low,
-                         a_max=env.action_space.high)
-            ori = ob[2] + ac[1]
-            dx = math.cos(ori) * ac[0]
-            dy = math.sin(ori) * ac[0]
-
-            next_ob = ob.copy()
-            next_ob[0] = np.clip(ob[0] + dx, -env.size, env.size)
-            next_ob[1] = np.clip(ob[1] + dy, -env.size, env.size)
-
-            ob = next_ob[:2]
-            next_ob = next_ob[:2]
-
-        if ce_utils.in_regions(ob, next_ob, env.constraint_regions):
-            cost += [1]
-        else:
-            cost += [0]
+        #ob = unnormalize(env, ob)
+        #
+        # originally this was "if 'action_map_dict' in env.__dict__ but this did not work for DD2B env
+        # if 'action_map_dict' in env.env.__dict__:
+        #    # For discrete classes
+        #    ac = env.action_map_dict[int(ac)]
+        #    next_ob = np.around(ob+ac, 6)
+        # else:
+        #    # For continuous classes
+        #    ac = np.clip(ac, a_min=env.action_space.low,
+        #                 a_max=env.action_space.high)
+        #    ori = ob[2] + ac[1]
+        #    dx = math.cos(ori) * ac[0]
+        #    dy = math.sin(ori) * ac[0]
+        #
+        #    next_ob = ob.copy()
+        #    next_ob[0] = np.clip(ob[0] + dx, -env.size, env.size)
+        #    next_ob[1] = np.clip(ob[1] + dy, -env.size, env.size)
+        #
+        #    ob = next_ob[:2]
+        #    next_ob = next_ob[:2]
+        #
+        # if ce_utils.in_regions(ob, next_ob, env.constraint_regions):
+        #    cost += [1]
+        # else:
+        #    cost += [0]
+        cost += [0]
 
     cost = np.reshape(np.array(cost), cost_shape)
 
