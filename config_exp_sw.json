@@ -28,7 +28,7 @@
     "group": null,
     "learning_rate": 0.0003,
     "max_grad_norm": 0.5,
-    "n_epochs": 2,
+    "n_epochs": 10,
     "n_steps": 2048,
     "name": "SW-v0_CLGW-v0_tk_0.01_s_20_sid_0",
     "num_threads": 1,

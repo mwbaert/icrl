@@ -1,3 +1,4 @@
+from tkinter import Y
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
@@ -7,6 +8,7 @@ from gym.envs.mujoco import mujoco_env
 from collections import namedtuple
 
 from custom_envs.envs.utils import *
+from wandb import agent
 
 GRID_SIZE = 9
 
@@ -27,7 +29,7 @@ class ScobeeWorld(mujoco_env.MujocoEnv):
     def __init__(
             self,
             max_episode_steps=200,
-            normalize_obs=True
+            normalize_obs=False
     ):
         """
         Args:
@@ -45,10 +47,13 @@ class ScobeeWorld(mujoco_env.MujocoEnv):
         # Define spaces.
         # the x and y coordinate
         # can we replace this with a discrete space?
+        # self.observation_space = spaces.Box(
+        #    np.array([0.0, 0.0]), np.array(
+        #        [self.grid_size-1.0, self.grid_size-1.0])
+        # )
         self.observation_space = spaces.Box(
-            np.array([0.0, 0.0]), np.array(
-                [self.grid_size-1, self.grid_size-1])
-        )
+            low=np.array((0,)), high=np.array(((self.grid_size**2)-1,)),
+            dtype=np.float32)
 
         # self.observation_space = spaces.Box(
         #    low=0.0, high=1.0, shape=(self.grid_size, self.grid_size), dtype=np.float32)
@@ -63,9 +68,11 @@ class ScobeeWorld(mujoco_env.MujocoEnv):
         np.random.seed(seed)
 
     def initialize(self):
-        self.rewards = np.zeros((self.grid_size, self.grid_size))
-        self.rewards[self.grid_size-1, 0] = 1.0
-        self.start_pos = (0, 0)
+        self.number_of_cells = (self.grid_size)**2
+        #ssert (self.max_episode_steps % self.number_of_cells == 0)
+        self.rewards = np.zeros(self.number_of_cells)
+        self.rewards[self.xy_to_idx(8, 0)] = 1.0
+        self.start_pos = 0
         self.reset()
 
     def reset(self):
@@ -73,27 +80,25 @@ class ScobeeWorld(mujoco_env.MujocoEnv):
         self.current_time = 0
         self.reward_so_far = 0
 
-        return self.current_pos
+        return self.normalize_obs(np.array([self.current_pos]))
 
     def get_next_obs(self, obs, action):
-        x, y = obs
-        if action == 0:
-            new_position = obs
-        elif action == 1:
-            new_position = (min(x+1, self.grid_size-1), y)
+        x, y = self.idx_to_xy(obs)
+        if action == 1:
+            x = min(x+1, self.grid_size-1)
         elif action == 2:
-            new_position = (max(x-1, 0), y)
+            x = max(x-1, 0)
         elif action == 3:
-            new_position = (x, min(y+1, self.grid_size-1))
+            y = min(y+1, self.grid_size-1)
         elif action == 4:
-            new_position = (x, max(y-1, 0))
+            y = max(y-1, 0)
 
-        return new_position
+        return self.xy_to_idx(x, y)
 
     def step(self, action):
         done = False
         self.current_pos = self.get_next_obs(self.current_pos, action)
-        x, y = self.current_pos
+        x, y = self.idx_to_xy(self.current_pos)
 
         self.current_time += 1
         if self.current_time == self.max_episode_steps:
@@ -101,23 +106,24 @@ class ScobeeWorld(mujoco_env.MujocoEnv):
         elif (x == self.grid_size-1) & (y == 0):
             done = True
 
-        self.reward_so_far += self.rewards[x, y]
+        self.reward_so_far += self.rewards[self.current_pos]
 
-        return ([x, y],
-                self.rewards[x, y],
+        obs = self.normalize_obs(np.array([self.current_pos]))
+
+        return (obs,
+                self.rewards[self.current_pos],
                 done,
                 {"info": 0})
 
-    def _idx_to_xy(self, idx):
-        # not needed i think
-        if idx < self.lap_size:
-            return int(idx), 0
-        elif idx < self.lap_size*2-1:
-            return self.lap_size-1, int(idx - self.lap_size + 1)
-        elif idx < self.lap_size*3-2:
-            return int(self.lap_size*3 - 3 - idx), self.lap_size-1
-        else:
-            return 0, int(self.number_of_cells - idx)
+    def idx_to_xy(self, idx):
+        assert(idx < self.number_of_cells)
+        return idx // self.grid_size, idx % self.grid_size
+
+    def xy_to_idx(self, x, y):
+        assert(x <= (self.grid_size-1))
+        assert(y <= (self.grid_size-1))
+
+        return (self.grid_size*x) + y
 
     def render(self, mode=None, camera_id=None):
         agent_position = self.current_pos
@@ -125,7 +131,9 @@ class ScobeeWorld(mujoco_env.MujocoEnv):
 
     def plot(self, agent_position, save_name=None):
         a = np.ones((self.grid_size, self.grid_size))*-1
-        a += self.rewards
+        for i in range(self.number_of_cells):
+            x, y = self.idx_to_xy(i)
+            a[x, y] += self.rewards[i]
 
         # Start should be shaded a little lighter
         a[0, 0] = -0.4
@@ -136,7 +144,9 @@ class ScobeeWorld(mujoco_env.MujocoEnv):
 
         # To detect agent position, add a dummy value to that point
         arr = c.get_array()
-        arr[np.ravel_multi_index((agent_position[0], agent_position[1]),
+        #agent_x, agent_y = self.idx_to_xy(agent_position)
+        # arr[agent_position] += 32
+        arr[np.ravel_multi_index(self.idx_to_xy(agent_position),
                                  (self.grid_size, self.grid_size))] += 32
 
         # Adding text
@@ -173,19 +183,19 @@ class ScobeeWorld(mujoco_env.MujocoEnv):
         else:
             return fig
 
-    # def normalize_obs(self, obs):
-    #    if self.normalize:
-    #        obs = obs-self.observation_space.low
-    #        obs *= 2
-    #        obs /= (self.observation_space.high - self.observation_space.low)
-    #        obs -= 1
-    #    return obs
+    def normalize_obs(self, obs):
+        if self.normalize:
+            obs = obs-self.observation_space.low
+            obs *= 2
+            obs /= (self.observation_space.high - self.observation_space.low)
+            obs -= 1
+        return obs
 
 
 class ConstrainedScobeeWorld(ScobeeWorld):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.rewards[4, 0] = -1.0
+        self.rewards[self.xy_to_idx(4, 0)] = -1.0
 
     def step(self, action):
         next_obs, reward, done, info = super().step(action)

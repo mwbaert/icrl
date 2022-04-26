@@ -6,7 +6,9 @@ python run_me.py cpg --config_file config_exp_lgw.json
 python run_me.py cpg --config_file config_exp_sw.json
 
 # generate rollouts from expert policy in LGW environment
+# copy rollouts from run_policy/ to EXPERT/
 python run_me.py run_policy --load_dir icrl/expert_data/LGW_/ --env_id LGW-v0 -nr 20
+python run_me.py run_policy --load_dir icrl/expert_data/SW/ --env_id SW-v0 -nr 20
 
 # train ICRL
     # first you have to copy the rollouts to the EXPERT directory

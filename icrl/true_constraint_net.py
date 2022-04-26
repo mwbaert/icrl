@@ -1,6 +1,7 @@
 from functools import partial
 import copy
 import math
+from multiprocessing import dummy
 
 import custom_envs
 import custom_envs.envs.utils as ce_utils
@@ -28,7 +29,8 @@ def get_true_cost_function(env_id):
     elif env_id == "CLGW-v0":
         return lap_grid_world
     elif env_id == "CSW-v0":
-        return scobee_world
+        dummy_env = gym.make(env_id)
+        return partial(scobee_world, dummy_env)
     elif env_id in ["AntTest-v0", 'HalfCheetahTest-v0', 'Walker2dTest-v0', 'SwimmerTest-v0']:
         return partial(torque_constraint, 0.5)
     else:
@@ -120,20 +122,18 @@ def lap_grid_world(obs, acs):
     return np.array(cost)
 
 
-def scobee_world(obs, acs):
+def scobee_world(env, obs, acs):
     cost = []
     for ob in obs:
         # shape of ob is (2), when batch processing: (1, 2)
-        if(ob.shape[0] == 2):
-            if (ob[0] == 4) and (ob[1] == 0):
-                cost += [1]
-            else:
-                cost += [0]
+        # if(ob.shape[0] == 2):
+        ob = unnormalize(env, ob)
+        x, y = env.idx_to_xy(ob)
+        if(x == 4) and (y == 0):
+            cost += [1]
         else:
-            if (ob[0][0] == 4) and (ob[0][1] == 0):
-                cost += [1]
-            else:
-                cost += [0]
+            cost += [0]
+
     return np.array(cost)
 
 # ============================================================================
