@@ -13,7 +13,7 @@ from custom_envs.envs.utils import *
 # are the x and y coordinates. This follows the standard mathematical
 # convention for graphs.
 
-BRIDGE_GRID_SIZE = 20
+BRIDGE_GRID_SIZE = 6
 BRIDGE_MAX_TIME_STEPS = 1000
 
 
@@ -47,13 +47,13 @@ class TwoBridges(mujoco_env.MujocoEnv):
     """
     metadata = {"render.modes": ["rgb_array"]}
 
-    def __init__(self, constraint_regions=[], start=(0, 0), track_agent=False,
+    def __init__(self, constraint_regions=[], start=(0, 2), track_agent=False,
                  normalize_obs=False):
         # Environment setup.
         self.size = BRIDGE_GRID_SIZE
         self.max_time_steps = BRIDGE_MAX_TIME_STEPS
-        self.start = start
-        self.goal = np.array([self.size, 0])
+        self.start_pos = np.array([[3, 0], [3, 6], [0, 3], [6, 3]])
+        self.goals = self.start_pos
         self.action_dim = 2
         self.state_dim = 2
         self.track_agent = track_agent
@@ -67,7 +67,11 @@ class TwoBridges(mujoco_env.MujocoEnv):
         self.water_regions = []
 
         # Constraint regions.
-        self.constraint_regions = constraint_regions
+        #self.constraint_regions = constraint_regions
+        # self.constraint_regions = [
+        #    (np.array((0, 0)), 2, 2), (np.array((0, 4)), 2, 2), (np.array((4, 0)), 2, 2), (np.array((4, 4)), 2, 2)]
+        self.constraint_regions = [
+            (np.array((0, 0)), 2, 2), (np.array((0, 4)), 2, 2), (np.array((4, 0)), 2, 2), (np.array((4, 4)), 2, 2)]
 
         # Define spaces.
         self.observation_space = spaces.Box(
@@ -81,7 +85,13 @@ class TwoBridges(mujoco_env.MujocoEnv):
         self.make_visited_states_plot()
 
     def reset(self):
-        self.curr_state = np.array(self.start, dtype=np.float32)
+        self.start_i = 2  # np.random.randint(0, 4)
+        self.curr_state = np.array(
+            self.start_pos[self.start_i], dtype=np.float32)
+        self.goal_i = 0  # np.random.randint(0, 4)
+        # while self.goal_i == self.start_i:
+        #    self.goal_i = np.random.randint(0, 4)
+        self.goal = self.goals[self.goal_i]
         self.done = False
         self.timesteps = 0
         self.score = 0.
@@ -134,27 +144,25 @@ class TwoBridges(mujoco_env.MujocoEnv):
         act_mag = np.sum(action**2)**(1/2)
         #reward = -1 - 0.1*act_mag * int(act_mag > 6)
 
-        if (np.min(next_state) < 0 or np.max(next_state) > self.size or
-            in_regions(state, next_state, self.water_regions) or
-                in_regions(state, next_state, self.constraint_regions)):
+        # do not move when at a border
+        if (np.min(next_state) < 0) or (np.max(next_state) > self.size):
+            # in_regions(state, next_state, self.water_regions) or
+            #     in_regions(state, next_state, self.constraint_regions)):
             # Tried to move out of grid or through/to an invalid state.
             # Back in same spot. Penalize slightly.
             #reward -= 50
             next_state = state
 
-        if np.sum((self.goal-next_state)**2) < 5:
+        reward = -np.sum(np.abs((next_state-self.goal)))
+
+        # if in_regions(state, next_state, self.constraint_regions):
+        #    reward = -1000
+        #    done = True
+        if np.sum((self.goal-next_state)**2) < 1:
             # Within 1 unit circle of the goal (states within unit circle
             # but outside grid have already been handled).
             reward = 50
             done = True
-        elif np.sum((self.goal-next_state)**2) < 10:
-            reward = -1
-        elif np.sum((self.goal-next_state)**2) < 50:
-            reward = -5
-        elif np.sum((self.goal-next_state)**2) < 100:
-            reward = -10
-        else:
-            reward = -100
 
         return next_state, reward, done
 

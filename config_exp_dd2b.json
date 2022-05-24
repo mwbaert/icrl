@@ -54,7 +54,7 @@
     "shared_layers": null,
     "sync_wandb": false,
     "target_kl": 0.01,
-    "timesteps": 4e4,
+    "timesteps": 8e4,
     "train_env_id": "DD2B-v0",
     "update_penalty_after": 1,
     "use_curiosity_driven_exploration": false,
