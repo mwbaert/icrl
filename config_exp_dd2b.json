@@ -48,7 +48,7 @@
         64,
         64
     ],
-    "save_every": 100000.0,
+    "save_every": 40000.0,
     "sde_sample_freq": -1,
     "seed": 20,
     "shared_layers": null,
