@@ -22,7 +22,7 @@
     "dont_normalize": false,
     "dont_normalize_obs": false,
     "ent_coef": 0.0,
-    "eval_env_id": "DD2B-v0",
+    "eval_env_id": "CDD2B-v0",
     "eval_every": 2048,
     "file_to_run": "cpg",
     "group": null,
