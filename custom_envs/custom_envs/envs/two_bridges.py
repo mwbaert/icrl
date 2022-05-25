@@ -13,9 +13,8 @@ from custom_envs.envs.utils import *
 # are the x and y coordinates. This follows the standard mathematical
 # convention for graphs.
 
-BRIDGE_GRID_SIZE = 6
+BRIDGE_GRID_SIZE = 20
 BRIDGE_MAX_TIME_STEPS = 1000
-
 
 class TwoBridges(mujoco_env.MujocoEnv):
     """
@@ -46,14 +45,13 @@ class TwoBridges(mujoco_env.MujocoEnv):
 
     """
     metadata = {"render.modes": ["rgb_array"]}
-
-    def __init__(self, constraint_regions=[], start=(0, 2), track_agent=False,
+    def __init__(self, constraint_regions=[], start=(0,0), track_agent=False,
                  normalize_obs=False):
         # Environment setup.
         self.size = BRIDGE_GRID_SIZE
         self.max_time_steps = BRIDGE_MAX_TIME_STEPS
-        self.start_pos = np.array([[3, 0], [3, 6], [0, 3], [6, 3]])
-        self.goals = self.start_pos
+        self.start = start
+        self.goal = np.array([self.size, 0])
         self.action_dim = 2
         self.state_dim = 2
         self.track_agent = track_agent
@@ -61,37 +59,26 @@ class TwoBridges(mujoco_env.MujocoEnv):
 
         # Water regions. Each tuple contains the bottom left corner's
         # coordinates of a water region, its width and height respectively.
-        # self.water_regions = [(np.array((4, 0)), 4, 5),
-        #                      (np.array((4, 6)), 4, 8),
-        #                      (np.array((4, 15)), 4, 5)]
-        self.water_regions = []
+        self.water_regions = [(np.array((4,0)), 4, 5),
+                              (np.array((4,6)), 4, 8),
+                              (np.array((4,15)), 4, 5)]
 
         # Constraint regions.
-        #self.constraint_regions = constraint_regions
-        # self.constraint_regions = [
-        #    (np.array((0, 0)), 2, 2), (np.array((0, 4)), 2, 2), (np.array((4, 0)), 2, 2), (np.array((4, 4)), 2, 2)]
-        self.constraint_regions = [
-            (np.array((0, 0)), 2, 2), (np.array((0, 4)), 2, 2), (np.array((4, 0)), 2, 2), (np.array((4, 4)), 2, 2)]
+        self.constraint_regions = constraint_regions
 
         # Define spaces.
         self.observation_space = spaces.Box(
-            low=np.array((0, 0)), high=np.array((BRIDGE_GRID_SIZE, BRIDGE_GRID_SIZE)),
-            dtype=np.float32)
+                low=np.array((0,0)), high=np.array((BRIDGE_GRID_SIZE,BRIDGE_GRID_SIZE)),
+                dtype=np.float32)
         self.action_space = spaces.Box(
-            low=np.array((0, 0)), high=np.array((BRIDGE_GRID_SIZE, BRIDGE_GRID_SIZE)),
-            dtype=np.float32)
+                low=np.array((0,0)), high=np.array((BRIDGE_GRID_SIZE,BRIDGE_GRID_SIZE)),
+                dtype=np.float32)
 
         # Keep track of all visited states.
         self.make_visited_states_plot()
 
     def reset(self):
-        self.start_i = 2  # np.random.randint(0, 4)
-        self.curr_state = np.array(
-            self.start_pos[self.start_i], dtype=np.float32)
-        self.goal_i = 0  # np.random.randint(0, 4)
-        # while self.goal_i == self.start_i:
-        #    self.goal_i = np.random.randint(0, 4)
-        self.goal = self.goals[self.goal_i]
+        self.curr_state = np.array(self.start, dtype=np.float32)
         self.done = False
         self.timesteps = 0
         self.score = 0.
@@ -117,8 +104,7 @@ class TwoBridges(mujoco_env.MujocoEnv):
             pass
 
         # Get reward, next state.
-        self.curr_state, reward, self.done = self.reward(
-            self.curr_state, action)
+        self.curr_state, reward, self.done = self.reward(self.curr_state, action)
         self.score += reward
         self.timesteps += 1
         self.add_new_visited_state(self.curr_state)
@@ -142,23 +128,17 @@ class TwoBridges(mujoco_env.MujocoEnv):
         done = False
         next_state = np.around(state+action, 6)
         act_mag = np.sum(action**2)**(1/2)
-        #reward = -1 - 0.1*act_mag * int(act_mag > 6)
+        reward = -1 - 0.1*act_mag * int(act_mag > 6)
 
-        # do not move when at a border
-        if (np.min(next_state) < 0) or (np.max(next_state) > self.size):
-            # in_regions(state, next_state, self.water_regions) or
-            #     in_regions(state, next_state, self.constraint_regions)):
+        if (np.min(next_state) < 0 or np.max(next_state) > self.size or
+            in_regions(state, next_state, self.water_regions) or
+            in_regions(state, next_state, self.constraint_regions)):
             # Tried to move out of grid or through/to an invalid state.
             # Back in same spot. Penalize slightly.
-            #reward -= 50
+            reward -= 5
             next_state = state
 
-        reward = -np.sum(np.abs((next_state-self.goal)))
-
-        # if in_regions(state, next_state, self.constraint_regions):
-        #    reward = -1000
-        #    done = True
-        if np.sum((self.goal-next_state)**2) < 1:
+        elif np.sum((self.goal-next_state)**2) < 1:
             # Within 1 unit circle of the goal (states within unit circle
             # but outside grid have already been handled).
             reward = 50
@@ -172,16 +152,16 @@ class TwoBridges(mujoco_env.MujocoEnv):
 
         # Fill plot with green.
         ax.add_patch(patches.Rectangle(
-            xy=(0, 0), width=self.size, height=self.size,
+            xy=(0,0), width=self.size, height=self.size,
             color='mediumspringgreen', fill=True
-        ))
+            ))
 
         # Add water.
         for origin, width, height in self.water_regions:
             ax.add_patch(patches.Rectangle(
                 xy=origin, width=width, height=height,
                 linewidth=1, color='deepskyblue', fill=True
-            ))
+                ))
 
         # Add constraints.
         for origin, width, height in self.constraint_regions:
@@ -254,19 +234,17 @@ class TwoBridges(mujoco_env.MujocoEnv):
             obs -= 1
         return obs
 
-
 class DiscreteTwoBridges(TwoBridges):
     """Discrete version of bridge environment."""
-
     def __init__(self, *args):
         super().__init__(*args)
         # Choose scale carefully to ensure that the agent can cross
         # the bridges.
-        scale = 1
-        self.action_map_dict = {0: scale*np.array((1, 0)),
-                                1: scale*np.array((-1, 0)),
-                                2: scale*np.array((0, 1)),
-                                3: scale*np.array((0, -1))}
+        scale = 0.7
+        self.action_map_dict = {0: scale*np.array((1,0)),
+                                1: scale*np.array((-1,0)),
+                                2: scale*np.array((0,1)),
+                                3: scale*np.array((0,-1))}
 
         self.action_space = spaces.Discrete(4)
 
@@ -285,60 +263,59 @@ class DenseDiscreteTwoBridges(DiscreteTwoBridges):
     right side as quickly as it can. Since the agent starts closer to
     the lower bridge, so the optimal solution would be to use that.
     """
-
     def __init__(self, *args):
         super().__init__(*args)
 
-    # def reward(self, state, action):
-    #    """
-    #    Calculate reward.
-    #    Done if agent reaches the goal.
-    #    Fixed reward of 100 at goal.
-    #    Penalize agent -2 reward if it tries to move outside grid or go
-    #    through/on constraint or water.
-    #    -1 reward in left half.
-    #    In right half, the reward is inversely proportional to distance
-    #    to the goal (the scale is higher if agent is in lower bottom half).
-    #    """
-    #    done = False
-    #    next_state = np.around(state+action, 6)
-#
-    #    if (np.min(next_state) < 0 or np.max(next_state) > self.size or
-    #        in_regions(state, next_state, self.water_regions) or
-    #            in_regions(state, next_state, self.constraint_regions)):
-    #        # Tried to go out of grid or move through/to an invalid state.
-    #        # Back in same spot. Penalize slightly.
-    #        next_state = state
-    #        reward = -2.
-#
-    #    elif np.sum((self.goal-next_state)**2) < 1:
-    #        # Within 1 unit circle of the goal (states within unit circle
-    #        # but outside grid have already been handled).
-    #        #reward = 250.
-    #        #done = True
-    #        reward = 12
-#
-    #    elif next_state[0] > self.water_regions[0][0][0]:
-    #        # In right half. States in right half but in invalid regions
-    #        # (e.g. water have already been handled).
-    #        reward = 10/(np.sum((self.goal - next_state)**2)**(1/2))
-#
-    #        if next_state[1] < self.water_regions[1][0][1]:
-    #            # Higher reward in bottom half region.
-    #            #reward *= self.size
-    #            reward *= 1
-    #    else:
-    #        # In left half.
-    #        reward = -1.
-#
-    #    return next_state, reward, done
+    def reward(self, state, action):
+        """
+        Calculate reward.
+        Done if agent reaches the goal.
+        Fixed reward of 100 at goal.
+        Penalize agent -2 reward if it tries to move outside grid or go
+        through/on constraint or water.
+        -1 reward in left half.
+        In right half, the reward is inversely proportional to distance
+        to the goal (the scale is higher if agent is in lower bottom half).
+        """
+        done = False
+        next_state = np.around(state+action, 6)
+
+        if (np.min(next_state) < 0 or np.max(next_state) > self.size or
+            in_regions(state, next_state, self.water_regions) or
+            in_regions(state, next_state, self.constraint_regions)):
+            # Tried to go out of grid or move through/to an invalid state.
+            # Back in same spot. Penalize slightly.
+            next_state = state
+            reward = -2.
+
+        elif np.sum((self.goal-next_state)**2) < 1:
+            # Within 1 unit circle of the goal (states within unit circle
+            # but outside grid have already been handled).
+            #reward = 250.
+            #done = True
+            reward = 12
+
+        elif next_state[0] > self.water_regions[0][0][0]:
+            # In right half. States in right half but in invalid regions
+            # (e.g. water have already been handled).
+            reward = 10/(np.sum((self.goal - next_state)**2)**(1/2))
+
+            if next_state[1] < self.water_regions[1][0][1]:
+                # Higher reward in bottom half region.
+                #reward *= self.size
+                reward *= 1
+        else:
+            # In left half.
+            reward = -1.
+
+        return next_state, reward, done
 
 
 class ConstrainedDenseDiscreteTwoBridges(DenseDiscreteTwoBridges):
     def __init__(self, *args):
         # Lower bridge is constrained. Defined in the same way as
         # water regions were defined.
-        constraint_regions = [(np.array((4, 5)), 4, 1)]
+        constraint_regions = [(np.array((4,5)), 4, 1)]
 
         super().__init__(constraint_regions, *args)
 
@@ -347,7 +324,7 @@ class DDConstrainedDenseDiscreteTwoBridges(ConstrainedDenseDiscreteTwoBridges):
     def __init__(self, *args):
         #start = (0,0)
         #start = (0,20)
-        start = (3, 5)
+        start = (3,5)
         super().__init__(start, *args)
 
 
@@ -357,15 +334,15 @@ class ContinuousTwoBridges(TwoBridges):
 
         # Overwrite spaces.
         self.observation_space = spaces.Box(
-            low=np.array((0, 0, 0)), high=np.array((BRIDGE_GRID_SIZE, BRIDGE_GRID_SIZE, np.inf)),
-            dtype=np.float32)
+                low=np.array((0,0,0)), high=np.array((BRIDGE_GRID_SIZE,BRIDGE_GRID_SIZE,np.inf)),
+                dtype=np.float32)
         action_lim = 2.
         self.action_space = spaces.Box(
-            low=np.array((-action_lim, -action_lim)), high=np.array((action_lim, action_lim)),
-            dtype=np.float32)
+                low=np.array((-action_lim,-action_lim)), high=np.array((action_lim,action_lim)),
+                dtype=np.float32)
 
         self._reset_noise_scale = 0.
-        self.init_qpos = np.array([0, 0, 0])
+        self.init_qpos = np.array([0,0,0])
 
     def reset(self):
         self.score = 0.
@@ -379,8 +356,7 @@ class ContinuousTwoBridges(TwoBridges):
         return self.qpos
 
     def step(self, action):
-        action = np.clip(action, a_min=self.action_space.low,
-                         a_max=self.action_space.high)
+        action = np.clip(action, a_min=self.action_space.low, a_max=self.action_space.high)
 
         # Compute increment in each direction
         self.qpos[2] += action[1]
@@ -393,8 +369,7 @@ class ContinuousTwoBridges(TwoBridges):
         qpos[0] = np.clip(qpos[0] + dx, -self.size, self.size)
         qpos[1] = np.clip(qpos[1] + dy, -self.size, self.size)
 
-        self.qpos[:2], reward, done = self.reward(
-            self.qpos[:2], qpos[:2], action)
+        self.qpos[:2], reward, done = self.reward(self.qpos[:2], qpos[:2], action)
         self.score += reward
         self.timesteps += 1
 
@@ -406,7 +381,7 @@ class ContinuousTwoBridges(TwoBridges):
 
         if (np.min(next_state) < 0 or np.max(next_state) > self.size or
             in_regions(state, next_state, self.water_regions) or
-                in_regions(state, next_state, self.constraint_regions)):
+            in_regions(state, next_state, self.constraint_regions)):
             # Tried to go out of grid or move through/to an invalid state.
             # Back in same spot. Penalize slightly.
             next_state = state
@@ -434,11 +409,10 @@ class ContinuousTwoBridges(TwoBridges):
 
         return next_state, reward, done
 
-
 class ConstrainedContinuousTwoBridges(ContinuousTwoBridges):
     def __init__(self, *args):
         # Lower bridge is constrained. Defined in the same way as
         # water regions were defined.
-        constraint_regions = [(np.array((4, 5)), 4, 1)]
+        constraint_regions = [(np.array((4,5)), 4, 1)]
 
         super().__init__(constraint_regions, *args)
