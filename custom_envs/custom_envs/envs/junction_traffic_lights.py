@@ -1,3 +1,4 @@
+import math
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
@@ -8,102 +9,72 @@ from collections import namedtuple
 
 from custom_envs.envs.utils import *
 
-GRID_SIZE = 5
-MAX_TIME_STEPS = 50
+# Throughout this file, position coordinates are tuples (x,y) where x and y
+# are the x and y coordinates. This follows the standard mathematical
+# convention for graphs.
+
+BRIDGE_GRID_SIZE = 6
+BRIDGE_MAX_TIME_STEPS = 1000
 
 
-class SumoTl(mujoco_env.MujocoEnv):
+class JunctionTrafficLights(mujoco_env.MujocoEnv):
     metadata = {"render.modes": ["rgb_array"]}
 
-    def __init__(self, constraint_regions=[], track_agent=False, normalize_obs=True):
+    def __init__(self, constraint_regions=[], start=(0, 2), track_agent=False,
+                 normalize_obs=False):
         # Environment setup.
-        self.size = GRID_SIZE
-        self.max_time_steps = MAX_TIME_STEPS
-        self._start = [(0, 2), (4, 2), (2, 0), (2, 4)]
-        #self.goal = np.array([self.size, 0])
-        self.goal = [(0, 2), (4, 2), (2, 0), (2, 4)]
+        self.size = BRIDGE_GRID_SIZE
+        self.max_time_steps = BRIDGE_MAX_TIME_STEPS
+        self.start_pos = np.array([[3, 0], [3, 6], [0, 3], [6, 3]])
+        self.goals = self.start_pos
         self.action_dim = 2
         self.state_dim = 2
         self.track_agent = track_agent
         self.normalize = normalize_obs
-
-        # Water regions. Each tuple contains the bottom left corner's
-        # coordinates of a water region, its width and height respectively.
-#        self.water_regions = [(np.array((4,0)), 4, 5),
-#                              (np.array((4,6.5)), 4, 3),
-#                              (np.array((4,10.5)), 4, 3),
-#                              (np.array((4,15)), 4, 5)]
-#
-#        self.water_regions = [(np.array((4,0)), 4, 1),
-#                              (np.array((4,2.5)), 4, 7),
-#                              (np.array((4,10.5)), 4, 7),
-#                              (np.array((4,19)), 4, 1)]
-#       self.water_regions = [(np.array((4, 0)), 4, 1),
-#                             (np.array((4, 2.5)), 4, 6.5),
-#                             (np.array((4, 11)), 4, 6.5),
-#                             (np.array((4, 19)), 4, 1)]
-
-        # Constraint regions.
-        # self.constraint_regions = constraint_regions
+        self.constraint_regions = constraint_regions
 
         # Define spaces.
         self.observation_space = spaces.Box(
-            low=np.array((0, 0)), high=np.array((GRID_SIZE, GRID_SIZE)),
+            low=np.array((0, 0)), high=np.array((BRIDGE_GRID_SIZE, BRIDGE_GRID_SIZE)),
             dtype=np.float32)
-        self.action_space = spaces.Box(
-            low=np.array((0, 0)), high=np.array((GRID_SIZE, GRID_SIZE)),
-            dtype=np.float32)
+        self.action_space = spaces.Discrete(4)
+        scale = 1
+        self.action_map_dict = {0: scale*np.array((1, 0)),
+                                1: scale*np.array((-1, 0)),
+                                2: scale*np.array((0, 1)),
+                                3: scale*np.array((0, -1))}
+
+        
 
         # Keep track of all visited states.
         self.make_visited_states_plot()
 
-        self.random_start = True
-        self.first = True
-
-    @property
-    def start(self):
-        if self.random_start:
-            return self._start[np.random.randint(len(self._start))]
-        else:
-            if self.first:
-                self.first = False
-                self.prev_start = np.random.randint(len(self._start))
-            else:
-                if self.prev_start == 0:
-                    self.prev_start = 1
-                elif self.prev_start == 1:
-                    self.prev_start = 0
-                else:
-                    raise ValueError
-            return self._start[self.prev_start]
-
-    def seed(self, seed):
-        np.random.seed(seed)
-
-    def close(self):
-        pass
-
     def reset(self):
-        self.curr_state = np.array(self.start, dtype=np.float32)
+        self.start_i = 2  # np.random.randint(0, 4)
+        self.curr_state = np.array(
+            self.start_pos[self.start_i], dtype=np.float32)
+        self.goal_i = 0  # np.random.randint(0, 4)
+        # while self.goal_i == self.start_i:
+        #    self.goal_i = np.random.randint(0, 4)
+        self.goal = self.goals[self.goal_i]
         self.done = False
         self.timesteps = 0
         self.score = 0.
         self.add_new_visited_state(self.curr_state)
         return self.normalize_obs(self.curr_state)
 
+    def seed(self, seed):
+        pass
+
+    def close(self):
+        pass
+
     def step(self, action):
         assert hasattr(self, 'done'), 'Need to call reset first'
         assert self.done == False, 'Need to call reset first'
-        assert len(action) == self.action_dim
-
-        # Project action to valid range in high and low is defined.
-        try:
-            action = np.min([action, self.action_space.high], axis=0)
-            action = np.max([action, self.action_space.low], axis=0)
-        except:
-            pass
 
         # Get reward, next state.
+        action = self.action_map_dict[action]
         self.curr_state, reward, self.done = self.reward(
             self.curr_state, action)
         self.score += reward
@@ -129,21 +100,22 @@ class SumoTl(mujoco_env.MujocoEnv):
         done = False
         next_state = np.around(state+action, 6)
         act_mag = np.sum(action**2)**(1/2)
-        reward = -1 - 0.1*act_mag * int(act_mag > 6)
+        #reward = -1 - 0.1*act_mag * int(act_mag > 6)
 
-        if (np.min(next_state) < 0 or np.max(next_state) > self.size or
-            in_regions(state, next_state, self.water_regions) or
-                in_regions(state, next_state, self.constraint_regions)):
-            # Tried to move out of grid or through/to an invalid state.
-            # Back in same spot. Penalize slightly.
-            reward -= 5
+        # do not move when at a border
+        if (np.min(next_state) < 0) or (np.max(next_state) > self.size):
             next_state = state
 
-        elif np.sum((self.goal-next_state)**2) < 1:
-            # Within 1 unit circle of the goal (states within unit circle
-            # but outside grid have already been handled).
-            reward = 50
-            done = True
+        if in_regions(state, next_state, self.constraint_regions):
+            reward = -1000
+        else:
+            reward = -np.sum(np.abs((next_state-self.goal)))
+
+            if np.sum((self.goal-next_state)**2) < 1:
+                # Within 1 unit circle of the goal (states within unit circle
+                # but outside grid have already been handled).
+                reward = 50
+                done = True
 
         return next_state, reward, done
 
@@ -156,13 +128,6 @@ class SumoTl(mujoco_env.MujocoEnv):
             xy=(0, 0), width=self.size, height=self.size,
             color='mediumspringgreen', fill=True
         ))
-
-        # Add water.
-        for origin, width, height in self.water_regions:
-            ax.add_patch(patches.Rectangle(
-                xy=origin, width=width, height=height,
-                linewidth=1, color='deepskyblue', fill=True
-            ))
 
         # Add constraints.
         for origin, width, height in self.constraint_regions:
@@ -235,36 +200,11 @@ class SumoTl(mujoco_env.MujocoEnv):
             obs -= 1
         return obs
 
-
-class DiscreteSumoTl(SumoTl):
-    """Discrete version of bridge environment."""
-
-    def __init__(self, *args):
-        super().__init__(*args)
-        # Choose scale carefully to ensure that the agent can cross
-        # the bridges.
-        s = 0.7
-        self.action_map_dict = {0: s*np.array((1, 0)),
-                                1: s*np.array((-1, 0)),
-                                2: s*np.array((0, 1)),
-                                3: s*np.array((0, -1))}
-
-        self.action_space = spaces.Discrete(4)
-
-    def step(self, action):
-        """Thin wrapper. Calls the parent step class with action
-        mapped to the corresponding `continuous' version.
-        """
-        return super().step(self.action_map_dict[action])
-
-
-class ConstrainedDiscreteSumoTl(DiscreteSumoTl):
+class ConstrainedJunctionTrafficLights(JunctionTrafficLights):
     def __init__(self, *args):
         # Lower bridge is constrained. Defined in the same way as
         # water regions were defined.
-        #        constraint_regions = [(np.array((4,5)), 4, 1.5),
-        #                              (np.array((4,13.5)), 4, 1.5)]
-        constraint_regions = [(np.array((4, 1)), 4, 1.5),
-                              (np.array((4, 17.5)), 4, 1.5)]
+        constraint_regions = [
+            (np.array((0, 0)), 2, 2), (np.array((0, 4)), 2, 2), (np.array((4, 0)), 2, 2), (np.array((4, 4)), 2, 2)]
 
         super().__init__(constraint_regions, *args)

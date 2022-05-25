@@ -370,23 +370,25 @@ register(
 )
 
 # =========================================================================== #
-#                               Scobee World                                  #
+#                      Junction with traffic lights (JTL)                     #
 # =========================================================================== #
 
-SCOBEE_WORLD_LEN = 200
+JUNCTION_WORLD_LEN = 200
 
 register(
-    id="SW-v0",
-    entry_point=ABS_PATH+".scobee_world:ScobeeWorld",
-    max_episode_steps=SCOBEE_WORLD_LEN,
+    id="JTL-v0",
+    entry_point=ABS_PATH+".junction_traffic_lights:JunctionTrafficLights",
+    max_episode_steps=JUNCTION_WORLD_LEN,
     reward_threshold=None,
     nondeterministic=False,
 )
 
 register(
-    id="CSW-v0",
-    entry_point=ABS_PATH+".scobee_world:ConstrainedScobeeWorld",
-    max_episode_steps=SCOBEE_WORLD_LEN,
+    id="CJTL-v0",
+    entry_point=ABS_PATH+".junction_traffic_lights:ConstrainedJunctionTrafficLights",
+    max_episode_steps=JUNCTION_WORLD_LEN,
     reward_threshold=None,
     nondeterministic=False,
 )
+
+

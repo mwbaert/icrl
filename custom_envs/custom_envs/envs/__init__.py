@@ -6,4 +6,4 @@ from custom_envs.envs.walker import *
 from custom_envs.envs.two_bridges import *
 from custom_envs.envs.three_bridges import *
 from custom_envs.envs.lap_grid_world import *
-from custom_envs.envs.scobee_world import *
+from custom_envs.envs.junction_traffic_lights import *
