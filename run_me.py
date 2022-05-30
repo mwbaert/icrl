@@ -1,9 +1,12 @@
 import sys
+import os
+
+#os.environ['MKL_THREADING_LAYER'] = 'GNU'
 
 if __name__ == "__main__":
-#    from icrl.constraint_net import main
-#    main()
-#    exit()
+    #    from icrl.constraint_net import main
+    #    main()
+    #    exit()
     file_to_run = sys.argv[1]
 
     # Run specified file. All files must ignore the first argument

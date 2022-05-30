@@ -368,3 +368,27 @@ register(
     reward_threshold=None,
     nondeterministic=False,
 )
+
+# =========================================================================== #
+#                      Junction with traffic lights (JTL)                     #
+# =========================================================================== #
+
+JUNCTION_WORLD_LEN = 200
+
+register(
+    id="JTL-v0",
+    entry_point=ABS_PATH+".junction_traffic_lights:JunctionTrafficLights",
+    max_episode_steps=JUNCTION_WORLD_LEN,
+    reward_threshold=None,
+    nondeterministic=False,
+)
+
+register(
+    id="CJTL-v0",
+    entry_point=ABS_PATH+".junction_traffic_lights:ConstrainedJunctionTrafficLights",
+    max_episode_steps=JUNCTION_WORLD_LEN,
+    reward_threshold=None,
+    nondeterministic=False,
+)
+
+
