@@ -253,6 +253,7 @@ def icrl(config):
         train_env.set_cost_function(constraint_net.cost_function)
 
         # --- DEBUG ---
+        '''
         for param in constraint_net.parameters():
             print(param.data)
 
@@ -262,7 +263,7 @@ def icrl(config):
         out2 = constraint_net.forward_with_bounds(
             torch.Tensor([[[0.0, 1.0], [0.0, 1.0]]]))
         print(out2)
-
+        '''
         # constraint_net.model.layers[0].plotActivation()
 
         # ------------
