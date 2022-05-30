@@ -13,7 +13,7 @@ from custom_envs.envs.utils import *
 # are the x and y coordinates. This follows the standard mathematical
 # convention for graphs.
 
-BRIDGE_GRID_SIZE = 6
+BRIDGE_GRID_SIZE = 12
 BRIDGE_MAX_TIME_STEPS = 1000
 
 
@@ -25,7 +25,7 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
         # Environment setup.
         self.size = BRIDGE_GRID_SIZE
         self.max_time_steps = BRIDGE_MAX_TIME_STEPS
-        self.start_pos = np.array([[3, 0], [3, 6], [0, 3], [6, 3]])
+        self.start_pos = np.array([[6, 0], [6, 12], [0, 6], [12, 6]])
         self.goals = self.start_pos
         self.action_dim = 2
         self.state_dim = 2
@@ -107,14 +107,15 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
             next_state = state
 
         if in_regions(state, next_state, self.constraint_regions):
-            reward = -1000
+            reward = -10000
+            #done = True
         else:
-            reward = -np.sum(np.abs((next_state-self.goal)))
+            reward = -np.sum(np.abs((next_state-self.goal)))/BRIDGE_GRID_SIZE
 
-            if np.sum((self.goal-next_state)**2) < 1:
+            if(next_state == self.goal).all():
                 # Within 1 unit circle of the goal (states within unit circle
                 # but outside grid have already been handled).
-                reward = 50
+                reward = 10000
                 done = True
 
         return next_state, reward, done
@@ -205,6 +206,6 @@ class ConstrainedJunctionTrafficLights(JunctionTrafficLights):
         # Lower bridge is constrained. Defined in the same way as
         # water regions were defined.
         constraint_regions = [
-            (np.array((0, 0)), 2, 2), (np.array((0, 4)), 2, 2), (np.array((4, 0)), 2, 2), (np.array((4, 4)), 2, 2)]
+            (np.array((0, 0)), 4, 4), (np.array((0, 8)), 4, 4), (np.array((8, 0)), 4, 4), (np.array((8, 8)), 4, 4)]
 
         super().__init__(constraint_regions, *args)
