@@ -10,7 +10,7 @@ _wandb:
     python_version: 3.8.12
 batch_size:
   desc: null
-  value: 64
+  value: 128
 budget:
   desc: null
   value: 0.0
@@ -99,7 +99,7 @@ integral_control_coeff:
   value: 0.0001
 learning_rate:
   desc: null
-  value: 0.0003
+  value: 0.0005
 load_gail:
   desc: null
   value: false
@@ -120,7 +120,7 @@ name:
   value: D2B-v0_CDD2B-v0_tk_0.01_s_20_sid_0_s_20_sid_-1
 num_threads:
   desc: null
-  value: 1
+  value: 5
 penalty_initial_value:
   desc: null
   value: 1
@@ -166,10 +166,10 @@ reward_vf_layers:
   - 64
 save_dir:
   desc: null
-  value: ./cpg/wandb/run-20220524_163240-3tjr4csh/files
+  value: ./cpg/wandb/run-20220525_160552-2eploi6h/files
 save_every:
   desc: null
-  value: 40000.0
+  value: 50000.0
 sde_sample_freq:
   desc: null
   value: -1
@@ -187,7 +187,7 @@ target_kl:
   value: 0.01
 timesteps:
   desc: null
-  value: 80000.0
+  value: 2000000.0
 train_env_id:
   desc: null
   value: JTL-v0
