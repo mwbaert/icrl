@@ -138,7 +138,8 @@ def junction_traffic_lights(env, obs, acs):
         # Need to unnormalize obs
         ob = unnormalize(env, ob)
         ac = env.action_map_dict[int(ac)]
-        next_ob = np.around(ob+ac, 6)
+        next_ob = ob
+        next_ob = np.around(next_ob[:2]+ac, 6)
 
         if ce_utils.in_regions(ob, next_ob, env.constraint_regions):
             cost += [1]

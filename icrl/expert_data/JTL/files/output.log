@@ -1,1260 +1,1373 @@
-[32;1mConfigured folder ./cpg/wandb/run-20220530_113954-25ehikdt/files for saving[0m
+[32;1mConfigured folder ./cpg/wandb/run-20220531_140127-1bpf4m0q/files for saving[0m
 [32;1mName: D2B-v0_CDD2B-v0_tk_0.01_s_20_sid_0_s_20_sid_-1[0m
 Wrapping eval env in a VecNormalize.
-/home/mwbaert/anaconda3/envs/icrl/lib/python3.8/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Box bound precision lowered by casting to float32[0m
+Using cpu device/home/mwbaert/anaconda3/envs/icrl/lib/python3.8/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Box bound precision lowered by casting to float32[0m
   warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
-Using cpu device
+
 /home/mwbaert/anaconda3/envs/icrl/lib/python3.8/site-packages/torch/storage.py:34: FutureWarning: pickle support for Storage will be removed in 1.5. Use `torch.save` instead
   warnings.warn("pickle support for Storage will be removed in 1.5. Use `torch.save` instead", FutureWarning)
 -----------------------------------
 | eval/               |           |
-|    best_mean_reward | -1.29e+06 |
-|    mean_ep_length   | 186       |
-|    mean_reward      | -1.29e+06 |
-|    true_cost        | 0.64      |
+|    best_mean_reward | -1.17e+06 |
+|    mean_ep_length   | 166       |
+|    mean_reward      | -1.17e+06 |
+|    true_cost        | 0.589     |
 | infos/              |           |
-|    cost             | 0.0412    |
+|    cost             | 0.0329    |
 | rollout/            |           |
-|    adjusted_reward  | -7.16     |
-|    ep_len_mean      | 192       |
-|    ep_rew_mean      | 838       |
+|    adjusted_reward  | -7.93     |
+|    ep_len_mean      | 194       |
+|    ep_rew_mean      | 839       |
 | time/               |           |
-|    fps              | 428       |
+|    fps              | 538       |
 |    iterations       | 1         |
-|    time_elapsed     | 4         |
+|    time_elapsed     | 3         |
 |    total_timesteps  | 2048      |
 -----------------------------------
 -----------------------------------------
 | eval/                   |             |
-|    best_mean_reward     | -1.29e+06   |
-|    mean_ep_length       | 190         |
-|    mean_reward          | -1.34e+06   |
-|    true_cost            | 0.536       |
+|    best_mean_reward     | -1.17e+06   |
+|    mean_ep_length       | 171         |
+|    mean_reward          | -1.18e+06   |
+|    true_cost            | 0.486       |
 | infos/                  |             |
-|    cost                 | 0.0202      |
+|    cost                 | 0.0189      |
 | rollout/                |             |
-|    adjusted_reward      | 3.55        |
-|    ep_len_mean          | 180         |
-|    ep_rew_mean          | 1.68e+03    |
+|    adjusted_reward      | 10.9        |
+|    ep_len_mean          | 170         |
+|    ep_rew_mean          | 2.78e+03    |
 | time/                   |             |
-|    fps                  | 372         |
+|    fps                  | 438         |
 |    iterations           | 2           |
-|    time_elapsed         | 10          |
+|    time_elapsed         | 9           |
 |    total_timesteps      | 4096        |
 | train/                  |             |
-|    approx_kl            | 0.012186477 |
-|    average_cost         | 0.63964844  |
-|    clip_fraction        | 0.0966      |
+|    approx_kl            | 0.006757022 |
+|    average_cost         | 0.58935547  |
+|    clip_fraction        | 0.129       |
 |    clip_range           | 0.2         |
-|    cost_explained_va... | -3.69       |
-|    cost_value_loss      | 0.437       |
+|    cost_explained_va... | -1.38       |
+|    cost_value_loss      | 0.311       |
 |    early_stop_epoch     | 10          |
 |    entropy_loss         | -1.38       |
 |    learning_rate        | 0.0003      |
-|    loss                 | 0.413       |
-|    mean_cost_advantages | 0.595348    |
-|    mean_reward_advan... | -0.42985392 |
+|    loss                 | 1.24        |
+|    mean_cost_advantages | 0.6401646   |
+|    mean_reward_advan... | -0.4912989  |
 |    n_updates            | 10          |
 |    nu                   | 1.06        |
-|    nu_loss              | -0.64       |
-|    policy_gradient_loss | -0.00351    |
-|    reward_explained_... | -7.13       |
-|    reward_value_loss    | 0.641       |
-|    total_cost           | 1310.0      |
+|    nu_loss              | -0.589      |
+|    policy_gradient_loss | -0.00418    |
+|    reward_explained_... | -12.3       |
+|    reward_value_loss    | 0.66        |
+|    total_cost           | 1207.0      |
 -----------------------------------------
 -----------------------------------------
 | eval/                   |             |
-|    best_mean_reward     | -4.12e+05   |
-|    mean_ep_length       | 59          |
-|    mean_reward          | -4.12e+05   |
-|    true_cost            | 0.555       |
+|    best_mean_reward     | -3.56e+05   |
+|    mean_ep_length       | 53.2        |
+|    mean_reward          | -3.56e+05   |
+|    true_cost            | 0.469       |
 | infos/                  |             |
-|    cost                 | 0.0281      |
+|    cost                 | 0.0302      |
 | rollout/                |             |
-|    adjusted_reward      | 103         |
-|    ep_len_mean          | 113         |
-|    ep_rew_mean          | 6.03e+03    |
+|    adjusted_reward      | 68.5        |
+|    ep_len_mean          | 127         |
+|    ep_rew_mean          | 5.74e+03    |
 | time/                   |             |
-|    fps                  | 395         |
+|    fps                  | 452         |
 |    iterations           | 3           |
-|    time_elapsed         | 15          |
+|    time_elapsed         | 13          |
 |    total_timesteps      | 6144        |
 | train/                  |             |
-|    approx_kl            | 0.013713535 |
-|    average_cost         | 0.5361328   |
-|    clip_fraction        | 0.132       |
+|    approx_kl            | 0.012899802 |
+|    average_cost         | 0.48632812  |
+|    clip_fraction        | 0.102       |
 |    clip_range           | 0.2         |
-|    cost_explained_va... | -2.16       |
-|    cost_value_loss      | 0.0844      |
+|    cost_explained_va... | -2.02       |
+|    cost_value_loss      | 0.0957      |
 |    early_stop_epoch     | 10          |
 |    entropy_loss         | -1.36       |
 |    learning_rate        | 0.0003      |
-|    loss                 | 0.981       |
-|    mean_cost_advantages | 0.29008937  |
-|    mean_reward_advan... | 0.27990252  |
+|    loss                 | 0.388       |
+|    mean_cost_advantages | 0.2899875   |
+|    mean_reward_advan... | 0.5321475   |
 |    n_updates            | 20          |
 |    nu                   | 1.13        |
-|    nu_loss              | -0.571      |
-|    policy_gradient_loss | -0.00581    |
-|    reward_explained_... | -1.17e+03   |
-|    reward_value_loss    | 1.22        |
-|    total_cost           | 1098.0      |
+|    nu_loss              | -0.518      |
+|    policy_gradient_loss | -0.00701    |
+|    reward_explained_... | -134        |
+|    reward_value_loss    | 2.04        |
+|    total_cost           | 996.0       |
 -----------------------------------------
-Early stopping at step 4 due to reaching max kl: 0.02
-----------------------------------------
-| eval/                   |            |
-|    best_mean_reward     | -2.38e+05  |
-|    mean_ep_length       | 53.8       |
-|    mean_reward          | -2.38e+05  |
-|    true_cost            | 0.56       |
-| infos/                  |            |
-|    cost                 | 0.0332     |
-| rollout/                |            |
-|    adjusted_reward      | 112        |
-|    ep_len_mean          | 97.4       |
-|    ep_rew_mean          | 7.08e+03   |
-| time/                   |            |
-|    fps                  | 421        |
-|    iterations           | 4          |
-|    time_elapsed         | 19         |
-|    total_timesteps      | 8192       |
-| train/                  |            |
-|    approx_kl            | 0.01864502 |
-|    average_cost         | 0.5551758  |
-|    clip_fraction        | 0.123      |
-|    clip_range           | 0.2        |
-|    cost_explained_va... | -13.3      |
-|    cost_value_loss      | 0.112      |
-|    early_stop_epoch     | 4          |
-|    entropy_loss         | -1.31      |
-|    learning_rate        | 0.0003     |
-|    loss                 | 3.56       |
-|    mean_cost_advantages | 0.09623524 |
-|    mean_reward_advan... | 2.066991   |
-|    n_updates            | 30         |
-|    nu                   | 1.2        |
-|    nu_loss              | -0.628     |
-|    policy_gradient_loss | -0.0093    |
-|    reward_explained_... | -88.4      |
-|    reward_value_loss    | 6.46       |
-|    total_cost           | 1137.0     |
-----------------------------------------
 Early stopping at step 4 due to reaching max kl: 0.02
 -----------------------------------------
 | eval/                   |             |
-|    best_mean_reward     | -1.44e+05   |
-|    mean_ep_length       | 28.2        |
-|    mean_reward          | -1.44e+05   |
-|    true_cost            | 0.544       |
+|    best_mean_reward     | -1.9e+05    |
+|    mean_ep_length       | 32          |
+|    mean_reward          | -1.9e+05    |
+|    true_cost            | 0.507       |
 | infos/                  |             |
-|    cost                 | 0.0252      |
+|    cost                 | 0.0156      |
 | rollout/                |             |
-|    adjusted_reward      | 297         |
-|    ep_len_mean          | 44.3        |
-|    ep_rew_mean          | 9.58e+03    |
+|    adjusted_reward      | 138         |
+|    ep_len_mean          | 101         |
+|    ep_rew_mean          | 7.46e+03    |
 | time/                   |             |
-|    fps                  | 438         |
+|    fps                  | 467         |
+|    iterations           | 4           |
+|    time_elapsed         | 17          |
+|    total_timesteps      | 8192        |
+| train/                  |             |
+|    approx_kl            | 0.016250363 |
+|    average_cost         | 0.46875     |
+|    clip_fraction        | 0.153       |
+|    clip_range           | 0.2         |
+|    cost_explained_va... | -3.08       |
+|    cost_value_loss      | 0.132       |
+|    early_stop_epoch     | 4           |
+|    entropy_loss         | -1.33       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 1.91        |
+|    mean_cost_advantages | 0.14622372  |
+|    mean_reward_advan... | 1.3418211   |
+|    n_updates            | 30          |
+|    nu                   | 1.2         |
+|    nu_loss              | -0.53       |
+|    policy_gradient_loss | -0.012      |
+|    reward_explained_... | -5.9        |
+|    reward_value_loss    | 4.8         |
+|    total_cost           | 960.0       |
+-----------------------------------------
+Early stopping at step 3 due to reaching max kl: 0.02
+-----------------------------------------
+| eval/                   |             |
+|    best_mean_reward     | -1.6e+05    |
+|    mean_ep_length       | 37.6        |
+|    mean_reward          | -1.6e+05    |
+|    true_cost            | 0.526       |
+| infos/                  |             |
+|    cost                 | 0.033       |
+| rollout/                |             |
+|    adjusted_reward      | 293         |
+|    ep_len_mean          | 49.6        |
+|    ep_rew_mean          | 9.88e+03    |
+| time/                   |             |
+|    fps                  | 482         |
 |    iterations           | 5           |
-|    time_elapsed         | 23          |
+|    time_elapsed         | 21          |
 |    total_timesteps      | 10240       |
 | train/                  |             |
-|    approx_kl            | 0.019392082 |
-|    average_cost         | 0.5600586   |
-|    clip_fraction        | 0.134       |
+|    approx_kl            | 0.019144457 |
+|    average_cost         | 0.50683594  |
+|    clip_fraction        | 0.103       |
 |    clip_range           | 0.2         |
-|    cost_explained_va... | -5.02       |
+|    cost_explained_va... | -0.793      |
 |    cost_value_loss      | 0.149       |
-|    early_stop_epoch     | 4           |
+|    early_stop_epoch     | 3           |
 |    entropy_loss         | -1.29       |
 |    learning_rate        | 0.0003      |
-|    loss                 | 2.04        |
-|    mean_cost_advantages | 0.08470726  |
-|    mean_reward_advan... | 1.3686023   |
+|    loss                 | 1.92        |
+|    mean_cost_advantages | 0.030600425 |
+|    mean_reward_advan... | 1.9621143   |
 |    n_updates            | 40          |
 |    nu                   | 1.27        |
-|    nu_loss              | -0.672      |
-|    policy_gradient_loss | -0.00889    |
-|    reward_explained_... | -0.457      |
-|    reward_value_loss    | 4.38        |
-|    total_cost           | 1147.0      |
+|    nu_loss              | -0.608      |
+|    policy_gradient_loss | -0.0106     |
+|    reward_explained_... | -0.337      |
+|    reward_value_loss    | 4.73        |
+|    total_cost           | 1038.0      |
 -----------------------------------------
-Early stopping at step 2 due to reaching max kl: 0.02
+Early stopping at step 2 due to reaching max kl: 0.03
 -----------------------------------------
 | eval/                   |             |
-|    best_mean_reward     | -8.6e+04    |
-|    mean_ep_length       | 18.8        |
-|    mean_reward          | -8.6e+04    |
-|    true_cost            | 0.689       |
+|    best_mean_reward     | -1.14e+05   |
+|    mean_ep_length       | 24.8        |
+|    mean_reward          | -1.14e+05   |
+|    true_cost            | 0.67        |
 | infos/                  |             |
-|    cost                 | 0.0352      |
+|    cost                 | 0.0315      |
 | rollout/                |             |
-|    adjusted_reward      | 460         |
-|    ep_len_mean          | 26.4        |
+|    adjusted_reward      | 391         |
+|    ep_len_mean          | 28.7        |
 |    ep_rew_mean          | 9.99e+03    |
 | time/                   |             |
-|    fps                  | 459         |
+|    fps                  | 502         |
 |    iterations           | 6           |
-|    time_elapsed         | 26          |
+|    time_elapsed         | 24          |
 |    total_timesteps      | 12288       |
 | train/                  |             |
-|    approx_kl            | 0.016203534 |
-|    average_cost         | 0.5444336   |
-|    clip_fraction        | 0.0799      |
+|    approx_kl            | 0.025610447 |
+|    average_cost         | 0.5258789   |
+|    clip_fraction        | 0.118       |
 |    clip_range           | 0.2         |
-|    cost_explained_va... | -1.31       |
-|    cost_value_loss      | 0.0963      |
+|    cost_explained_va... | -0.38       |
+|    cost_value_loss      | 0.142       |
 |    early_stop_epoch     | 2           |
-|    entropy_loss         | -1.18       |
+|    entropy_loss         | -1.2        |
 |    learning_rate        | 0.0003      |
-|    loss                 | 0.91        |
-|    mean_cost_advantages | -0.12771139 |
-|    mean_reward_advan... | 1.8294628   |
+|    loss                 | 0.968       |
+|    mean_cost_advantages | -0.15185316 |
+|    mean_reward_advan... | 1.9526948   |
 |    n_updates            | 50          |
 |    nu                   | 1.34        |
-|    nu_loss              | -0.691      |
-|    policy_gradient_loss | -0.00742    |
-|    reward_explained_... | 0.135       |
-|    reward_value_loss    | 3.42        |
-|    total_cost           | 1115.0      |
+|    nu_loss              | -0.667      |
+|    policy_gradient_loss | -0.0114     |
+|    reward_explained_... | 0.179       |
+|    reward_value_loss    | 3.65        |
+|    total_cost           | 1077.0      |
 -----------------------------------------
-Early stopping at step 3 due to reaching max kl: 0.02
+Early stopping at step 1 due to reaching max kl: 0.02
 -----------------------------------------
 | eval/                   |             |
-|    best_mean_reward     | -8.6e+04    |
-|    mean_ep_length       | 15.8        |
-|    mean_reward          | -9e+04      |
-|    true_cost            | 0.591       |
+|    best_mean_reward     | -7.6e+04    |
+|    mean_ep_length       | 22.4        |
+|    mean_reward          | -7.6e+04    |
+|    true_cost            | 0.54        |
 | infos/                  |             |
-|    cost                 | 0.0309      |
+|    cost                 | 0.0206      |
 | rollout/                |             |
-|    adjusted_reward      | 465         |
-|    ep_len_mean          | 22.4        |
+|    adjusted_reward      | 517         |
+|    ep_len_mean          | 20.6        |
 |    ep_rew_mean          | 9.99e+03    |
 | time/                   |             |
-|    fps                  | 473         |
+|    fps                  | 518         |
 |    iterations           | 7           |
-|    time_elapsed         | 30          |
+|    time_elapsed         | 27          |
 |    total_timesteps      | 14336       |
 | train/                  |             |
-|    approx_kl            | 0.01974911  |
-|    average_cost         | 0.68896484  |
-|    clip_fraction        | 0.188       |
+|    approx_kl            | 0.022916442 |
+|    average_cost         | 0.67041016  |
+|    clip_fraction        | 0.152       |
 |    clip_range           | 0.2         |
-|    cost_explained_va... | -0.663      |
-|    cost_value_loss      | 0.0657      |
-|    early_stop_epoch     | 3           |
-|    entropy_loss         | -1.01       |
+|    cost_explained_va... | -0.22       |
+|    cost_value_loss      | 0.0998      |
+|    early_stop_epoch     | 1           |
+|    entropy_loss         | -1.08       |
 |    learning_rate        | 0.0003      |
-|    loss                 | 0.117       |
-|    mean_cost_advantages | -0.13158812 |
-|    mean_reward_advan... | 0.7492094   |
+|    loss                 | 0.249       |
+|    mean_cost_advantages | -0.09055167 |
+|    mean_reward_advan... | 0.74811745  |
 |    n_updates            | 60          |
 |    nu                   | 1.42        |
-|    nu_loss              | -0.925      |
-|    policy_gradient_loss | -0.00742    |
-|    reward_explained_... | 0.497       |
-|    reward_value_loss    | 0.68        |
-|    total_cost           | 1411.0      |
+|    nu_loss              | -0.9        |
+|    policy_gradient_loss | -0.00874    |
+|    reward_explained_... | 0.568       |
+|    reward_value_loss    | 0.809       |
+|    total_cost           | 1373.0      |
 -----------------------------------------
 Early stopping at step 2 due to reaching max kl: 0.02
 -----------------------------------------
 | eval/                   |             |
-|    best_mean_reward     | -8.6e+04    |
-|    mean_ep_length       | 20.2        |
-|    mean_reward          | -9e+04      |
-|    true_cost            | 0.541       |
+|    best_mean_reward     | -7.6e+04    |
+|    mean_ep_length       | 19.2        |
+|    mean_reward          | -1.1e+05    |
+|    true_cost            | 0.59        |
 | infos/                  |             |
-|    cost                 | 0.0426      |
+|    cost                 | 0.039       |
 | rollout/                |             |
-|    adjusted_reward      | 597         |
-|    ep_len_mean          | 17.3        |
+|    adjusted_reward      | 565         |
+|    ep_len_mean          | 18.5        |
 |    ep_rew_mean          | 9.99e+03    |
 | time/                   |             |
-|    fps                  | 489         |
+|    fps                  | 521         |
 |    iterations           | 8           |
-|    time_elapsed         | 33          |
+|    time_elapsed         | 31          |
 |    total_timesteps      | 16384       |
 | train/                  |             |
-|    approx_kl            | 0.019460334 |
-|    average_cost         | 0.5908203   |
-|    clip_fraction        | 0.0973      |
+|    approx_kl            | 0.018204875 |
+|    average_cost         | 0.54003906  |
+|    clip_fraction        | 0.11        |
 |    clip_range           | 0.2         |
-|    cost_explained_va... | 0.417       |
-|    cost_value_loss      | 0.0458      |
+|    cost_explained_va... | 0.568       |
+|    cost_value_loss      | 0.046       |
 |    early_stop_epoch     | 2           |
 |    entropy_loss         | -1.01       |
 |    learning_rate        | 0.0003      |
-|    loss                 | 0.0985      |
-|    mean_cost_advantages | -0.1075211  |
-|    mean_reward_advan... | -0.2152718  |
+|    loss                 | 0.0494      |
+|    mean_cost_advantages | -0.23826389 |
+|    mean_reward_advan... | 0.01948157  |
 |    n_updates            | 70          |
 |    nu                   | 1.5         |
-|    nu_loss              | -0.838      |
-|    policy_gradient_loss | -0.00855    |
-|    reward_explained_... | 0.524       |
-|    reward_value_loss    | 0.224       |
-|    total_cost           | 1210.0      |
+|    nu_loss              | -0.766      |
+|    policy_gradient_loss | -0.00818    |
+|    reward_explained_... | 0.482       |
+|    reward_value_loss    | 0.215       |
+|    total_cost           | 1106.0      |
 -----------------------------------------
-------------------------------------------
-| eval/                   |              |
-|    best_mean_reward     | -7.2e+04     |
-|    mean_ep_length       | 16.8         |
-|    mean_reward          | -7.2e+04     |
-|    true_cost            | 0.623        |
-| infos/                  |              |
-|    cost                 | 0.0445       |
-| rollout/                |              |
-|    adjusted_reward      | 646          |
-|    ep_len_mean          | 15.9         |
-|    ep_rew_mean          | 9.99e+03     |
-| time/                   |              |
-|    fps                  | 496          |
-|    iterations           | 9            |
-|    time_elapsed         | 37           |
-|    total_timesteps      | 18432        |
-| train/                  |              |
-|    approx_kl            | 0.011689     |
-|    average_cost         | 0.54052734   |
-|    clip_fraction        | 0.107        |
-|    clip_range           | 0.2          |
-|    cost_explained_va... | 0.621        |
-|    cost_value_loss      | 0.0206       |
-|    early_stop_epoch     | 10           |
-|    entropy_loss         | -0.917       |
-|    learning_rate        | 0.0003       |
-|    loss                 | 0.00642      |
-|    mean_cost_advantages | -0.122997016 |
-|    mean_reward_advan... | -0.41301376  |
-|    n_updates            | 80           |
-|    nu                   | 1.57         |
-|    nu_loss              | -0.808       |
-|    policy_gradient_loss | -0.00723     |
-|    reward_explained_... | 0.543        |
-|    reward_value_loss    | 0.0439       |
-|    total_cost           | 1107.0       |
-------------------------------------------
-Early stopping at step 1 due to reaching max kl: 0.02
-------------------------------------------
-| eval/                   |              |
-|    best_mean_reward     | -7.2e+04     |
-|    mean_ep_length       | 18.2         |
-|    mean_reward          | -7.6e+04     |
-|    true_cost            | 0.549        |
-| infos/                  |              |
-|    cost                 | 0.0341       |
-| rollout/                |              |
-|    adjusted_reward      | 687          |
-|    ep_len_mean          | 15.3         |
-|    ep_rew_mean          | 9.99e+03     |
-| time/                   |              |
-|    fps                  | 504          |
-|    iterations           | 10           |
-|    time_elapsed         | 40           |
-|    total_timesteps      | 20480        |
-| train/                  |              |
-|    approx_kl            | 0.01598197   |
-|    average_cost         | 0.6230469    |
-|    clip_fraction        | 0.108        |
-|    clip_range           | 0.2          |
-|    cost_explained_va... | 0.576        |
-|    cost_value_loss      | 0.0166       |
-|    early_stop_epoch     | 1            |
-|    entropy_loss         | -0.854       |
-|    learning_rate        | 0.0003       |
-|    loss                 | -0.00111     |
-|    mean_cost_advantages | -0.024807932 |
-|    mean_reward_advan... | -0.4545583   |
-|    n_updates            | 90           |
-|    nu                   | 1.66         |
-|    nu_loss              | -0.981       |
-|    policy_gradient_loss | -0.00551     |
-|    reward_explained_... | 0.551        |
-|    reward_value_loss    | 0.0462       |
-|    total_cost           | 1276.0       |
-------------------------------------------
-Early stopping at step 4 due to reaching max kl: 0.02
 -----------------------------------------
 | eval/                   |             |
-|    best_mean_reward     | -6.4e+04    |
-|    mean_ep_length       | 13          |
-|    mean_reward          | -6.4e+04    |
-|    true_cost            | 0.616       |
+|    best_mean_reward     | -7.6e+04    |
+|    mean_ep_length       | 16.4        |
+|    mean_reward          | -9e+04      |
+|    true_cost            | 0.585       |
 | infos/                  |             |
-|    cost                 | 0.0437      |
+|    cost                 | 0.0429      |
 | rollout/                |             |
-|    adjusted_reward      | 729         |
-|    ep_len_mean          | 13.7        |
-|    ep_rew_mean          | 9.99e+03    |
-| time/                   |             |
-|    fps                  | 512         |
-|    iterations           | 11          |
-|    time_elapsed         | 43          |
-|    total_timesteps      | 22528       |
-| train/                  |             |
-|    approx_kl            | 0.015177656 |
-|    average_cost         | 0.5488281   |
-|    clip_fraction        | 0.0976      |
-|    clip_range           | 0.2         |
-|    cost_explained_va... | 0.741       |
-|    cost_value_loss      | 0.0112      |
-|    early_stop_epoch     | 4           |
-|    entropy_loss         | -0.797      |
-|    learning_rate        | 0.0003      |
-|    loss                 | 0.00186     |
-|    mean_cost_advantages | -0.05010452 |
-|    mean_reward_advan... | -0.3865965  |
-|    n_updates            | 100         |
-|    nu                   | 1.74        |
-|    nu_loss              | -0.909      |
-|    policy_gradient_loss | -0.0074     |
-|    reward_explained_... | 0.491       |
-|    reward_value_loss    | 0.0213      |
-|    total_cost           | 1124.0      |
------------------------------------------
-Early stopping at step 3 due to reaching max kl: 0.02
-------------------------------------------
-| eval/                   |              |
-|    best_mean_reward     | -6.4e+04     |
-|    mean_ep_length       | 13.2         |
-|    mean_reward          | -8.6e+04     |
-|    true_cost            | 0.621        |
-| infos/                  |              |
-|    cost                 | 0.0347       |
-| rollout/                |              |
-|    adjusted_reward      | 781          |
-|    ep_len_mean          | 13.2         |
-|    ep_rew_mean          | 9.99e+03     |
-| time/                   |              |
-|    fps                  | 515          |
-|    iterations           | 12           |
-|    time_elapsed         | 47           |
-|    total_timesteps      | 24576        |
-| train/                  |              |
-|    approx_kl            | 0.015403431  |
-|    average_cost         | 0.61621094   |
-|    clip_fraction        | 0.0801       |
-|    clip_range           | 0.2          |
-|    cost_explained_va... | 0.804        |
-|    cost_value_loss      | 0.0068       |
-|    early_stop_epoch     | 3            |
-|    entropy_loss         | -0.717       |
-|    learning_rate        | 0.0003       |
-|    loss                 | 0.00214      |
-|    mean_cost_advantages | 0.0017852646 |
-|    mean_reward_advan... | -0.28113323  |
-|    n_updates            | 110          |
-|    nu                   | 1.82         |
-|    nu_loss              | -1.07        |
-|    policy_gradient_loss | -0.00525     |
-|    reward_explained_... | 0.681        |
-|    reward_value_loss    | 0.0112       |
-|    total_cost           | 1262.0       |
-------------------------------------------
------------------------------------------
-| eval/                   |             |
-|    best_mean_reward     | -6.4e+04    |
-|    mean_ep_length       | 13          |
-|    mean_reward          | -7.4e+04    |
-|    true_cost            | 0.632       |
-| infos/                  |             |
-|    cost                 | 0.0475      |
-| rollout/                |             |
-|    adjusted_reward      | 799         |
-|    ep_len_mean          | 12.7        |
+|    adjusted_reward      | 636         |
+|    ep_len_mean          | 16.2        |
 |    ep_rew_mean          | 9.99e+03    |
 | time/                   |             |
 |    fps                  | 516         |
+|    iterations           | 9           |
+|    time_elapsed         | 35          |
+|    total_timesteps      | 18432       |
+| train/                  |             |
+|    approx_kl            | 0.010266781 |
+|    average_cost         | 0.58984375  |
+|    clip_fraction        | 0.202       |
+|    clip_range           | 0.2         |
+|    cost_explained_va... | 0.611       |
+|    cost_value_loss      | 0.0247      |
+|    early_stop_epoch     | 10          |
+|    entropy_loss         | -0.918      |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.0322      |
+|    mean_cost_advantages | -0.07523693 |
+|    mean_reward_advan... | -0.47994834 |
+|    n_updates            | 80          |
+|    nu                   | 1.57        |
+|    nu_loss              | -0.882      |
+|    policy_gradient_loss | -0.00683    |
+|    reward_explained_... | 0.511       |
+|    reward_value_loss    | 0.0404      |
+|    total_cost           | 1208.0      |
+-----------------------------------------
+-----------------------------------------
+| eval/                   |             |
+|    best_mean_reward     | -7.6e+04    |
+|    mean_ep_length       | 16.6        |
+|    mean_reward          | -9.6e+04    |
+|    true_cost            | 0.598       |
+| infos/                  |             |
+|    cost                 | 0.0427      |
+| rollout/                |             |
+|    adjusted_reward      | 651         |
+|    ep_len_mean          | 15.7        |
+|    ep_rew_mean          | 9.99e+03    |
+| time/                   |             |
+|    fps                  | 510         |
+|    iterations           | 10          |
+|    time_elapsed         | 40          |
+|    total_timesteps      | 20480       |
+| train/                  |             |
+|    approx_kl            | 0.008651613 |
+|    average_cost         | 0.5854492   |
+|    clip_fraction        | 0.222       |
+|    clip_range           | 0.2         |
+|    cost_explained_va... | 0.747       |
+|    cost_value_loss      | 0.0148      |
+|    early_stop_epoch     | 10          |
+|    entropy_loss         | -0.848      |
+|    learning_rate        | 0.0003      |
+|    loss                 | -0.00331    |
+|    mean_cost_advantages | -0.05473011 |
+|    mean_reward_advan... | -0.48236763 |
+|    n_updates            | 90          |
+|    nu                   | 1.66        |
+|    nu_loss              | -0.922      |
+|    policy_gradient_loss | -0.0101     |
+|    reward_explained_... | 0.406       |
+|    reward_value_loss    | 0.0275      |
+|    total_cost           | 1199.0      |
+-----------------------------------------
+Early stopping at step 1 due to reaching max kl: 0.04
+------------------------------------------
+| eval/                   |              |
+|    best_mean_reward     | -5e+04       |
+|    mean_ep_length       | 13.2         |
+|    mean_reward          | -5e+04       |
+|    true_cost            | 0.551        |
+| infos/                  |              |
+|    cost                 | 0.0402       |
+| rollout/                |              |
+|    adjusted_reward      | 729          |
+|    ep_len_mean          | 13.9         |
+|    ep_rew_mean          | 9.99e+03     |
+| time/                   |              |
+|    fps                  | 518          |
+|    iterations           | 11           |
+|    time_elapsed         | 43           |
+|    total_timesteps      | 22528        |
+| train/                  |              |
+|    approx_kl            | 0.03776426   |
+|    average_cost         | 0.59765625   |
+|    clip_fraction        | 0.225        |
+|    clip_range           | 0.2          |
+|    cost_explained_va... | 0.679        |
+|    cost_value_loss      | 0.0168       |
+|    early_stop_epoch     | 1            |
+|    entropy_loss         | -0.798       |
+|    learning_rate        | 0.0003       |
+|    loss                 | 0.00527      |
+|    mean_cost_advantages | 0.0005389906 |
+|    mean_reward_advan... | -0.38354763  |
+|    n_updates            | 100          |
+|    nu                   | 1.74         |
+|    nu_loss              | -0.99        |
+|    policy_gradient_loss | -0.0101      |
+|    reward_explained_... | 0.439        |
+|    reward_value_loss    | 0.031        |
+|    total_cost           | 1224.0       |
+------------------------------------------
+Early stopping at step 4 due to reaching max kl: 0.02
+-----------------------------------------
+| eval/                   |             |
+|    best_mean_reward     | -5e+04      |
+|    mean_ep_length       | 13          |
+|    mean_reward          | -7.4e+04    |
+|    true_cost            | 0.525       |
+| infos/                  |             |
+|    cost                 | 0.0374      |
+| rollout/                |             |
+|    adjusted_reward      | 777         |
+|    ep_len_mean          | 13.2        |
+|    ep_rew_mean          | 9.99e+03    |
+| time/                   |             |
+|    fps                  | 514         |
+|    iterations           | 12          |
+|    time_elapsed         | 47          |
+|    total_timesteps      | 24576       |
+| train/                  |             |
+|    approx_kl            | 0.016404968 |
+|    average_cost         | 0.55078125  |
+|    clip_fraction        | 0.153       |
+|    clip_range           | 0.2         |
+|    cost_explained_va... | 0.808       |
+|    cost_value_loss      | 0.00911     |
+|    early_stop_epoch     | 4           |
+|    entropy_loss         | -0.72       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.00361     |
+|    mean_cost_advantages | -0.05281714 |
+|    mean_reward_advan... | -0.25509912 |
+|    n_updates            | 110         |
+|    nu                   | 1.83        |
+|    nu_loss              | -0.959      |
+|    policy_gradient_loss | -0.00737    |
+|    reward_explained_... | 0.669       |
+|    reward_value_loss    | 0.011       |
+|    total_cost           | 1128.0      |
+-----------------------------------------
+Early stopping at step 8 due to reaching max kl: 0.02
+-----------------------------------------
+| eval/                   |             |
+|    best_mean_reward     | -5e+04      |
+|    mean_ep_length       | 12.4        |
+|    mean_reward          | -6.6e+04    |
+|    true_cost            | 0.478       |
+| infos/                  |             |
+|    cost                 | 0.0375      |
+| rollout/                |             |
+|    adjusted_reward      | 789         |
+|    ep_len_mean          | 13          |
+|    ep_rew_mean          | 9.99e+03    |
+| time/                   |             |
+|    fps                  | 513         |
 |    iterations           | 13          |
 |    time_elapsed         | 51          |
 |    total_timesteps      | 26624       |
 | train/                  |             |
-|    approx_kl            | 0.004936738 |
-|    average_cost         | 0.62109375  |
-|    clip_fraction        | 0.0489      |
+|    approx_kl            | 0.015574618 |
+|    average_cost         | 0.5253906   |
+|    clip_fraction        | 0.144       |
 |    clip_range           | 0.2         |
-|    cost_explained_va... | 0.891       |
-|    cost_value_loss      | 0.00406     |
-|    early_stop_epoch     | 10          |
-|    entropy_loss         | -0.658      |
+|    cost_explained_va... | 0.809       |
+|    cost_value_loss      | 0.00735     |
+|    early_stop_epoch     | 8           |
+|    entropy_loss         | -0.645      |
 |    learning_rate        | 0.0003      |
-|    loss                 | 0.00285     |
-|    mean_cost_advantages | -0.01307988 |
-|    mean_reward_advan... | -0.21499261 |
+|    loss                 | -0.00771    |
+|    mean_cost_advantages | -0.02597178 |
+|    mean_reward_advan... | -0.21861589 |
 |    n_updates            | 120         |
 |    nu                   | 1.91        |
-|    nu_loss              | -1.13       |
-|    policy_gradient_loss | -0.00428    |
-|    reward_explained_... | 0.73        |
-|    reward_value_loss    | 0.0068      |
-|    total_cost           | 1272.0      |
+|    nu_loss              | -0.959      |
+|    policy_gradient_loss | -0.00638    |
+|    reward_explained_... | 0.768       |
+|    reward_value_loss    | 0.00652     |
+|    total_cost           | 1076.0      |
 -----------------------------------------
+Early stopping at step 3 due to reaching max kl: 0.02
 ------------------------------------------
 | eval/                   |              |
-|    best_mean_reward     | -6.4e+04     |
-|    mean_ep_length       | 12           |
-|    mean_reward          | -6.8e+04     |
-|    true_cost            | 0.598        |
+|    best_mean_reward     | -5e+04       |
+|    mean_ep_length       | 12.8         |
+|    mean_reward          | -5.4e+04     |
+|    true_cost            | 0.454        |
 | infos/                  |              |
-|    cost                 | 0.0429       |
+|    cost                 | 0.0383       |
 | rollout/                |              |
-|    adjusted_reward      | 811          |
-|    ep_len_mean          | 12.5         |
+|    adjusted_reward      | 801          |
+|    ep_len_mean          | 12.7         |
 |    ep_rew_mean          | 9.99e+03     |
 | time/                   |              |
-|    fps                  | 514          |
+|    fps                  | 517          |
 |    iterations           | 14           |
 |    time_elapsed         | 55           |
 |    total_timesteps      | 28672        |
 | train/                  |              |
-|    approx_kl            | 0.010157652  |
-|    average_cost         | 0.63183594   |
-|    clip_fraction        | 0.0469       |
+|    approx_kl            | 0.015662797  |
+|    average_cost         | 0.47802734   |
+|    clip_fraction        | 0.102        |
 |    clip_range           | 0.2          |
-|    cost_explained_va... | 0.913        |
-|    cost_value_loss      | 0.00334      |
-|    early_stop_epoch     | 10           |
-|    entropy_loss         | -0.617       |
+|    cost_explained_va... | 0.86         |
+|    cost_value_loss      | 0.00483      |
+|    early_stop_epoch     | 3            |
+|    entropy_loss         | -0.605       |
 |    learning_rate        | 0.0003       |
-|    loss                 | -0.0074      |
-|    mean_cost_advantages | -0.002736625 |
-|    mean_reward_advan... | -0.17522907  |
+|    loss                 | -0.00467     |
+|    mean_cost_advantages | -0.013420349 |
+|    mean_reward_advan... | -0.18825507  |
 |    n_updates            | 130          |
 |    nu                   | 2            |
-|    nu_loss              | -1.21        |
-|    policy_gradient_loss | -0.00298     |
-|    reward_explained_... | 0.849        |
-|    reward_value_loss    | 0.0037       |
-|    total_cost           | 1294.0       |
+|    nu_loss              | -0.914       |
+|    policy_gradient_loss | -0.00369     |
+|    reward_explained_... | 0.852        |
+|    reward_value_loss    | 0.00505      |
+|    total_cost           | 979.0        |
 ------------------------------------------
-Early stopping at step 3 due to reaching max kl: 0.02
------------------------------------------
-| eval/                   |             |
-|    best_mean_reward     | -5.4e+04    |
-|    mean_ep_length       | 12.6        |
-|    mean_reward          | -5.4e+04    |
-|    true_cost            | 0.562       |
-| infos/                  |             |
-|    cost                 | 0.041       |
-| rollout/                |             |
-|    adjusted_reward      | 819         |
-|    ep_len_mean          | 12.4        |
-|    ep_rew_mean          | 9.99e+03    |
-| time/                   |             |
-|    fps                  | 519         |
-|    iterations           | 15          |
-|    time_elapsed         | 59          |
-|    total_timesteps      | 30720       |
-| train/                  |             |
-|    approx_kl            | 0.015092589 |
-|    average_cost         | 0.59765625  |
-|    clip_fraction        | 0.116       |
-|    clip_range           | 0.2         |
-|    cost_explained_va... | 0.889       |
-|    cost_value_loss      | 0.00431     |
-|    early_stop_epoch     | 3           |
-|    entropy_loss         | -0.583      |
-|    learning_rate        | 0.0003      |
-|    loss                 | -0.00849    |
-|    mean_cost_advantages | 0.002587164 |
-|    mean_reward_advan... | -0.15280038 |
-|    n_updates            | 140         |
-|    nu                   | 2.09        |
-|    nu_loss              | -1.2        |
-|    policy_gradient_loss | -0.00544    |
-|    reward_explained_... | 0.878       |
-|    reward_value_loss    | 0.00344     |
-|    total_cost           | 1224.0      |
------------------------------------------
+Early stopping at step 7 due to reaching max kl: 0.02
 ------------------------------------------
 | eval/                   |              |
-|    best_mean_reward     | -5.2e+04     |
-|    mean_ep_length       | 12.4         |
-|    mean_reward          | -5.2e+04     |
-|    true_cost            | 0.532        |
+|    best_mean_reward     | -4.2e+04     |
+|    mean_ep_length       | 12           |
+|    mean_reward          | -4.2e+04     |
+|    true_cost            | 0.429        |
 | infos/                  |              |
-|    cost                 | 0.0411       |
+|    cost                 | 0.0352       |
 | rollout/                |              |
-|    adjusted_reward      | 823          |
-|    ep_len_mean          | 12.4         |
+|    adjusted_reward      | 804          |
+|    ep_len_mean          | 12.5         |
 |    ep_rew_mean          | 9.99e+03     |
 | time/                   |              |
 |    fps                  | 510          |
-|    iterations           | 16           |
-|    time_elapsed         | 64           |
-|    total_timesteps      | 32768        |
+|    iterations           | 15           |
+|    time_elapsed         | 60           |
+|    total_timesteps      | 30720        |
 | train/                  |              |
-|    approx_kl            | 0.011277979  |
-|    average_cost         | 0.5625       |
-|    clip_fraction        | 0.113        |
+|    approx_kl            | 0.015170213  |
+|    average_cost         | 0.45410156   |
+|    clip_fraction        | 0.13         |
 |    clip_range           | 0.2          |
-|    cost_explained_va... | 0.885        |
-|    cost_value_loss      | 0.00389      |
-|    early_stop_epoch     | 10           |
-|    entropy_loss         | -0.555       |
+|    cost_explained_va... | 0.832        |
+|    cost_value_loss      | 0.00535      |
+|    early_stop_epoch     | 7            |
+|    entropy_loss         | -0.553       |
 |    learning_rate        | 0.0003       |
-|    loss                 | -0.00541     |
-|    mean_cost_advantages | -0.008324805 |
-|    mean_reward_advan... | -0.11937982  |
-|    n_updates            | 150          |
-|    nu                   | 2.18         |
-|    nu_loss              | -1.18        |
-|    policy_gradient_loss | -0.00396     |
-|    reward_explained_... | 0.883        |
-|    reward_value_loss    | 0.00239      |
-|    total_cost           | 1152.0       |
+|    loss                 | 0.00504      |
+|    mean_cost_advantages | -0.012027909 |
+|    mean_reward_advan... | -0.16168204  |
+|    n_updates            | 140          |
+|    nu                   | 2.09         |
+|    nu_loss              | -0.908       |
+|    policy_gradient_loss | -0.00538     |
+|    reward_explained_... | 0.86         |
+|    reward_value_loss    | 0.00333      |
+|    total_cost           | 930.0        |
 ------------------------------------------
 ------------------------------------------
 | eval/                   |              |
-|    best_mean_reward     | -5e+04       |
-|    mean_ep_length       | 12           |
-|    mean_reward          | -5e+04       |
-|    true_cost            | 0.516        |
+|    best_mean_reward     | -4.2e+04     |
+|    mean_ep_length       | 12.6         |
+|    mean_reward          | -4.8e+04     |
+|    true_cost            | 0.426        |
 | infos/                  |              |
-|    cost                 | 0.0381       |
+|    cost                 | 0.0295       |
 | rollout/                |              |
-|    adjusted_reward      | 827          |
-|    ep_len_mean          | 12.2         |
-|    ep_rew_mean          | 9.99e+03     |
-| time/                   |              |
-|    fps                  | 498          |
-|    iterations           | 17           |
-|    time_elapsed         | 69           |
-|    total_timesteps      | 34816        |
-| train/                  |              |
-|    approx_kl            | 0.011412113  |
-|    average_cost         | 0.5317383    |
-|    clip_fraction        | 0.101        |
-|    clip_range           | 0.2          |
-|    cost_explained_va... | 0.913        |
-|    cost_value_loss      | 0.00298      |
-|    early_stop_epoch     | 10           |
-|    entropy_loss         | -0.526       |
-|    learning_rate        | 0.0003       |
-|    loss                 | 0.000102     |
-|    mean_cost_advantages | -0.006637157 |
-|    mean_reward_advan... | -0.09858183  |
-|    n_updates            | 160          |
-|    nu                   | 2.27         |
-|    nu_loss              | -1.16        |
-|    policy_gradient_loss | -0.0027      |
-|    reward_explained_... | 0.904        |
-|    reward_value_loss    | 0.00199      |
-|    total_cost           | 1089.0       |
-------------------------------------------
-Early stopping at step 2 due to reaching max kl: 0.02
-------------------------------------------
-| eval/                   |              |
-|    best_mean_reward     | -4.6e+04     |
-|    mean_ep_length       | 12           |
-|    mean_reward          | -4.6e+04     |
-|    true_cost            | 0.476        |
-| infos/                  |              |
-|    cost                 | 0.0358       |
-| rollout/                |              |
-|    adjusted_reward      | 826          |
-|    ep_len_mean          | 12.2         |
-|    ep_rew_mean          | 9.99e+03     |
-| time/                   |              |
-|    fps                  | 501          |
-|    iterations           | 18           |
-|    time_elapsed         | 73           |
-|    total_timesteps      | 36864        |
-| train/                  |              |
-|    approx_kl            | 0.018923594  |
-|    average_cost         | 0.515625     |
-|    clip_fraction        | 0.146        |
-|    clip_range           | 0.2          |
-|    cost_explained_va... | 0.887        |
-|    cost_value_loss      | 0.00333      |
-|    early_stop_epoch     | 2            |
-|    entropy_loss         | -0.503       |
-|    learning_rate        | 0.0003       |
-|    loss                 | 0.00374      |
-|    mean_cost_advantages | 0.010089011  |
-|    mean_reward_advan... | -0.085706696 |
-|    n_updates            | 170          |
-|    nu                   | 2.37         |
-|    nu_loss              | -1.17        |
-|    policy_gradient_loss | -0.00324     |
-|    reward_explained_... | 0.937        |
-|    reward_value_loss    | 0.0016       |
-|    total_cost           | 1056.0       |
-------------------------------------------
-------------------------------------------
-| eval/                   |              |
-|    best_mean_reward     | -4.6e+04     |
-|    mean_ep_length       | 12.2         |
-|    mean_reward          | -5.6e+04     |
-|    true_cost            | 0.447        |
-| infos/                  |              |
-|    cost                 | 0.0325       |
-| rollout/                |              |
-|    adjusted_reward      | 835          |
-|    ep_len_mean          | 12           |
-|    ep_rew_mean          | 9.99e+03     |
-| time/                   |              |
-|    fps                  | 497          |
-|    iterations           | 19           |
-|    time_elapsed         | 78           |
-|    total_timesteps      | 38912        |
-| train/                  |              |
-|    approx_kl            | 0.008900888  |
-|    average_cost         | 0.47607422   |
-|    clip_fraction        | 0.0726       |
-|    clip_range           | 0.2          |
-|    cost_explained_va... | 0.897        |
-|    cost_value_loss      | 0.00303      |
-|    early_stop_epoch     | 10           |
-|    entropy_loss         | -0.476       |
-|    learning_rate        | 0.0003       |
-|    loss                 | 0.00686      |
-|    mean_cost_advantages | -0.011586782 |
-|    mean_reward_advan... | -0.067858115 |
-|    n_updates            | 180          |
-|    nu                   | 2.46         |
-|    nu_loss              | -1.13        |
-|    policy_gradient_loss | -0.00212     |
-|    reward_explained_... | 0.96         |
-|    reward_value_loss    | 0.00081      |
-|    total_cost           | 975.0        |
-------------------------------------------
-------------------------------------------
-| eval/                   |              |
-|    best_mean_reward     | -3.8e+04     |
-|    mean_ep_length       | 12.4         |
-|    mean_reward          | -3.8e+04     |
-|    true_cost            | 0.399        |
-| infos/                  |              |
-|    cost                 | 0.0355       |
-| rollout/                |              |
-|    adjusted_reward      | 819          |
+|    adjusted_reward      | 818          |
 |    ep_len_mean          | 12.4         |
 |    ep_rew_mean          | 9.99e+03     |
 | time/                   |              |
-|    fps                  | 495          |
-|    iterations           | 20           |
-|    time_elapsed         | 82           |
-|    total_timesteps      | 40960        |
+|    fps                  | 498          |
+|    iterations           | 16           |
+|    time_elapsed         | 65           |
+|    total_timesteps      | 32768        |
 | train/                  |              |
-|    approx_kl            | 0.010372631  |
-|    average_cost         | 0.44677734   |
-|    clip_fraction        | 0.152        |
+|    approx_kl            | 0.010219837  |
+|    average_cost         | 0.42919922   |
+|    clip_fraction        | 0.0761       |
 |    clip_range           | 0.2          |
-|    cost_explained_va... | 0.901        |
-|    cost_value_loss      | 0.00296      |
+|    cost_explained_va... | 0.818        |
+|    cost_value_loss      | 0.00477      |
 |    early_stop_epoch     | 10           |
-|    entropy_loss         | -0.436       |
+|    entropy_loss         | -0.504       |
 |    learning_rate        | 0.0003       |
-|    loss                 | -0.0038      |
-|    mean_cost_advantages | -0.009825395 |
-|    mean_reward_advan... | -0.056814246 |
-|    n_updates            | 190          |
-|    nu                   | 2.55         |
-|    nu_loss              | -1.1         |
-|    policy_gradient_loss | -0.00283     |
-|    reward_explained_... | 0.979        |
-|    reward_value_loss    | 0.000425     |
-|    total_cost           | 915.0        |
-------------------------------------------
-Early stopping at step 1 due to reaching max kl: 0.02
-------------------------------------------
-| eval/                   |              |
-|    best_mean_reward     | -3.8e+04     |
-|    mean_ep_length       | 12           |
-|    mean_reward          | -3.8e+04     |
-|    true_cost            | 0.357        |
-| infos/                  |              |
-|    cost                 | 0.0303       |
-| rollout/                |              |
-|    adjusted_reward      | 824          |
-|    ep_len_mean          | 12.1         |
-|    ep_rew_mean          | 9.99e+03     |
-| time/                   |              |
-|    fps                  | 496          |
-|    iterations           | 21           |
-|    time_elapsed         | 86           |
-|    total_timesteps      | 43008        |
-| train/                  |              |
-|    approx_kl            | 0.023776375  |
-|    average_cost         | 0.39892578   |
-|    clip_fraction        | 0.146        |
-|    clip_range           | 0.2          |
-|    cost_explained_va... | 0.916        |
-|    cost_value_loss      | 0.00239      |
-|    early_stop_epoch     | 1            |
-|    entropy_loss         | -0.405       |
-|    learning_rate        | 0.0003       |
-|    loss                 | 0.00575      |
-|    mean_cost_advantages | -0.010591242 |
-|    mean_reward_advan... | -0.06569757  |
-|    n_updates            | 200          |
-|    nu                   | 2.65         |
-|    nu_loss              | -1.02        |
-|    policy_gradient_loss | -0.0017      |
-|    reward_explained_... | 0.723        |
-|    reward_value_loss    | 0.00544      |
-|    total_cost           | 817.0        |
+|    loss                 | -0.000709    |
+|    mean_cost_advantages | -0.002290653 |
+|    mean_reward_advan... | -0.13055605  |
+|    n_updates            | 150          |
+|    nu                   | 2.18         |
+|    nu_loss              | -0.896       |
+|    policy_gradient_loss | -0.00294     |
+|    reward_explained_... | 0.881        |
+|    reward_value_loss    | 0.00251      |
+|    total_cost           | 879.0        |
 ------------------------------------------
 ------------------------------------------
 | eval/                   |              |
-|    best_mean_reward     | -2e+04       |
-|    mean_ep_length       | 12           |
-|    mean_reward          | -2e+04       |
-|    true_cost            | 0.322        |
+|    best_mean_reward     | -4.2e+04     |
+|    mean_ep_length       | 12.2         |
+|    mean_reward          | -4.4e+04     |
+|    true_cost            | 0.401        |
 | infos/                  |              |
-|    cost                 | 0.0291       |
+|    cost                 | 0.0317       |
 | rollout/                |              |
-|    adjusted_reward      | 828          |
+|    adjusted_reward      | 827          |
 |    ep_len_mean          | 12.1         |
 |    ep_rew_mean          | 9.99e+03     |
 | time/                   |              |
 |    fps                  | 492          |
-|    iterations           | 22           |
-|    time_elapsed         | 91           |
-|    total_timesteps      | 45056        |
+|    iterations           | 17           |
+|    time_elapsed         | 70           |
+|    total_timesteps      | 34816        |
 | train/                  |              |
-|    approx_kl            | 0.013743069  |
-|    average_cost         | 0.35742188   |
-|    clip_fraction        | 0.0969       |
+|    approx_kl            | 0.013712564  |
+|    average_cost         | 0.42626953   |
+|    clip_fraction        | 0.141        |
 |    clip_range           | 0.2          |
-|    cost_explained_va... | 0.89         |
-|    cost_value_loss      | 0.00247      |
+|    cost_explained_va... | 0.859        |
+|    cost_value_loss      | 0.00395      |
 |    early_stop_epoch     | 10           |
-|    entropy_loss         | -0.385       |
+|    entropy_loss         | -0.474       |
 |    learning_rate        | 0.0003       |
-|    loss                 | -0.00983     |
-|    mean_cost_advantages | -0.008471689 |
-|    mean_reward_advan... | -0.04478485  |
-|    n_updates            | 210          |
-|    nu                   | 2.74         |
-|    nu_loss              | -0.946       |
-|    policy_gradient_loss | -0.0021      |
-|    reward_explained_... | 0.943        |
-|    reward_value_loss    | 0.000684     |
-|    total_cost           | 732.0        |
-------------------------------------------
-Early stopping at step 7 due to reaching max kl: 0.02
-------------------------------------------
-| eval/                   |              |
-|    best_mean_reward     | -2e+04       |
-|    mean_ep_length       | 12           |
-|    mean_reward          | -2.4e+04     |
-|    true_cost            | 0.303        |
-| infos/                  |              |
-|    cost                 | 0.0279       |
-| rollout/                |              |
-|    adjusted_reward      | 828          |
-|    ep_len_mean          | 12.1         |
-|    ep_rew_mean          | 9.99e+03     |
-| time/                   |              |
-|    fps                  | 489          |
-|    iterations           | 23           |
-|    time_elapsed         | 96           |
-|    total_timesteps      | 47104        |
-| train/                  |              |
-|    approx_kl            | 0.016003259  |
-|    average_cost         | 0.32177734   |
-|    clip_fraction        | 0.13         |
-|    clip_range           | 0.2          |
-|    cost_explained_va... | 0.849        |
-|    cost_value_loss      | 0.00305      |
-|    early_stop_epoch     | 7            |
-|    entropy_loss         | -0.365       |
-|    learning_rate        | 0.0003       |
-|    loss                 | -0.00728     |
-|    mean_cost_advantages | -0.011739107 |
-|    mean_reward_advan... | -0.037883133 |
-|    n_updates            | 220          |
-|    nu                   | 2.83         |
-|    nu_loss              | -0.881       |
-|    policy_gradient_loss | -0.00305     |
-|    reward_explained_... | 0.919        |
+|    loss                 | 0.00603      |
+|    mean_cost_advantages | 9.952241e-05 |
+|    mean_reward_advan... | -0.105829105 |
+|    n_updates            | 160          |
+|    nu                   | 2.27         |
+|    nu_loss              | -0.928       |
+|    policy_gradient_loss | -0.00454     |
+|    reward_explained_... | 0.926        |
 |    reward_value_loss    | 0.00156      |
-|    total_cost           | 659.0        |
+|    total_cost           | 873.0        |
 ------------------------------------------
 ------------------------------------------
 | eval/                   |              |
-|    best_mean_reward     | -1.8e+04     |
-|    mean_ep_length       | 12           |
-|    mean_reward          | -1.8e+04     |
-|    true_cost            | 0.249        |
+|    best_mean_reward     | -3.4e+04     |
+|    mean_ep_length       | 12.4         |
+|    mean_reward          | -3.4e+04     |
+|    true_cost            | 0.403        |
 | infos/                  |              |
-|    cost                 | 0.0206       |
+|    cost                 | 0.0315       |
 | rollout/                |              |
-|    adjusted_reward      | 833          |
-|    ep_len_mean          | 12           |
+|    adjusted_reward      | 836          |
+|    ep_len_mean          | 12.2         |
 |    ep_rew_mean          | 9.99e+03     |
 | time/                   |              |
-|    fps                  | 487          |
-|    iterations           | 24           |
-|    time_elapsed         | 100          |
-|    total_timesteps      | 49152        |
+|    fps                  | 488          |
+|    iterations           | 18           |
+|    time_elapsed         | 75           |
+|    total_timesteps      | 36864        |
 | train/                  |              |
-|    approx_kl            | 0.008754578  |
-|    average_cost         | 0.30273438   |
-|    clip_fraction        | 0.0995       |
+|    approx_kl            | 0.010954091  |
+|    average_cost         | 0.4008789    |
+|    clip_fraction        | 0.103        |
 |    clip_range           | 0.2          |
-|    cost_explained_va... | 0.778        |
-|    cost_value_loss      | 0.00392      |
+|    cost_explained_va... | 0.833        |
+|    cost_value_loss      | 0.00419      |
 |    early_stop_epoch     | 10           |
-|    entropy_loss         | -0.335       |
+|    entropy_loss         | -0.45        |
 |    learning_rate        | 0.0003       |
-|    loss                 | -0.00139     |
-|    mean_cost_advantages | -0.010982311 |
-|    mean_reward_advan... | -0.032818697 |
-|    n_updates            | 230          |
-|    nu                   | 2.92         |
-|    nu_loss              | -0.856       |
-|    policy_gradient_loss | -0.00202     |
-|    reward_explained_... | 0.973        |
-|    reward_value_loss    | 0.00035      |
-|    total_cost           | 620.0        |
+|    loss                 | 0.00324      |
+|    mean_cost_advantages | -0.005958947 |
+|    mean_reward_advan... | -0.09431802  |
+|    n_updates            | 170          |
+|    nu                   | 2.36         |
+|    nu_loss              | -0.909       |
+|    policy_gradient_loss | -0.00278     |
+|    reward_explained_... | 0.936        |
+|    reward_value_loss    | 0.00137      |
+|    total_cost           | 821.0        |
 ------------------------------------------
 ------------------------------------------
 | eval/                   |              |
-|    best_mean_reward     | -1.2e+04     |
+|    best_mean_reward     | -3e+04       |
 |    mean_ep_length       | 12           |
-|    mean_reward          | -1.2e+04     |
-|    true_cost            | 0.241        |
+|    mean_reward          | -3e+04       |
+|    true_cost            | 0.365        |
 | infos/                  |              |
-|    cost                 | 0.0243       |
+|    cost                 | 0.027        |
 | rollout/                |              |
-|    adjusted_reward      | 832          |
-|    ep_len_mean          | 12.1         |
+|    adjusted_reward      | 810          |
+|    ep_len_mean          | 12.2         |
 |    ep_rew_mean          | 9.99e+03     |
 | time/                   |              |
 |    fps                  | 484          |
-|    iterations           | 25           |
-|    time_elapsed         | 105          |
-|    total_timesteps      | 51200        |
+|    iterations           | 19           |
+|    time_elapsed         | 80           |
+|    total_timesteps      | 38912        |
 | train/                  |              |
-|    approx_kl            | 0.009240482  |
-|    average_cost         | 0.24902344   |
-|    clip_fraction        | 0.0812       |
+|    approx_kl            | 0.010508381  |
+|    average_cost         | 0.4033203    |
+|    clip_fraction        | 0.0872       |
 |    clip_range           | 0.2          |
-|    cost_explained_va... | 0.686        |
-|    cost_value_loss      | 0.00449      |
+|    cost_explained_va... | 0.876        |
+|    cost_value_loss      | 0.003        |
 |    early_stop_epoch     | 10           |
-|    entropy_loss         | -0.297       |
+|    entropy_loss         | -0.421       |
 |    learning_rate        | 0.0003       |
-|    loss                 | 0.000993     |
-|    mean_cost_advantages | -0.017499406 |
-|    mean_reward_advan... | -0.031592507 |
-|    n_updates            | 240          |
-|    nu                   | 3            |
-|    nu_loss              | -0.726       |
-|    policy_gradient_loss | -0.0011      |
-|    reward_explained_... | 0.979        |
-|    reward_value_loss    | 0.000403     |
-|    total_cost           | 510.0        |
+|    loss                 | -0.000629    |
+|    mean_cost_advantages | 0.0023562717 |
+|    mean_reward_advan... | -0.08067681  |
+|    n_updates            | 180          |
+|    nu                   | 2.45         |
+|    nu_loss              | -0.95        |
+|    policy_gradient_loss | -0.00251     |
+|    reward_explained_... | 0.958        |
+|    reward_value_loss    | 0.000796     |
+|    total_cost           | 826.0        |
 ------------------------------------------
-Early stopping at step 7 due to reaching max kl: 0.02
+Early stopping at step 6 due to reaching max kl: 0.02
+------------------------------------------
+| eval/                   |              |
+|    best_mean_reward     | -2.6e+04     |
+|    mean_ep_length       | 12           |
+|    mean_reward          | -2.6e+04     |
+|    true_cost            | 0.343        |
+| infos/                  |              |
+|    cost                 | 0.0309       |
+| rollout/                |              |
+|    adjusted_reward      | 834          |
+|    ep_len_mean          | 12.1         |
+|    ep_rew_mean          | 9.99e+03     |
+| time/                   |              |
+|    fps                  | 483          |
+|    iterations           | 20           |
+|    time_elapsed         | 84           |
+|    total_timesteps      | 40960        |
+| train/                  |              |
+|    approx_kl            | 0.016052047  |
+|    average_cost         | 0.3647461    |
+|    clip_fraction        | 0.144        |
+|    clip_range           | 0.2          |
+|    cost_explained_va... | 0.902        |
+|    cost_value_loss      | 0.00257      |
+|    early_stop_epoch     | 6            |
+|    entropy_loss         | -0.402       |
+|    learning_rate        | 0.0003       |
+|    loss                 | -0.00458     |
+|    mean_cost_advantages | -0.005554647 |
+|    mean_reward_advan... | -0.07925639  |
+|    n_updates            | 190          |
+|    nu                   | 2.54         |
+|    nu_loss              | -0.892       |
+|    policy_gradient_loss | -0.00463     |
+|    reward_explained_... | 0.753        |
+|    reward_value_loss    | 0.00427      |
+|    total_cost           | 747.0        |
+------------------------------------------
+Early stopping at step 9 due to reaching max kl: 0.02
 -------------------------------------------
 | eval/                   |               |
-|    best_mean_reward     | -4e+03        |
-|    mean_ep_length       | 12            |
-|    mean_reward          | -4e+03        |
-|    true_cost            | 0.187         |
+|    best_mean_reward     | -2.2e+04      |
+|    mean_ep_length       | 12.2          |
+|    mean_reward          | -2.2e+04      |
+|    true_cost            | 0.299         |
 | infos/                  |               |
-|    cost                 | 0.0194        |
+|    cost                 | 0.0244        |
 | rollout/                |               |
-|    adjusted_reward      | 832           |
+|    adjusted_reward      | 829           |
+|    ep_len_mean          | 12.1          |
+|    ep_rew_mean          | 9.99e+03      |
+| time/                   |               |
+|    fps                  | 480           |
+|    iterations           | 21            |
+|    time_elapsed         | 89            |
+|    total_timesteps      | 43008         |
+| train/                  |               |
+|    approx_kl            | 0.016750522   |
+|    average_cost         | 0.34326172    |
+|    clip_fraction        | 0.127         |
+|    clip_range           | 0.2           |
+|    cost_explained_va... | 0.824         |
+|    cost_value_loss      | 0.00362       |
+|    early_stop_epoch     | 9             |
+|    entropy_loss         | -0.362        |
+|    learning_rate        | 0.0003        |
+|    loss                 | 0.00559       |
+|    mean_cost_advantages | -0.0026240288 |
+|    mean_reward_advan... | -0.058373276  |
+|    n_updates            | 200           |
+|    nu                   | 2.63          |
+|    nu_loss              | -0.87         |
+|    policy_gradient_loss | -0.00225      |
+|    reward_explained_... | 0.954         |
+|    reward_value_loss    | 0.000581      |
+|    total_cost           | 703.0         |
+-------------------------------------------
+-------------------------------------------
+| eval/                   |               |
+|    best_mean_reward     | -2.2e+04      |
+|    mean_ep_length       | 12.4          |
+|    mean_reward          | -2.8e+04      |
+|    true_cost            | 0.288         |
+| infos/                  |               |
+|    cost                 | 0.0292        |
+| rollout/                |               |
+|    adjusted_reward      | 833           |
+|    ep_len_mean          | 12.1          |
+|    ep_rew_mean          | 9.99e+03      |
+| time/                   |               |
+|    fps                  | 478           |
+|    iterations           | 22            |
+|    time_elapsed         | 94            |
+|    total_timesteps      | 45056         |
+| train/                  |               |
+|    approx_kl            | 0.005659217   |
+|    average_cost         | 0.29882812    |
+|    clip_fraction        | 0.0515        |
+|    clip_range           | 0.2           |
+|    cost_explained_va... | 0.854         |
+|    cost_value_loss      | 0.00297       |
+|    early_stop_epoch     | 10            |
+|    entropy_loss         | -0.323        |
+|    learning_rate        | 0.0003        |
+|    loss                 | 0.002         |
+|    mean_cost_advantages | -0.0123618655 |
+|    mean_reward_advan... | -0.054550886  |
+|    n_updates            | 210           |
+|    nu                   | 2.71          |
+|    nu_loss              | -0.784        |
+|    policy_gradient_loss | -0.00106      |
+|    reward_explained_... | 0.982         |
+|    reward_value_loss    | 0.000375      |
+|    total_cost           | 612.0         |
+-------------------------------------------
+-------------------------------------------
+| eval/                   |               |
+|    best_mean_reward     | -1.6e+04      |
+|    mean_ep_length       | 12            |
+|    mean_reward          | -1.6e+04      |
+|    true_cost            | 0.263         |
+| infos/                  |               |
+|    cost                 | 0.0207        |
+| rollout/                |               |
+|    adjusted_reward      | 838           |
 |    ep_len_mean          | 12            |
 |    ep_rew_mean          | 9.99e+03      |
 | time/                   |               |
-|    fps                  | 482           |
-|    iterations           | 26            |
-|    time_elapsed         | 110           |
-|    total_timesteps      | 53248         |
+|    fps                  | 475           |
+|    iterations           | 23            |
+|    time_elapsed         | 99            |
+|    total_timesteps      | 47104         |
 | train/                  |               |
-|    approx_kl            | 0.016357139   |
-|    average_cost         | 0.24072266    |
-|    clip_fraction        | 0.096         |
+|    approx_kl            | 0.0035640695  |
+|    average_cost         | 0.28808594    |
+|    clip_fraction        | 0.0268        |
 |    clip_range           | 0.2           |
-|    cost_explained_va... | 0.76          |
-|    cost_value_loss      | 0.00313       |
-|    early_stop_epoch     | 7             |
-|    entropy_loss         | -0.309        |
+|    cost_explained_va... | 0.871         |
+|    cost_value_loss      | 0.00224       |
+|    early_stop_epoch     | 10            |
+|    entropy_loss         | -0.297        |
 |    learning_rate        | 0.0003        |
-|    loss                 | -0.00292      |
-|    mean_cost_advantages | -0.0057920655 |
-|    mean_reward_advan... | -0.028873052  |
-|    n_updates            | 250           |
-|    nu                   | 3.08          |
-|    nu_loss              | -0.722        |
-|    policy_gradient_loss | -0.00147      |
-|    reward_explained_... | 0.99          |
-|    reward_value_loss    | 0.000183      |
-|    total_cost           | 493.0         |
+|    loss                 | -0.00157      |
+|    mean_cost_advantages | -0.0016230692 |
+|    mean_reward_advan... | -0.04993889   |
+|    n_updates            | 220           |
+|    nu                   | 2.8           |
+|    nu_loss              | -0.782        |
+|    policy_gradient_loss | -0.000601     |
+|    reward_explained_... | 0.985         |
+|    reward_value_loss    | 0.000308      |
+|    total_cost           | 590.0         |
 -------------------------------------------
-Early stopping at step 1 due to reaching max kl: 0.02
 ------------------------------------------
 | eval/                   |              |
-|    best_mean_reward     | -2e+03       |
+|    best_mean_reward     | -1.4e+04     |
 |    mean_ep_length       | 12           |
-|    mean_reward          | -2e+03       |
-|    true_cost            | 0.135        |
+|    mean_reward          | -1.4e+04     |
+|    true_cost            | 0.257        |
 | infos/                  |              |
-|    cost                 | 0.0152       |
+|    cost                 | 0.0228       |
+| rollout/                |              |
+|    adjusted_reward      | 823          |
+|    ep_len_mean          | 12.2         |
+|    ep_rew_mean          | 9.99e+03     |
+| time/                   |              |
+|    fps                  | 471          |
+|    iterations           | 24           |
+|    time_elapsed         | 104          |
+|    total_timesteps      | 49152        |
+| train/                  |              |
+|    approx_kl            | 0.0043170415 |
+|    average_cost         | 0.2631836    |
+|    clip_fraction        | 0.0534       |
+|    clip_range           | 0.2          |
+|    cost_explained_va... | 0.795        |
+|    cost_value_loss      | 0.00351      |
+|    early_stop_epoch     | 10           |
+|    entropy_loss         | -0.274       |
+|    learning_rate        | 0.0003       |
+|    loss                 | -0.000468    |
+|    mean_cost_advantages | -0.006763236 |
+|    mean_reward_advan... | -0.042044498 |
+|    n_updates            | 230          |
+|    nu                   | 2.89         |
+|    nu_loss              | -0.737       |
+|    policy_gradient_loss | -0.00102     |
+|    reward_explained_... | 0.99         |
+|    reward_value_loss    | 0.0002       |
+|    total_cost           | 539.0        |
+------------------------------------------
+Early stopping at step 5 due to reaching max kl: 0.02
+------------------------------------------
+| eval/                   |              |
+|    best_mean_reward     | -1.4e+04     |
+|    mean_ep_length       | 12           |
+|    mean_reward          | -2.2e+04     |
+|    true_cost            | 0.212        |
+| infos/                  |              |
+|    cost                 | 0.0231       |
 | rollout/                |              |
 |    adjusted_reward      | 837          |
 |    ep_len_mean          | 12           |
 |    ep_rew_mean          | 9.99e+03     |
 | time/                   |              |
-|    fps                  | 482          |
-|    iterations           | 27           |
-|    time_elapsed         | 114          |
-|    total_timesteps      | 55296        |
+|    fps                  | 472          |
+|    iterations           | 25           |
+|    time_elapsed         | 108          |
+|    total_timesteps      | 51200        |
 | train/                  |              |
-|    approx_kl            | 0.024147574  |
-|    average_cost         | 0.18701172   |
-|    clip_fraction        | 0.124        |
+|    approx_kl            | 0.020046365  |
+|    average_cost         | 0.25683594   |
+|    clip_fraction        | 0.123        |
 |    clip_range           | 0.2          |
-|    cost_explained_va... | 0.557        |
-|    cost_value_loss      | 0.00549      |
-|    early_stop_epoch     | 1            |
-|    entropy_loss         | -0.301       |
+|    cost_explained_va... | 0.833        |
+|    cost_value_loss      | 0.00276      |
+|    early_stop_epoch     | 5            |
+|    entropy_loss         | -0.271       |
 |    learning_rate        | 0.0003       |
-|    loss                 | 0.0141       |
-|    mean_cost_advantages | -0.024831936 |
-|    mean_reward_advan... | -0.02567476  |
-|    n_updates            | 260          |
-|    nu                   | 3.17         |
-|    nu_loss              | -0.577       |
-|    policy_gradient_loss | -0.00196     |
-|    reward_explained_... | 0.991        |
-|    reward_value_loss    | 0.000213     |
-|    total_cost           | 383.0        |
+|    loss                 | -0.000143    |
+|    mean_cost_advantages | -0.004229504 |
+|    mean_reward_advan... | -0.042177718 |
+|    n_updates            | 240          |
+|    nu                   | 2.97         |
+|    nu_loss              | -0.741       |
+|    policy_gradient_loss | -0.00201     |
+|    reward_explained_... | 0.937        |
+|    reward_value_loss    | 0.00122      |
+|    total_cost           | 526.0        |
 ------------------------------------------
-Early stopping at step 1 due to reaching max kl: 0.03
+Early stopping at step 7 due to reaching max kl: 0.02
 ------------------------------------------
 | eval/                   |              |
-|    best_mean_reward     | 5.99e+03     |
+|    best_mean_reward     | -8e+03       |
 |    mean_ep_length       | 12           |
-|    mean_reward          | 5.99e+03     |
-|    true_cost            | 0.0742       |
+|    mean_reward          | -8e+03       |
+|    true_cost            | 0.182        |
 | infos/                  |              |
-|    cost                 | 0.00903      |
+|    cost                 | 0.0103       |
 | rollout/                |              |
 |    adjusted_reward      | 832          |
 |    ep_len_mean          | 12           |
 |    ep_rew_mean          | 9.99e+03     |
 | time/                   |              |
-|    fps                  | 484          |
-|    iterations           | 28           |
-|    time_elapsed         | 118          |
-|    total_timesteps      | 57344        |
+|    fps                  | 471          |
+|    iterations           | 26           |
+|    time_elapsed         | 112          |
+|    total_timesteps      | 53248        |
 | train/                  |              |
-|    approx_kl            | 0.027050698  |
-|    average_cost         | 0.1352539    |
-|    clip_fraction        | 0.121        |
+|    approx_kl            | 0.01598503   |
+|    average_cost         | 0.21240234   |
+|    clip_fraction        | 0.0986       |
 |    clip_range           | 0.2          |
-|    cost_explained_va... | 0.345        |
-|    cost_value_loss      | 0.00528      |
-|    early_stop_epoch     | 1            |
-|    entropy_loss         | -0.29        |
+|    cost_explained_va... | 0.799        |
+|    cost_value_loss      | 0.00293      |
+|    early_stop_epoch     | 7            |
+|    entropy_loss         | -0.269       |
 |    learning_rate        | 0.0003       |
-|    loss                 | -0.00032     |
-|    mean_cost_advantages | -0.027033985 |
-|    mean_reward_advan... | -0.02762724  |
-|    n_updates            | 270          |
-|    nu                   | 3.24         |
-|    nu_loss              | -0.428       |
-|    policy_gradient_loss | -0.0025      |
+|    loss                 | 0.00162      |
+|    mean_cost_advantages | -0.027878672 |
+|    mean_reward_advan... | -0.03851959  |
+|    n_updates            | 250          |
+|    nu                   | 3.05         |
+|    nu_loss              | -0.631       |
+|    policy_gradient_loss | -0.00188     |
+|    reward_explained_... | 0.987        |
+|    reward_value_loss    | 0.000202     |
+|    total_cost           | 435.0        |
+------------------------------------------
+Early stopping at step 2 due to reaching max kl: 0.02
+------------------------------------------
+| eval/                   |              |
+|    best_mean_reward     | -8e+03       |
+|    mean_ep_length       | 12           |
+|    mean_reward          | -8e+03       |
+|    true_cost            | 0.111        |
+| infos/                  |              |
+|    cost                 | 0.0095       |
+| rollout/                |              |
+|    adjusted_reward      | 832          |
+|    ep_len_mean          | 12           |
+|    ep_rew_mean          | 9.99e+03     |
+| time/                   |              |
+|    fps                  | 472          |
+|    iterations           | 27           |
+|    time_elapsed         | 117          |
+|    total_timesteps      | 55296        |
+| train/                  |              |
+|    approx_kl            | 0.023391038  |
+|    average_cost         | 0.18164062   |
+|    clip_fraction        | 0.133        |
+|    clip_range           | 0.2          |
+|    cost_explained_va... | 0.561        |
+|    cost_value_loss      | 0.00543      |
+|    early_stop_epoch     | 2            |
+|    entropy_loss         | -0.276       |
+|    learning_rate        | 0.0003       |
+|    loss                 | -0.00128     |
+|    mean_cost_advantages | -0.018771369 |
+|    mean_reward_advan... | -0.0335515   |
+|    n_updates            | 260          |
+|    nu                   | 3.13         |
+|    nu_loss              | -0.554       |
+|    policy_gradient_loss | -0.00204     |
 |    reward_explained_... | 0.991        |
-|    reward_value_loss    | 0.000211     |
-|    total_cost           | 277.0        |
+|    reward_value_loss    | 0.000208     |
+|    total_cost           | 372.0        |
 ------------------------------------------
 ------------------------------------------
 | eval/                   |              |
-|    best_mean_reward     | 9.99e+03     |
+|    best_mean_reward     | 1.99e+03     |
 |    mean_ep_length       | 12           |
-|    mean_reward          | 9.99e+03     |
-|    true_cost            | 0.0396       |
-| infos/                  |              |
-|    cost                 | 0.00457      |
-| rollout/                |              |
-|    adjusted_reward      | 831          |
-|    ep_len_mean          | 12           |
-|    ep_rew_mean          | 9.99e+03     |
-| time/                   |              |
-|    fps                  | 481          |
-|    iterations           | 29           |
-|    time_elapsed         | 123          |
-|    total_timesteps      | 59392        |
-| train/                  |              |
-|    approx_kl            | 0.009686141  |
-|    average_cost         | 0.07421875   |
-|    clip_fraction        | 0.0997       |
-|    clip_range           | 0.2          |
-|    cost_explained_va... | 0.137        |
-|    cost_value_loss      | 0.00439      |
-|    early_stop_epoch     | 10           |
-|    entropy_loss         | -0.251       |
-|    learning_rate        | 0.0003       |
-|    loss                 | -0.00126     |
-|    mean_cost_advantages | -0.033062894 |
-|    mean_reward_advan... | -0.022853259 |
-|    n_updates            | 280          |
-|    nu                   | 3.31         |
-|    nu_loss              | -0.241       |
-|    policy_gradient_loss | -0.00145     |
-|    reward_explained_... | 0.99         |
-|    reward_value_loss    | 0.000153     |
-|    total_cost           | 152.0        |
-------------------------------------------
-------------------------------------------
-| eval/                   |              |
-|    best_mean_reward     | 9.99e+03     |
-|    mean_ep_length       | 12           |
-|    mean_reward          | 9.99e+03     |
-|    true_cost            | 0.0322       |
-| infos/                  |              |
-|    cost                 | 0.00185      |
-| rollout/                |              |
-|    adjusted_reward      | 797          |
-|    ep_len_mean          | 12           |
-|    ep_rew_mean          | 9.99e+03     |
-| time/                   |              |
-|    fps                  | 478          |
-|    iterations           | 30           |
-|    time_elapsed         | 128          |
-|    total_timesteps      | 61440        |
-| train/                  |              |
-|    approx_kl            | 0.004137507  |
-|    average_cost         | 0.03955078   |
-|    clip_fraction        | 0.0437       |
-|    clip_range           | 0.2          |
-|    cost_explained_va... | -1.16        |
-|    cost_value_loss      | 0.00266      |
-|    early_stop_epoch     | 10           |
-|    entropy_loss         | -0.226       |
-|    learning_rate        | 0.0003       |
-|    loss                 | 0.000551     |
-|    mean_cost_advantages | -0.016483648 |
-|    mean_reward_advan... | -0.019055087 |
-|    n_updates            | 290          |
-|    nu                   | 3.38         |
-|    nu_loss              | -0.131       |
-|    policy_gradient_loss | -0.000449    |
-|    reward_explained_... | 0.997        |
-|    reward_value_loss    | 5.31e-05     |
-|    total_cost           | 81.0         |
-------------------------------------------
-Early stopping at step 1 due to reaching max kl: 0.03
-------------------------------------------
-| eval/                   |              |
-|    best_mean_reward     | 9.99e+03     |
-|    mean_ep_length       | 12           |
-|    mean_reward          | 9.99e+03     |
-|    true_cost            | 0.019        |
-| infos/                  |              |
-|    cost                 | 0.00467      |
-| rollout/                |              |
-|    adjusted_reward      | 831          |
-|    ep_len_mean          | 12.1         |
-|    ep_rew_mean          | 9.99e+03     |
-| time/                   |              |
-|    fps                  | 480          |
-|    iterations           | 31           |
-|    time_elapsed         | 132          |
-|    total_timesteps      | 63488        |
-| train/                  |              |
-|    approx_kl            | 0.033155743  |
-|    average_cost         | 0.032226562  |
-|    clip_fraction        | 0.0696       |
-|    clip_range           | 0.2          |
-|    cost_explained_va... | -2.04        |
-|    cost_value_loss      | 0.00207      |
-|    early_stop_epoch     | 1            |
-|    entropy_loss         | -0.218       |
-|    learning_rate        | 0.0003       |
-|    loss                 | 0.00102      |
-|    mean_cost_advantages | -0.005073307 |
-|    mean_reward_advan... | -0.046306692 |
-|    n_updates            | 300          |
-|    nu                   | 3.44         |
-|    nu_loss              | -0.109       |
-|    policy_gradient_loss | -0.00483     |
-|    reward_explained_... | 0.137        |
-|    reward_value_loss    | 0.0125       |
-|    total_cost           | 66.0         |
-------------------------------------------
-------------------------------------------
-| eval/                   |              |
-|    best_mean_reward     | 9.99e+03     |
-|    mean_ep_length       | 12           |
-|    mean_reward          | 9.99e+03     |
-|    true_cost            | 0.00879      |
+|    mean_reward          | 1.99e+03     |
+|    true_cost            | 0.062        |
 | infos/                  |              |
 |    cost                 | 0            |
 | rollout/                |              |
+|    adjusted_reward      | 837          |
+|    ep_len_mean          | 12           |
+|    ep_rew_mean          | 9.99e+03     |
+| time/                   |              |
+|    fps                  | 469          |
+|    iterations           | 28           |
+|    time_elapsed         | 122          |
+|    total_timesteps      | 57344        |
+| train/                  |              |
+|    approx_kl            | 0.0072174966 |
+|    average_cost         | 0.110839844  |
+|    clip_fraction        | 0.0896       |
+|    clip_range           | 0.2          |
+|    cost_explained_va... | 0.283        |
+|    cost_value_loss      | 0.00526      |
+|    early_stop_epoch     | 10           |
+|    entropy_loss         | -0.245       |
+|    learning_rate        | 0.0003       |
+|    loss                 | 0.00504      |
+|    mean_cost_advantages | -0.02755823  |
+|    mean_reward_advan... | -0.031505685 |
+|    n_updates            | 270          |
+|    nu                   | 3.21         |
+|    nu_loss              | -0.347       |
+|    policy_gradient_loss | -0.00144     |
+|    reward_explained_... | 0.992        |
+|    reward_value_loss    | 0.000141     |
+|    total_cost           | 227.0        |
+------------------------------------------
+------------------------------------------
+| eval/                   |              |
+|    best_mean_reward     | 5.99e+03     |
+|    mean_ep_length       | 12           |
+|    mean_reward          | 5.99e+03     |
+|    true_cost            | 0.0386       |
+| infos/                  |              |
+|    cost                 | 0.00389      |
+| rollout/                |              |
+|    adjusted_reward      | 832          |
+|    ep_len_mean          | 12           |
+|    ep_rew_mean          | 9.99e+03     |
+| time/                   |              |
+|    fps                  | 463          |
+|    iterations           | 29           |
+|    time_elapsed         | 128          |
+|    total_timesteps      | 59392        |
+| train/                  |              |
+|    approx_kl            | 0.006102207  |
+|    average_cost         | 0.06201172   |
+|    clip_fraction        | 0.094        |
+|    clip_range           | 0.2          |
+|    cost_explained_va... | -0.13        |
+|    cost_value_loss      | 0.00401      |
+|    early_stop_epoch     | 10           |
+|    entropy_loss         | -0.225       |
+|    learning_rate        | 0.0003       |
+|    loss                 | -0.00304     |
+|    mean_cost_advantages | -0.029432606 |
+|    mean_reward_advan... | -0.028960098 |
+|    n_updates            | 280          |
+|    nu                   | 3.28         |
+|    nu_loss              | -0.199       |
+|    policy_gradient_loss | -0.00137     |
+|    reward_explained_... | 0.993        |
+|    reward_value_loss    | 9.84e-05     |
+|    total_cost           | 127.0        |
+------------------------------------------
+-------------------------------------------
+| eval/                   |               |
+|    best_mean_reward     | 5.99e+03      |
+|    mean_ep_length       | 12            |
+|    mean_reward          | 5.99e+03      |
+|    true_cost            | 0.0415        |
+| infos/                  |               |
+|    cost                 | 0             |
+| rollout/                |               |
+|    adjusted_reward      | 836           |
+|    ep_len_mean          | 12            |
+|    ep_rew_mean          | 9.99e+03      |
+| time/                   |               |
+|    fps                  | 460           |
+|    iterations           | 30            |
+|    time_elapsed         | 133           |
+|    total_timesteps      | 61440         |
+| train/                  |               |
+|    approx_kl            | 0.00016188121 |
+|    average_cost         | 0.03857422    |
+|    clip_fraction        | 0.0331        |
+|    clip_range           | 0.2           |
+|    cost_explained_va... | -0.451        |
+|    cost_value_loss      | 0.00285       |
+|    early_stop_epoch     | 10            |
+|    entropy_loss         | -0.199        |
+|    learning_rate        | 0.0003        |
+|    loss                 | 0.0011        |
+|    mean_cost_advantages | -0.020920971  |
+|    mean_reward_advan... | -0.026001371  |
+|    n_updates            | 290           |
+|    nu                   | 3.34          |
+|    nu_loss              | -0.126        |
+|    policy_gradient_loss | -0.000365     |
+|    reward_explained_... | 0.996         |
+|    reward_value_loss    | 7.05e-05      |
+|    total_cost           | 79.0          |
+-------------------------------------------
+-------------------------------------------
+| eval/                   |               |
+|    best_mean_reward     | 9.99e+03      |
+|    mean_ep_length       | 12            |
+|    mean_reward          | 9.99e+03      |
+|    true_cost            | 0.0103        |
+| infos/                  |               |
+|    cost                 | 0.00199       |
+| rollout/                |               |
+|    adjusted_reward      | 831           |
+|    ep_len_mean          | 12.1          |
+|    ep_rew_mean          | 9.99e+03      |
+| time/                   |               |
+|    fps                  | 459           |
+|    iterations           | 31            |
+|    time_elapsed         | 138           |
+|    total_timesteps      | 63488         |
+| train/                  |               |
+|    approx_kl            | 0.013280276   |
+|    average_cost         | 0.041503906   |
+|    clip_fraction        | 0.0831        |
+|    clip_range           | 0.2           |
+|    cost_explained_va... | -2.85         |
+|    cost_value_loss      | 0.00287       |
+|    early_stop_epoch     | 10            |
+|    entropy_loss         | -0.182        |
+|    learning_rate        | 0.0003        |
+|    loss                 | -8.37e-05     |
+|    mean_cost_advantages | -0.0063875224 |
+|    mean_reward_advan... | -0.025491673  |
+|    n_updates            | 300           |
+|    nu                   | 3.41          |
+|    nu_loss              | -0.139        |
+|    policy_gradient_loss | -0.0014       |
+|    reward_explained_... | 0.996         |
+|    reward_value_loss    | 6.75e-05      |
+|    total_cost           | 85.0          |
+-------------------------------------------
+------------------------------------------
+| eval/                   |              |
+|    best_mean_reward     | 9.99e+03     |
+|    mean_ep_length       | 12           |
+|    mean_reward          | 9.99e+03     |
+|    true_cost            | 0.00488      |
+| infos/                  |              |
+|    cost                 | 0.00101      |
+| rollout/                |              |
 |    adjusted_reward      | 831          |
 |    ep_len_mean          | 12           |
 |    ep_rew_mean          | 9.99e+03     |
 | time/                   |              |
-|    fps                  | 478          |
+|    fps                  | 457          |
 |    iterations           | 32           |
-|    time_elapsed         | 137          |
+|    time_elapsed         | 143          |
 |    total_timesteps      | 65536        |
 | train/                  |              |
-|    approx_kl            | 0.002016024  |
-|    average_cost         | 0.019042969  |
-|    clip_fraction        | 0.0217       |
+|    approx_kl            | 0.0052137347 |
+|    average_cost         | 0.010253906  |
+|    clip_fraction        | 0.0427       |
 |    clip_range           | 0.2          |
-|    cost_explained_va... | -1.44        |
-|    cost_value_loss      | 0.00149      |
+|    cost_explained_va... | -1.73        |
+|    cost_value_loss      | 0.00102      |
 |    early_stop_epoch     | 10           |
-|    entropy_loss         | -0.186       |
+|    entropy_loss         | -0.172       |
 |    learning_rate        | 0.0003       |
-|    loss                 | -0.00433     |
-|    mean_cost_advantages | -0.006808731 |
-|    mean_reward_advan... | -0.013472436 |
+|    loss                 | 0.00134      |
+|    mean_cost_advantages | -0.01219284  |
+|    mean_reward_advan... | -0.023419583 |
 |    n_updates            | 310          |
-|    nu                   | 3.5          |
-|    nu_loss              | -0.0656      |
-|    policy_gradient_loss | -0.00229     |
-|    reward_explained_... | 0.766        |
-|    reward_value_loss    | 0.000536     |
-|    total_cost           | 39.0         |
+|    nu                   | 3.46         |
+|    nu_loss              | -0.0349      |
+|    policy_gradient_loss | -0.000656    |
+|    reward_explained_... | 0.994        |
+|    reward_value_loss    | 0.00012      |
+|    total_cost           | 21.0         |
 ------------------------------------------
 -------------------------------------------
 | eval/                   |               |
 |    best_mean_reward     | 9.99e+03      |
 |    mean_ep_length       | 12            |
 |    mean_reward          | 9.99e+03      |
-|    true_cost            | 0.00195       |
+|    true_cost            | 0.00293       |
 | infos/                  |               |
-|    cost                 | 0.00191       |
+|    cost                 | 0             |
 | rollout/                |               |
-|    adjusted_reward      | 826           |
-|    ep_len_mean          | 12.2          |
+|    adjusted_reward      | 836           |
+|    ep_len_mean          | 12            |
 |    ep_rew_mean          | 9.99e+03      |
 | time/                   |               |
-|    fps                  | 476           |
+|    fps                  | 456           |
 |    iterations           | 33            |
-|    time_elapsed         | 141           |
+|    time_elapsed         | 148           |
 |    total_timesteps      | 67584         |
 | train/                  |               |
-|    approx_kl            | 0.002454026   |
-|    average_cost         | 0.0087890625  |
-|    clip_fraction        | 0.0141        |
+|    approx_kl            | 0.0011292051  |
+|    average_cost         | 0.0048828125  |
+|    clip_fraction        | 0.0102        |
 |    clip_range           | 0.2           |
-|    cost_explained_va... | -1.89         |
-|    cost_value_loss      | 0.000705      |
+|    cost_explained_va... | -2.74         |
+|    cost_value_loss      | 0.000479      |
 |    early_stop_epoch     | 10            |
-|    entropy_loss         | -0.167        |
+|    entropy_loss         | -0.158        |
 |    learning_rate        | 0.0003        |
-|    loss                 | -0.000493     |
-|    mean_cost_advantages | -0.008834115  |
-|    mean_reward_advan... | -0.0077321082 |
+|    loss                 | 0.000544      |
+|    mean_cost_advantages | -0.0062934253 |
+|    mean_reward_advan... | -0.020144217  |
 |    n_updates            | 320           |
-|    nu                   | 3.55          |
-|    nu_loss              | -0.0308       |
-|    policy_gradient_loss | -3.47e-05     |
+|    nu                   | 3.51          |
+|    nu_loss              | -0.0169       |
+|    policy_gradient_loss | -0.000119     |
 |    reward_explained_... | 0.997         |
-|    reward_value_loss    | 3.93e-05      |
-|    total_cost           | 18.0          |
+|    reward_value_loss    | 5.84e-05      |
+|    total_cost           | 10.0          |
+-------------------------------------------
+--------------------------------------------
+| eval/                   |                |
+|    best_mean_reward     | 9.99e+03       |
+|    mean_ep_length       | 12             |
+|    mean_reward          | 9.99e+03       |
+|    true_cost            | 0.00293        |
+| infos/                  |                |
+|    cost                 | 0              |
+| rollout/                |                |
+|    adjusted_reward      | 836            |
+|    ep_len_mean          | 12             |
+|    ep_rew_mean          | 9.99e+03       |
+| time/                   |                |
+|    fps                  | 455            |
+|    iterations           | 34             |
+|    time_elapsed         | 152            |
+|    total_timesteps      | 69632          |
+| train/                  |                |
+|    approx_kl            | 0.0011231141   |
+|    average_cost         | 0.0029296875   |
+|    clip_fraction        | 0.012          |
+|    clip_range           | 0.2            |
+|    cost_explained_va... | -3.52          |
+|    cost_value_loss      | 0.000307       |
+|    early_stop_epoch     | 10             |
+|    entropy_loss         | -0.149         |
+|    learning_rate        | 0.0003         |
+|    loss                 | 0.000766       |
+|    mean_cost_advantages | -0.00048069854 |
+|    mean_reward_advan... | -0.019017618   |
+|    n_updates            | 330            |
+|    nu                   | 3.56           |
+|    nu_loss              | -0.0103        |
+|    policy_gradient_loss | 2.93e-07       |
+|    reward_explained_... | 0.999          |
+|    reward_value_loss    | 3.52e-05       |
+|    total_cost           | 6.0            |
+--------------------------------------------
+-------------------------------------------
+| eval/                   |               |
+|    best_mean_reward     | 9.99e+03      |
+|    mean_ep_length       | 12            |
+|    mean_reward          | 9.99e+03      |
+|    true_cost            | 0.00244       |
+| infos/                  |               |
+|    cost                 | 0             |
+| rollout/                |               |
+|    adjusted_reward      | 831           |
+|    ep_len_mean          | 12            |
+|    ep_rew_mean          | 9.99e+03      |
+| time/                   |               |
+|    fps                  | 454           |
+|    iterations           | 35            |
+|    time_elapsed         | 157           |
+|    total_timesteps      | 71680         |
+| train/                  |               |
+|    approx_kl            | -0.0011949054 |
+|    average_cost         | 0.0029296875  |
+|    clip_fraction        | 0.00459       |
+|    clip_range           | 0.2           |
+|    cost_explained_va... | -5.1          |
+|    cost_value_loss      | 0.000291      |
+|    early_stop_epoch     | 10            |
+|    entropy_loss         | -0.142        |
+|    learning_rate        | 0.0003        |
+|    loss                 | 0.0002        |
+|    mean_cost_advantages | 0.00046337885 |
+|    mean_reward_advan... | -0.017494485  |
+|    n_updates            | 340           |
+|    nu                   | 3.6           |
+|    nu_loss              | -0.0104       |
+|    policy_gradient_loss | 2.13e-05      |
+|    reward_explained_... | 0.998         |
+|    reward_value_loss    | 3.15e-05      |
+|    total_cost           | 6.0           |
+-------------------------------------------
+-------------------------------------------
+| eval/                   |               |
+|    best_mean_reward     | 9.99e+03      |
+|    mean_ep_length       | 12            |
+|    mean_reward          | 9.99e+03      |
+|    true_cost            | 0.00293       |
+| infos/                  |               |
+|    cost                 | 0             |
+| rollout/                |               |
+|    adjusted_reward      | 836           |
+|    ep_len_mean          | 12            |
+|    ep_rew_mean          | 9.99e+03      |
+| time/                   |               |
+|    fps                  | 452           |
+|    iterations           | 36            |
+|    time_elapsed         | 162           |
+|    total_timesteps      | 73728         |
+| train/                  |               |
+|    approx_kl            | 0.0016363262  |
+|    average_cost         | 0.0024414062  |
+|    clip_fraction        | 0.00742       |
+|    clip_range           | 0.2           |
+|    cost_explained_va... | -8.32         |
+|    cost_value_loss      | 0.000327      |
+|    early_stop_epoch     | 10            |
+|    entropy_loss         | -0.136        |
+|    learning_rate        | 0.0003        |
+|    loss                 | -0.000592     |
+|    mean_cost_advantages | -0.0007001067 |
+|    mean_reward_advan... | -0.0150397895 |
+|    n_updates            | 350           |
+|    nu                   | 3.64          |
+|    nu_loss              | -0.0088       |
+|    policy_gradient_loss | 1.25e-05      |
+|    reward_explained_... | 0.999         |
+|    reward_value_loss    | 2.73e-05      |
+|    total_cost           | 5.0           |
 -------------------------------------------
 -------------------------------------------
 | eval/                   |               |
@@ -1266,34 +1379,35 @@ Early stopping at step 1 due to reaching max kl: 0.03
 |    cost                 | 0             |
 | rollout/                |               |
 |    adjusted_reward      | 831           |
-|    ep_len_mean          | 12.1          |
+|    ep_len_mean          | 12            |
 |    ep_rew_mean          | 9.99e+03      |
 | time/                   |               |
-|    fps                  | 473           |
-|    iterations           | 34            |
-|    time_elapsed         | 147           |
-|    total_timesteps      | 69632         |
+|    fps                  | 450           |
+|    iterations           | 37            |
+|    time_elapsed         | 168           |
+|    total_timesteps      | 75776         |
 | train/                  |               |
-|    approx_kl            | 0.0051998403  |
-|    average_cost         | 0.001953125   |
-|    clip_fraction        | 0.0346        |
+|    approx_kl            | 0.000893333   |
+|    average_cost         | 0.0029296875  |
+|    clip_fraction        | 0.0192        |
 |    clip_range           | 0.2           |
-|    cost_explained_va... | -0.547        |
-|    cost_value_loss      | 0.00021       |
+|    cost_explained_va... | -13.6         |
+|    cost_value_loss      | 0.000335      |
 |    early_stop_epoch     | 10            |
-|    entropy_loss         | -0.161        |
+|    entropy_loss         | -0.126        |
 |    learning_rate        | 0.0003        |
-|    loss                 | -0.00465      |
-|    mean_cost_advantages | -0.0063092182 |
-|    mean_reward_advan... | -0.018749448  |
-|    n_updates            | 330           |
-|    nu                   | 3.6           |
-|    nu_loss              | -0.00694      |
-|    policy_gradient_loss | -0.00213      |
-|    reward_explained_... | 0.866         |
-|    reward_value_loss    | 0.00223       |
-|    total_cost           | 4.0           |
+|    loss                 | 0.000812      |
+|    mean_cost_advantages | 0.00035021393 |
+|    mean_reward_advan... | -0.015693953  |
+|    n_updates            | 360           |
+|    nu                   | 3.68          |
+|    nu_loss              | -0.0107       |
+|    policy_gradient_loss | -0.000488     |
+|    reward_explained_... | 0.996         |
+|    reward_value_loss    | 7.26e-05      |
+|    total_cost           | 6.0           |
 -------------------------------------------
+Early stopping at step 7 due to reaching max kl: 0.02
 -------------------------------------------
 | eval/                   |               |
 |    best_mean_reward     | 9.99e+03      |
@@ -1301,38 +1415,76 @@ Early stopping at step 1 due to reaching max kl: 0.03
 |    mean_reward          | 9.99e+03      |
 |    true_cost            | 0.00195       |
 | infos/                  |               |
-|    cost                 | 0.00195       |
+|    cost                 | 0             |
 | rollout/                |               |
-|    adjusted_reward      | 796           |
-|    ep_len_mean          | 12.9          |
+|    adjusted_reward      | 776           |
+|    ep_len_mean          | 13.1          |
 |    ep_rew_mean          | 9.99e+03      |
 | time/                   |               |
-|    fps                  | 471           |
-|    iterations           | 35            |
-|    time_elapsed         | 152           |
-|    total_timesteps      | 71680         |
+|    fps                  | 450           |
+|    iterations           | 38            |
+|    time_elapsed         | 172           |
+|    total_timesteps      | 77824         |
 | train/                  |               |
-|    approx_kl            | 0.0063263206  |
+|    approx_kl            | 0.016262032   |
 |    average_cost         | 0.0           |
-|    clip_fraction        | 0.0528        |
+|    clip_fraction        | 0.0197        |
 |    clip_range           | 0.2           |
-|    cost_explained_va... | 0.0721        |
-|    cost_value_loss      | 2.9e-05       |
-|    early_stop_epoch     | 10            |
-|    entropy_loss         | -0.145        |
+|    cost_explained_va... | 0.103         |
+|    cost_value_loss      | 1.25e-05      |
+|    early_stop_epoch     | 7             |
+|    entropy_loss         | -0.123        |
 |    learning_rate        | 0.0003        |
-|    loss                 | -0.00267      |
-|    mean_cost_advantages | -0.0029516155 |
-|    mean_reward_advan... | -0.005182919  |
-|    n_updates            | 340           |
-|    nu                   | 3.64          |
+|    loss                 | -0.00431      |
+|    mean_cost_advantages | -0.0028284488 |
+|    mean_reward_advan... | -0.011390616  |
+|    n_updates            | 370           |
+|    nu                   | 3.71          |
 |    nu_loss              | -0            |
-|    policy_gradient_loss | -0.000857     |
-|    reward_explained_... | 0.955         |
-|    reward_value_loss    | 0.000181      |
+|    policy_gradient_loss | -0.000198     |
+|    reward_explained_... | 0.998         |
+|    reward_value_loss    | 3.12e-05      |
 |    total_cost           | 0.0           |
 -------------------------------------------
-Early stopping at step 1 due to reaching max kl: 0.04
+Early stopping at step 0 due to reaching max kl: 0.02
+-------------------------------------------
+| eval/                   |               |
+|    best_mean_reward     | 9.99e+03      |
+|    mean_ep_length       | 12            |
+|    mean_reward          | 9.99e+03      |
+|    true_cost            | 0.00195       |
+| infos/                  |               |
+|    cost                 | 0             |
+| rollout/                |               |
+|    adjusted_reward      | 821           |
+|    ep_len_mean          | 12.2          |
+|    ep_rew_mean          | 9.99e+03      |
+| time/                   |               |
+|    fps                  | 452           |
+|    iterations           | 39            |
+|    time_elapsed         | 176           |
+|    total_timesteps      | 79872         |
+| train/                  |               |
+|    approx_kl            | 0.01859117    |
+|    average_cost         | 0.001953125   |
+|    clip_fraction        | 0.11          |
+|    clip_range           | 0.2           |
+|    cost_explained_va... | -29.3         |
+|    cost_value_loss      | 0.000278      |
+|    early_stop_epoch     | 0             |
+|    entropy_loss         | -0.158        |
+|    learning_rate        | 0.0003        |
+|    loss                 | -0.00475      |
+|    mean_cost_advantages | 0.00076659466 |
+|    mean_reward_advan... | -0.036168747  |
+|    n_updates            | 380           |
+|    nu                   | 3.74          |
+|    nu_loss              | -0.00725      |
+|    policy_gradient_loss | -0.00442      |
+|    reward_explained_... | 0.889         |
+|    reward_value_loss    | 0.00219       |
+|    total_cost           | 4.0           |
+-------------------------------------------
 -------------------------------------------
 | eval/                   |               |
 |    best_mean_reward     | 9.99e+03      |
@@ -1342,188 +1494,147 @@ Early stopping at step 1 due to reaching max kl: 0.04
 | infos/                  |               |
 |    cost                 | 0             |
 | rollout/                |               |
-|    adjusted_reward      | 831           |
-|    ep_len_mean          | 12.1          |
-|    ep_rew_mean          | 9.99e+03      |
-| time/                   |               |
-|    fps                  | 470           |
-|    iterations           | 36            |
-|    time_elapsed         | 156           |
-|    total_timesteps      | 73728         |
-| train/                  |               |
-|    approx_kl            | 0.036800552   |
-|    average_cost         | 0.001953125   |
-|    clip_fraction        | 0.0684        |
-|    clip_range           | 0.2           |
-|    cost_explained_va... | -2.12         |
-|    cost_value_loss      | 0.000195      |
-|    early_stop_epoch     | 1             |
-|    entropy_loss         | -0.163        |
-|    learning_rate        | 0.0003        |
-|    loss                 | -0.000118     |
-|    mean_cost_advantages | 0.00063403824 |
-|    mean_reward_advan... | -0.032904264  |
-|    n_updates            | 350           |
-|    nu                   | 3.68          |
-|    nu_loss              | -0.00712      |
-|    policy_gradient_loss | -0.00529      |
-|    reward_explained_... | 0.186         |
-|    reward_value_loss    | 0.0124        |
-|    total_cost           | 4.0           |
--------------------------------------------
-------------------------------------------
-| eval/                   |              |
-|    best_mean_reward     | 9.99e+03     |
-|    mean_ep_length       | 12           |
-|    mean_reward          | 9.99e+03     |
-|    true_cost            | 0.000977     |
-| infos/                  |              |
-|    cost                 | 0            |
-| rollout/                |              |
-|    adjusted_reward      | 831          |
-|    ep_len_mean          | 12           |
-|    ep_rew_mean          | 9.99e+03     |
-| time/                   |              |
-|    fps                  | 468          |
-|    iterations           | 37           |
-|    time_elapsed         | 161          |
-|    total_timesteps      | 75776        |
-| train/                  |              |
-|    approx_kl            | 0.0024637484 |
-|    average_cost         | 0.0009765625 |
-|    clip_fraction        | 0.014        |
-|    clip_range           | 0.2          |
-|    cost_explained_va... | -4.29        |
-|    cost_value_loss      | 9.96e-05     |
-|    early_stop_epoch     | 10           |
-|    entropy_loss         | -0.145       |
-|    learning_rate        | 0.0003       |
-|    loss                 | -0.000865    |
-|    mean_cost_advantages | 0.0015128034 |
-|    mean_reward_advan... | 0.0019883462 |
-|    n_updates            | 360          |
-|    nu                   | 3.72         |
-|    nu_loss              | -0.0036      |
-|    policy_gradient_loss | -0.000443    |
-|    reward_explained_... | 0.53         |
-|    reward_value_loss    | 0.000518     |
-|    total_cost           | 2.0          |
-------------------------------------------
---------------------------------------------
-| eval/                   |                |
-|    best_mean_reward     | 9.99e+03       |
-|    mean_ep_length       | 12             |
-|    mean_reward          | 9.99e+03       |
-|    true_cost            | 0.000977       |
-| infos/                  |                |
-|    cost                 | 0              |
-| rollout/                |                |
-|    adjusted_reward      | 836            |
-|    ep_len_mean          | 12             |
-|    ep_rew_mean          | 9.99e+03       |
-| time/                   |                |
-|    fps                  | 466            |
-|    iterations           | 38             |
-|    time_elapsed         | 166            |
-|    total_timesteps      | 77824          |
-| train/                  |                |
-|    approx_kl            | 0.0034756106   |
-|    average_cost         | 0.0009765625   |
-|    clip_fraction        | 0.0271         |
-|    clip_range           | 0.2            |
-|    cost_explained_va... | -4.99          |
-|    cost_value_loss      | 0.0001         |
-|    early_stop_epoch     | 10             |
-|    entropy_loss         | -0.133         |
-|    learning_rate        | 0.0003         |
-|    loss                 | 0.000744       |
-|    mean_cost_advantages | -0.0009414112  |
-|    mean_reward_advan... | -0.00043374998 |
-|    n_updates            | 370            |
-|    nu                   | 3.75           |
-|    nu_loss              | -0.00363       |
-|    policy_gradient_loss | -0.000452      |
-|    reward_explained_... | 0.992          |
-|    reward_value_loss    | 0.000102       |
-|    total_cost           | 2.0            |
---------------------------------------------
--------------------------------------------
-| eval/                   |               |
-|    best_mean_reward     | 9.99e+03      |
-|    mean_ep_length       | 12.4          |
-|    mean_reward          | 9.99e+03      |
-|    true_cost            | 0.000977      |
-| infos/                  |               |
-|    cost                 | 0.00203       |
-| rollout/                |               |
-|    adjusted_reward      | 831           |
+|    adjusted_reward      | 835           |
 |    ep_len_mean          | 12            |
 |    ep_rew_mean          | 9.99e+03      |
 | time/                   |               |
-|    fps                  | 465           |
-|    iterations           | 39            |
-|    time_elapsed         | 171           |
-|    total_timesteps      | 79872         |
+|    fps                  | 451           |
+|    iterations           | 40            |
+|    time_elapsed         | 181           |
+|    total_timesteps      | 81920         |
 | train/                  |               |
-|    approx_kl            | 0.0065353666  |
-|    average_cost         | 0.0009765625  |
-|    clip_fraction        | 0.0267        |
+|    approx_kl            | 0.008270015   |
+|    average_cost         | 0.001953125   |
+|    clip_fraction        | 0.0231        |
 |    clip_range           | 0.2           |
-|    cost_explained_va... | -4.92         |
-|    cost_value_loss      | 9.89e-05      |
+|    cost_explained_va... | -22.3         |
+|    cost_value_loss      | 0.000253      |
 |    early_stop_epoch     | 10            |
-|    entropy_loss         | -0.115        |
+|    entropy_loss         | -0.116        |
 |    learning_rate        | 0.0003        |
-|    loss                 | -0.000284     |
-|    mean_cost_advantages | 4.484784e-06  |
-|    mean_reward_advan... | -0.0065478487 |
-|    n_updates            | 380           |
-|    nu                   | 3.78          |
-|    nu_loss              | -0.00366      |
-|    policy_gradient_loss | -0.000608     |
-|    reward_explained_... | 0.998         |
-|    reward_value_loss    | 2.66e-05      |
-|    total_cost           | 2.0           |
+|    loss                 | -0.00046      |
+|    mean_cost_advantages | -0.0015318171 |
+|    mean_reward_advan... | -0.0021744836 |
+|    n_updates            | 390           |
+|    nu                   | 3.77          |
+|    nu_loss              | -0.00731      |
+|    policy_gradient_loss | -0.00149      |
+|    reward_explained_... | 0.984         |
+|    reward_value_loss    | 0.000304      |
+|    total_cost           | 4.0           |
 -------------------------------------------
-------------------------------------------
-| eval/                   |              |
-|    best_mean_reward     | 9.99e+03     |
-|    mean_ep_length       | 12           |
-|    mean_reward          | 9.99e+03     |
-|    true_cost            | 0.000977     |
-| infos/                  |              |
-|    cost                 | 0            |
-| rollout/                |              |
-|    adjusted_reward      | 835          |
-|    ep_len_mean          | 12           |
-|    ep_rew_mean          | 9.99e+03     |
-| time/                   |              |
-|    fps                  | 464          |
-|    iterations           | 40           |
-|    time_elapsed         | 176          |
-|    total_timesteps      | 81920        |
-| train/                  |              |
-|    approx_kl            | 0.0015161708 |
-|    average_cost         | 0.0009765625 |
-|    clip_fraction        | 0.0333       |
-|    clip_range           | 0.2          |
-|    cost_explained_va... | -10.6        |
-|    cost_value_loss      | 9.87e-05     |
-|    early_stop_epoch     | 10           |
-|    entropy_loss         | -0.119       |
-|    learning_rate        | 0.0003       |
-|    loss                 | 0.000576     |
-|    mean_cost_advantages | 0.0009053447 |
-|    mean_reward_advan... | -0.010527017 |
-|    n_updates            | 390          |
-|    nu                   | 3.81         |
-|    nu_loss              | -0.00369     |
-|    policy_gradient_loss | -0.000368    |
-|    reward_explained_... | 0.996        |
-|    reward_value_loss    | 5.99e-05     |
-|    total_cost           | 2.0          |
-------------------------------------------
 Mean reward: 9994.500000 +/- 0.000000.
 /home/mwbaert/anaconda3/envs/icrl/lib/python3.8/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Box bound precision lowered by casting to float32[0m
   warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
-[32;1mTime taken: 03.18 minutes[0m
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[0. 6.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[1. 6.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[2. 6.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[3. 6.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[4. 6.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[4. 5.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[5. 5.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[5. 4.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[5. 3.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[5. 2.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[6. 2.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[6. 1.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[0. 6.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[1. 6.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[2. 6.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[3. 6.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[4. 6.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[5. 6.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[5. 5.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[5. 4.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[5. 3.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[5. 2.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[5. 1.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[6. 1.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[0. 6.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[1. 6.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[2. 6.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[3. 6.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[4. 6.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[5. 6.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[5. 5.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[5. 4.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[5. 3.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[5. 2.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[5. 1.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[6. 1.]
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+[6 0]
+[0. 6.]
+[32;1mTime taken: 03.28 minutes[0m

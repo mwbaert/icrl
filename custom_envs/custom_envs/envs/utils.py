@@ -69,7 +69,6 @@ def in_rectangle(state, region):
         return True
 
 def add_circle(ax, point, color, radius=0.2, clip_on=False):
-    print(point)
     circle = plt.Circle(
             [point[0]+0.5, point[1]+0.5],
             radius=radius,

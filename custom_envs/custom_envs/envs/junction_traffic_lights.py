@@ -20,7 +20,7 @@ BRIDGE_MAX_TIME_STEPS = 1000
 class JunctionTrafficLights(mujoco_env.MujocoEnv):
     metadata = {"render.modes": ["rgb_array"]}
 
-    def __init__(self, constraint_regions=[], start=(0, 2), track_agent=False,
+    def __init__(self, constraint_regions=[], track_agent=False,
                  normalize_obs=False):
         # Environment setup.
         self.size = BRIDGE_GRID_SIZE
@@ -28,14 +28,14 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
         self.start_pos = np.array([[6, 0], [6, 12], [0, 6], [12, 6]])
         self.goals = self.start_pos
         self.action_dim = 2
-        self.state_dim = 2
+        self.state_dim = 3
         self.track_agent = track_agent
         self.normalize = normalize_obs
         self.constraint_regions = constraint_regions
 
         # Define spaces.
         self.observation_space = spaces.Box(
-            low=np.array((0, 0)), high=np.array((BRIDGE_GRID_SIZE, BRIDGE_GRID_SIZE)),
+            low=np.array((0, 0, 0)), high=np.array((BRIDGE_GRID_SIZE, BRIDGE_GRID_SIZE, 1)),
             dtype=np.float32)
         self.action_space = spaces.Discrete(4)
         scale = 1
@@ -51,8 +51,9 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
 
     def reset(self):
         self.start_i = 2  # np.random.randint(0, 4)
+        start_x, start_y = self.start_pos[self.start_i][0], self.start_pos[self.start_i][1]
         self.curr_state = np.array(
-            self.start_pos[self.start_i], dtype=np.float32)
+            [start_x, start_y, self.isRoad(start_x, start_y)], dtype=np.float32)
         self.goal_i = 0  # np.random.randint(0, 4)
         # while self.goal_i == self.start_i:
         #    self.goal_i = np.random.randint(0, 4)
@@ -98,15 +99,13 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
         an invalid state.
         """
         done = False
-        next_state = np.around(state+action, 6)
-        act_mag = np.sum(action**2)**(1/2)
-        #reward = -1 - 0.1*act_mag * int(act_mag > 6)
+        next_state = np.around(state[:2]+action, 6)
 
         # do not move when at a border
         if (np.min(next_state) < 0) or (np.max(next_state) > self.size):
-            next_state = state
+            next_state = state[:2]
 
-        if in_regions(state, next_state, self.constraint_regions):
+        if in_regions(state[:2], next_state, self.constraint_regions):
             reward = -10000
             #done = True
         else:
@@ -118,12 +117,15 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
                 reward = 10000
                 done = True
 
+        # add predicates to next_state
+        next_state = np.append(next_state, self.isRoad(next_state[0], next_state[1]))
+
         return next_state, reward, done
 
     def template(self):
         fig, ax = plt.subplots()
         fig.set_size_inches(20, 20, forward=True)
-        
+
         # Fill plot with green.
         ax.add_patch(patches.Rectangle(
             xy=(0, 0), width=self.size, height=self.size,
@@ -132,8 +134,6 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
 
         ax.set_xticks(np.arange(0, self.size, 1))
         ax.set_yticks(np.arange(0, self.size, 1))
-        print(ax.get_xticks())
-
         ax.grid()
 
         # Add constraints.
@@ -161,7 +161,7 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
 
         # Add agent at appropriate location.
         if hasattr(self, 'curr_state'):
-            add_circle(ax, self.curr_state, 'y', 0.2, False)
+            add_circle(ax, self.curr_state[:2], 'y', 0.2, False)
         else:
             add_circle(ax, self.start, 'y', 0.2, False)
 
@@ -184,7 +184,7 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
     def add_new_visited_state(self, state):
         """Add a new visited state to plot."""
         if self.track_agent:
-            add_circle(self.visited_state_ax, state, 'y', 0.02, False)
+            add_circle(self.visited_state_ax, state[:2], 'y', 0.02, False)
 
     def save_visited_states_plot(self, save_name, append_to_title=None):
         """Call this at the very end to save the plot of states visited. This
@@ -206,6 +206,9 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
             obs /= (self.observation_space.high - self.observation_space.low)
             obs -= 1
         return obs
+
+    def isRoad(self, x, y):
+        return ((y>3) and (y<8)) or ((x>3) and (x<8))
 
 class ConstrainedJunctionTrafficLights(JunctionTrafficLights):
     def __init__(self, *args):
