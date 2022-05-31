@@ -123,12 +123,18 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
     def template(self):
         fig, ax = plt.subplots()
         fig.set_size_inches(20, 20, forward=True)
-
+        
         # Fill plot with green.
         ax.add_patch(patches.Rectangle(
             xy=(0, 0), width=self.size, height=self.size,
             color='mediumspringgreen', fill=True
         ))
+
+        ax.set_xticks(np.arange(0, self.size, 1))
+        ax.set_yticks(np.arange(0, self.size, 1))
+        print(ax.get_xticks())
+
+        ax.grid()
 
         # Add constraints.
         for origin, width, height in self.constraint_regions:
@@ -138,8 +144,8 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
             ))
 
         # Add goal.
-        add_circle(ax, self.goal, 'orange', 1, True)
-
+        add_circle(ax, self.goal, 'orange', 0.5, True)
+        
         # Formatting.
         ax.set_xlim(0, self.size)
         ax.set_ylim(0, self.size)
