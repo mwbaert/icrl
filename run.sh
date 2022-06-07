@@ -5,6 +5,7 @@
 #   after training you should copy the "files" directory to icrl/expert_data/LGW_ from the wandb directory
 python run_me.py cpg --config_file config_exp_lgw.json
 python run_me.py cpg --config_file config_exp_sw.json
+python run_me.py cpg --config_file config_exp_jtl.json
 
 # generate rollouts from expert policy in the nominal environment
 # copy rollouts from run_policy/ to EXPERT/
@@ -19,3 +20,4 @@ python run_me.py run_policy --load_dir icrl/expert_data/JTL/ --env_id CJTL-v0 -n
     # results are stored in icrl/wandb
 python run_me.py icrl -p ICRL-FE2 --group LapGrid-ICRL -er 20 -ep icrl/expert_data/LGW_ -tei LGW-v0 -eei CLGW-v0 -tk 0.01 -cl 20 -clr 0.003 -ft 0.5e5 -ni 10 -bi 20 -dno -dnr -dnc
 python run_me.py icrl --config_file config_icrl_jtl.json
+python run_me.py icrl --config_file config_icrl_logic_jtl.json

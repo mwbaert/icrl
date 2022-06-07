@@ -140,7 +140,7 @@ def junction_traffic_lights(env, obs, acs):
         ac = env.action_map_dict[int(ac)]
         next_ob = ob
         next_ob = np.around(next_ob[:2]+ac, 6)
-
+        
         if ce_utils.in_regions(ob, next_ob, env.constraint_regions):
             cost += [1]
         else:

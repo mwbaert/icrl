@@ -2,6 +2,7 @@ from re import X
 from torch import nn, no_grad
 from lnn.utils import val_clamp
 from matplotlib import pyplot as plt
+import torch.nn.functional as F
 import torch
 import numpy as np
 
@@ -59,12 +60,20 @@ class DynamicNeuron(nn.Module):
         super().__init__()
 
         self.num_inputs = num_inputs
+        #self.weights = nn.Parameter(torch.rand(self.num_inputs))
         self.weights = nn.Parameter(torch.Tensor(self.num_inputs))
-        torch.nn.init.constant_(self.weights, 1.0)
+        torch.nn.init.constant_(self.weights, 0.1)
+        #torch.nn.init.xavier_uniform_(self.weights)
         self.f = DynamicActivation(self.num_inputs, alpha)
+        self.kappa = None
 
     def forward(self, x):
-        return x @ self.weights
+        x = x @ self.weights
+        # update activation using weights (should go to DynamicNeuron.forward)
+        self.f.update_activation(self.weights, self.kappa)
+
+        # call activation function
+        return self.f(x)
 
     def plotActivation(self):
         self.f.plot()
@@ -75,18 +84,30 @@ class DynamicOr(DynamicNeuron):
         super().__init__(num_inputs, alpha)
         self.kappa = torch.tensor(0.0)
 
+
+class DynamicAnd(DynamicNeuron):
+    def __init__(self, num_inputs, alpha=0.6):
+        super().__init__(num_inputs, alpha)
+        self.kappa = torch.tensor(1.0)
+
+class Attention(nn.Module):
+    def __init__(self, num_inputs):
+        super().__init__(num_inputs)
+        
+        self.num_inputs = num_inputs
+        self.weights = nn.Parameter(torch.Tensor(self.num_inputs))
+        self.temp = 1
+
     def forward(self, x):
-        # not sure if this will work
-        # x = super().__call__(x)
-        # (should go to DynamicNeuron.forward)
-        # TTT
-        x = x @ self.weights
-        # update activation using weights (should go to DynamicNeuron.forward)
-        self.f.update_activation(self.weights, self.kappa)
+        one_hot = F.gumbel_softmax(self.weights, tau=self.temp, hard=True)
+        index = (one_hot == 1).nonzero(as_tuple=True)[0]
 
-        # call activation function
-        return self.f(x)
+        # this is probaby not correct
+        return x[index]
 
+    def update_temp(self):
+        # TODO
+        print("temp update not implemented")
 
 class DynamicActivation(nn.Module):
     def __init__(self, num_inputs, alpha=0.6):
@@ -113,6 +134,8 @@ class DynamicActivation(nn.Module):
 
         a = (2*torch.log((1-self.alpha)/self.alpha))/(self.x_f - self.x_t)
         b = torch.log(self.alpha/(1-self.alpha)) + (a*self.x_f)
+        #b = torch.clamp(b, max=70)
+
         y = 1/(1+torch.exp((-a*x)+b))
 
         if torch.any(y < 0) or torch.any(y > 1) or torch.any(y == -1):

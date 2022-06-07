@@ -94,9 +94,9 @@ class LogicalConstraintNet(nn.Module):
         elif self.obs_select_dim[0] != -1:
             self.select_dim += self.obs_select_dim
         if self.acs_select_dim is None:
-            self.select_dim += [i for i in range(self.acs_dim)]
+            self.select_dim += [self.obs_dim + i for i in range(self.acs_dim)]
         elif self.acs_select_dim[0] != -1:
-            self.select_dim += self.acs_select_dim
+            self.select_dim += [self.obs_dim + i for i in self.acs_select_dim]
         assert len(self.select_dim) > 0, ""
 
         self.input_dims = len(self.select_dim)
@@ -114,6 +114,8 @@ class LogicalConstraintNet(nn.Module):
 
         # Build optimizer
         # TODO maybe hard code (in the beginning)
+        print(self.parameters)
+
         if self.optimizer_class is not None:
             self.optimizer = self.optimizer_class(
                 self.parameters(), lr=self.lr_schedule(1), **self.optimizer_kwargs)
@@ -153,7 +155,9 @@ class LogicalConstraintNet(nn.Module):
         with torch.no_grad():
             out = self.__call__(x)
 
-        cost = 1 - out.detach().cpu().numpy()
+        #cost = 1 - out.detach().cpu().numpy()
+        cost = out.detach().cpu().numpy()
+
         return cost
 
     def call_forward(self, x: np.ndarray):
@@ -239,7 +243,7 @@ class LogicalConstraintNet(nn.Module):
                 loss.backward()
                 self.optimizer.step()
                 # projected gradient descent
-                self.model.project_params()
+                # self.model.project_params()
 
         bw_metrics = {"backward/cn_loss": loss.item(),
                       "backward/expert_loss": expert_loss.item(),
@@ -296,11 +300,29 @@ class LogicalConstraintNet(nn.Module):
             obs: np.ndarray,
             acs: np.ndarray,
     ) -> torch.tensor:
-
-        x = torch.Tensor([[[0.0, 0.0], [0.0, 0.0]] for i in range(len(acs))])
+        # TODO concat selected obs and action dims
+        #x = torch.Tensor([[[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]] for i in range(len(acs))])
+        x = torch.Tensor([[[0.0 for i in range(8)], [0.0 for i in range(8)]] for i in range(len(acs))])
         # TODO optimize this by eliminating for loop
-        for i in range(len(acs)):
-            x[i, :, acs[i]] = 1.0
+        # for i in range(len(acs)):
+        #    x[i, :, acs[i]] = 1.0
+        # if acs[0]==0:
+        #    x[0, :, 0] = 1.0
+        # if acs[0]==3:
+        #    x[0, :, 0] = 1.0
+
+        #x[0, :, 0] = 1-obs[0][2].item()
+        x[0, :, 0] = obs[0][2].item()
+        x[0, :, 1] = obs[0][3].item()
+        x[0, :, 2] = obs[0][4].item()
+        x[0, :, 3] = obs[0][5].item()
+        x[0, :, 4 + acs[0]] = 1.0
+        
+        #if(acs[3] == 1):
+        #    x[0, :, 1] = 1.0
+
+        # use selected_dims here (see constraint_net.py)
+        #x[0, :, -1] = obs[0][2].item()
 
         return x
 
