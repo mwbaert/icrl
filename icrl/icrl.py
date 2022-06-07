@@ -20,6 +20,7 @@ from icrl.plot_utils import plot_obs_ant
 from icrl.exploration import ExplorationRewardCallback, LambdaShapingCallback
 import wandb
 from icrl.constraint_net import ConstraintNet, plot_constraints
+from icrl.logical_constraint_net import LogicalConstraintNet
 from icrl.true_constraint_net import get_true_cost_function, null_cost
 
 
@@ -92,32 +93,60 @@ def icrl(config):
     # Initialize constraint net, true constraint net
     def cn_lr_schedule(x): return (config.anneal_clr_by_factor **
                                    (config.n_iters*(1 - x))) * config.cn_learning_rate
-    constraint_net = ConstraintNet(
-        obs_dim,
-        acs_dim,
-        config.cn_layers,
-        config.cn_batch_size,
-        cn_lr_schedule,
-        expert_obs,
-        expert_acs,
-        is_discrete,
-        config.cn_reg_coeff,
-        config.cn_obs_select_dim,
-        config.cn_acs_select_dim,
-        no_importance_sampling=config.no_importance_sampling,
-        per_step_importance_sampling=config.per_step_importance_sampling,
-        clip_obs=config.clip_obs,
-        initial_obs_mean=None if not config.cn_normalize else np.zeros(
-            obs_dim),
-        initial_obs_var=None if not config.cn_normalize else np.ones(obs_dim),
-        action_low=action_low,
-        action_high=action_high,
-        target_kl_old_new=config.cn_target_kl_old_new,
-        target_kl_new_old=config.cn_target_kl_new_old,
-        train_gail_lambda=config.train_gail_lambda,
-        eps=config.cn_eps,
-        device=config.device
-    )
+    if config.use_logical_net:
+        constraint_net = LogicalConstraintNet(
+            obs_dim,
+            acs_dim,
+            config.cn_layers,
+            config.cn_batch_size,
+            cn_lr_schedule,
+            expert_obs,
+            expert_acs,
+            is_discrete,
+            config.cn_reg_coeff,
+            config.cn_obs_select_dim,
+            config.cn_acs_select_dim,
+            no_importance_sampling=config.no_importance_sampling,
+            per_step_importance_sampling=config.per_step_importance_sampling,
+            clip_obs=config.clip_obs,
+            initial_obs_mean=None if not config.cn_normalize else np.zeros(
+                obs_dim),
+            initial_obs_var=None if not config.cn_normalize else np.ones(obs_dim),
+            action_low=action_low,
+            action_high=action_high,
+            target_kl_old_new=config.cn_target_kl_old_new,
+            target_kl_new_old=config.cn_target_kl_new_old,
+            train_gail_lambda=config.train_gail_lambda,
+            eps=config.cn_eps,
+            device=config.device
+        )
+    else:
+        constraint_net = ConstraintNet(
+            obs_dim,
+            acs_dim,
+            config.cn_layers,
+            config.cn_batch_size,
+            cn_lr_schedule,
+            expert_obs,
+            expert_acs,
+            is_discrete,
+            config.cn_reg_coeff,
+            config.cn_obs_select_dim,
+            config.cn_acs_select_dim,
+            no_importance_sampling=config.no_importance_sampling,
+            per_step_importance_sampling=config.per_step_importance_sampling,
+            clip_obs=config.clip_obs,
+            initial_obs_mean=None if not config.cn_normalize else np.zeros(
+                obs_dim),
+            initial_obs_var=None if not config.cn_normalize else np.ones(obs_dim),
+            action_low=action_low,
+            action_high=action_high,
+            target_kl_old_new=config.cn_target_kl_old_new,
+            target_kl_new_old=config.cn_target_kl_new_old,
+            train_gail_lambda=config.train_gail_lambda,
+            eps=config.cn_eps,
+            device=config.device
+        )
 
     # Pass constraint net cost function to cost wrapper (train env)
     train_env.set_cost_function(constraint_net.cost_function)
@@ -252,18 +281,23 @@ def icrl(config):
         # Pass updated cost_function to cost wrapper (train_env)
         train_env.set_cost_function(constraint_net.cost_function)
 
-        # --- DEBUG ---
-        '''
-        for param in constraint_net.parameters():
-            print(param.data)
+        if config.use_logical_net:
+            for param in constraint_net.parameters():
+                print(param.data)
 
-        out1 = constraint_net.forward_with_bounds(
-            torch.Tensor([[[1.0, 0.0], [1.0, 0.0]]]))
-        print(out1)
-        out2 = constraint_net.forward_with_bounds(
-            torch.Tensor([[[0.0, 1.0], [0.0, 1.0]]]))
-        print(out2)
-        '''
+            #out = constraint_net.forward_with_bounds(
+            #   torch.Tensor([[[1.0, 0.0], [1.0, 0.0]]]))
+            #print(out)
+            #out = constraint_net.forward_with_bounds(
+            #   torch.Tensor([[[0.0, 1.0], [0.0, 1.0]]]))
+            #print(out)
+            #out = constraint_net.forward_with_bounds(
+            #   torch.Tensor([[[1.0, 1.0], [1.0, 1.0]]]))
+            #print(out)
+            #out = constraint_net.forward_with_bounds(
+            #   torch.Tensor([[[0.0, 1.0, 1.0], [0.0, 1.0, 1.0]]]))
+            #print(out)
+    
         # constraint_net.model.layers[0].plotActivation()
 
         # ------------
@@ -459,6 +493,7 @@ def main():
                         '-psis', action='store_true')
     parser.add_argument('--reset_policy', '-rp', action='store_true')
     # ====================== Constraint Net ========================= #
+    parser.add_argument("--use_logical_net", action='store_true')
     parser.add_argument("--cn_layers", "-cl", type=int,
                         default=[64, 64], nargs='*')
     parser.add_argument("--anneal_clr_by_factor",
