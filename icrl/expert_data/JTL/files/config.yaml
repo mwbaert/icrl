@@ -31,7 +31,13 @@ cn_device:
   value: null
 cn_obs_select_dim:
   desc: null
-  value: null
+  value:
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
 cn_path:
   desc: null
   value: null
@@ -166,7 +172,7 @@ reward_vf_layers:
   - 64
 save_dir:
   desc: null
-  value: ./cpg/wandb/run-20220531_140127-1bpf4m0q/files
+  value: ./cpg/wandb/run-20220607_091057-2tlguotl/files
 save_every:
   desc: null
   value: 40000.0
@@ -187,7 +193,7 @@ target_kl:
   value: 0.01
 timesteps:
   desc: null
-  value: 80000.0
+  value: 200000.0
 train_env_id:
   desc: null
   value: JTL-v0
