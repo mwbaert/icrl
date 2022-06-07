@@ -50,6 +50,12 @@ def in_regions(prev_state, next_state, regions):
                     return True
         return False
 
+def state_in_region(state, regions):
+    for region in regions:
+        if in_rectangle(state, region):
+            return True
+    return False
+    
 def boundaries(o, w, h):
     """Returns the boundaries of rectangle of width w and height h with the
     bottom left corner at the point o.

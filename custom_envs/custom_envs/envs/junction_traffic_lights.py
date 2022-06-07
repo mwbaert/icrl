@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from gym import spaces
 from gym.envs.mujoco import mujoco_env
+import custom_envs.envs.utils as ce_utils
 
 from collections import namedtuple
 
@@ -35,7 +36,7 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
 
         # Define spaces.
         self.observation_space = spaces.Box(
-            low=np.array((0, 0, 0)), high=np.array((BRIDGE_GRID_SIZE, BRIDGE_GRID_SIZE, 1)),
+            low=np.array((0, 0, 0, 0, 0, 0)), high=np.array((BRIDGE_GRID_SIZE, BRIDGE_GRID_SIZE, 1, 1, 1, 1)),
             dtype=np.float32)
         self.action_space = spaces.Discrete(4)
         scale = 1
@@ -44,8 +45,6 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
                                 2: scale*np.array((0, 1)),
                                 3: scale*np.array((0, -1))}
 
-        
-
         # Keep track of all visited states.
         self.make_visited_states_plot()
 
@@ -53,7 +52,13 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
         self.start_i = 2  # np.random.randint(0, 4)
         start_x, start_y = self.start_pos[self.start_i][0], self.start_pos[self.start_i][1]
         self.curr_state = np.array(
-            [start_x, start_y, self.isRoad(start_x, start_y)], dtype=np.float32)
+            [start_x, start_y, 
+            self.isNoRoadN(start_x, start_y),
+            self.isNoRoadE(start_x, start_y),
+            self.isNoRoadS(start_x, start_y),
+            self.isNoRoadW(start_x, start_y)
+            ], dtype=np.float32)
+
         self.goal_i = 0  # np.random.randint(0, 4)
         # while self.goal_i == self.start_i:
         #    self.goal_i = np.random.randint(0, 4)
@@ -118,7 +123,14 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
                 done = True
 
         # add predicates to next_state
-        next_state = np.append(next_state, self.isRoad(next_state[0], next_state[1]))
+        next_state = np.append(next_state, self.isNoRoadN(
+            next_state[0], next_state[1]))
+        next_state = np.append(next_state, self.isNoRoadE(
+            next_state[0], next_state[1]))
+        next_state = np.append(next_state, self.isNoRoadS(
+            next_state[0], next_state[1]))
+        next_state = np.append(next_state, self.isNoRoadW(
+            next_state[0], next_state[1]))
 
         return next_state, reward, done
 
@@ -145,7 +157,7 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
 
         # Add goal.
         add_circle(ax, self.goal, 'orange', 0.5, True)
-        
+
         # Formatting.
         ax.set_xlim(0, self.size)
         ax.set_ylim(0, self.size)
@@ -207,8 +219,18 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
             obs -= 1
         return obs
 
-    def isRoad(self, x, y):
-        return ((y>3) and (y<8)) or ((x>3) and (x<8))
+    def isNoRoadN(self, x, y):
+        return (y == 7) and ((x < 4) or (x > 7))
+
+    def isNoRoadS(self, x, y):
+        return (y == 4) and ((x < 4) or (x > 7))
+
+    def isNoRoadE(self, x, y):
+        return (x == 7) and ((y < 4) or (y > 7))
+
+    def isNoRoadW(self, x, y):
+        return (x == 4) and ((y < 4) or (y > 7))
+
 
 class ConstrainedJunctionTrafficLights(JunctionTrafficLights):
     def __init__(self, *args):
