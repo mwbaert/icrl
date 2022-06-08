@@ -36,7 +36,7 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
 
         # Define spaces.
         self.observation_space = spaces.Box(
-            low=np.array((0, 0, 0, 0, 0, 0)), high=np.array((BRIDGE_GRID_SIZE, BRIDGE_GRID_SIZE, 1, 1, 1, 1)),
+            low=np.array((0, 0, 0, 0, 0, 0, 0)), high=np.array((BRIDGE_GRID_SIZE, BRIDGE_GRID_SIZE, 1, 1, 1, 1, 1)),
             dtype=np.float32)
         self.action_space = spaces.Discrete(4)
         scale = 1
@@ -56,7 +56,8 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
             self.isNoRoadN(start_x, start_y),
             self.isNoRoadE(start_x, start_y),
             self.isNoRoadS(start_x, start_y),
-            self.isNoRoadW(start_x, start_y)
+            self.isNoRoadW(start_x, start_y),
+            self.isOffRoad(start_x, start_y)
             ], dtype=np.float32)
 
         self.goal_i = 0  # np.random.randint(0, 4)
@@ -130,6 +131,8 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
         next_state = np.append(next_state, self.isNoRoadS(
             next_state[0], next_state[1]))
         next_state = np.append(next_state, self.isNoRoadW(
+            next_state[0], next_state[1]))
+        next_state = np.append(next_state, self.isOffRoad(
             next_state[0], next_state[1]))
 
         return next_state, reward, done
@@ -231,6 +234,10 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
     def isNoRoadW(self, x, y):
         return (x == 4) and ((y < 4) or (y > 7))
 
+    def isOffRoad(self, x, y):
+        if(y < 4) or (y > 7):
+            return (x < 4) or (x > 7)
+        return False
 
 class ConstrainedJunctionTrafficLights(JunctionTrafficLights):
     def __init__(self, *args):
