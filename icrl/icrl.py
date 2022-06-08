@@ -310,7 +310,7 @@ def icrl(config):
         # (2): Reward on true environment
         sync_envs_normalization(train_env, eval_env)
         average_true_reward, std_true_reward = evaluate_policy(nominal_agent, eval_env, n_eval_episodes=10,
-                                                               deterministic=False)
+                                                               deterministic=True)
         # (3): KLs
         forward_kl = utils.compute_kl(
             nominal_agent, expert_obs, expert_acs, expert_agent)
