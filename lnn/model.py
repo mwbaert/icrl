@@ -16,6 +16,7 @@ class LNN(nn.Module):
         self.or1 = DynamicOr(num_inputs=2, alpha=0.7)
         self.or2 = DynamicOr(num_inputs=2, alpha=0.7)
         self.or3 = DynamicOr(num_inputs=2, alpha=0.7)
+        self.or4 = DynamicOr(num_inputs=2, alpha=0.7)
 
     def forward(self, x):
         #return self.or1(x)
@@ -27,7 +28,8 @@ class LNN(nn.Module):
         temp=torch.cat((y1, y2), dim=-1)
         y5 = self.or1(torch.cat((y1, y2), dim=-1))[:,None]
         y6 = self.or2(torch.cat((y3, y4), dim=-1))[:,None]
-        return self.or3(torch.cat((y5,y6), dim=-1))[:,None]
+        y7 = self.or3(torch.cat((y5,y6), dim=-1))[:,None]
+        return self.or4(torch.cat((x[:,8][:,None], y7), dim=-1))[:,None]
 
     #def forward(self, x):
     #    #return self.or1(x)
@@ -42,6 +44,11 @@ class LNN(nn.Module):
 
     @torch.no_grad()
     def project_params(self):
-        for layer in self.layers:
-            pass
-            # layer.project_params()
+        self.and1.project_params()
+        self.and2.project_params()
+        self.and3.project_params()
+        self.and4.project_params()
+        self.or1.project_params() 
+        self.or2.project_params() 
+        self.or3.project_params() 
+        self.or4.project_params() 

@@ -247,7 +247,7 @@ class LogicalConstraintNet(nn.Module):
                 loss.backward()
                 self.optimizer.step()
                 # projected gradient descent
-                # self.model.project_params()
+                self.model.project_params()
 
         bw_metrics = {"backward/cn_loss": loss.item(),
                       "backward/expert_loss": expert_loss.item(),
