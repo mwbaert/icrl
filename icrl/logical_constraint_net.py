@@ -2,6 +2,7 @@ import os
 from itertools import accumulate
 from typing import Any, Callable, Dict, Optional, Tuple, Type, Union
 
+from icrl.true_constraint_net import get_true_cost_function
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
@@ -127,10 +128,10 @@ class LogicalConstraintNet(nn.Module):
 
     def forward(self, x: torch.tensor) -> torch.tensor:
         # return self.network(x)
-        x = self.model(x)
-        y = torch.mean(x, -1)
+        #x = self.model(x)
+        #y = torch.mean(x, -1)
         # take lower bound as output
-        return y
+        return self.model(x)
 
     def forward_with_bounds(self, x: torch.tensor) -> torch.tensor:
         return self.model(x)
@@ -139,6 +140,9 @@ class LogicalConstraintNet(nn.Module):
         # assert obs.shape[-1] == self.obs_dim, ""
         # if not self.is_discrete:
         #     assert acs.shape[-1] == self.acs_dim, ""
+        #cost_fn = get_true_cost_function('CJTL-v0')
+        #cost = cost_fn(obs, acs)
+        #return cost
 
         x = self.prepare_data(obs, acs)
         # if(1.0 in acs):
@@ -158,7 +162,7 @@ class LogicalConstraintNet(nn.Module):
         #cost = 1 - out.detach().cpu().numpy()
         cost = out.detach().cpu().numpy()
 
-        return cost
+        return cost.squeeze(-1)
 
     def call_forward(self, x: np.ndarray):
         with torch.no_grad():
@@ -301,21 +305,29 @@ class LogicalConstraintNet(nn.Module):
             acs: np.ndarray,
     ) -> torch.tensor:
         # TODO concat selected obs and action dims
-        x = torch.Tensor([[[0.0 for i in range(8)], [0.0 for i in range(8)]] for i in range(len(acs))])
+        # x = torch.Tensor(
+        #    [[[0.0 for i in range(8)], [0.0 for i in range(8)]] for i in range(len(acs))])
         # TODO optimize this by eliminating for loop
 
-        for i in range(len(acs)):
-            x[i, :, 0] = obs[i][2].item()
-            x[i, :, 1] = obs[i][3].item()
-            x[i, :, 2] = obs[i][4].item()
-            x[i, :, 3] = obs[i][5].item()
-            x[i, :, 4 + acs[i]] = 1.0
 
-        #concat = self.select_appropriate_dims(
-        #    np.concatenate([obs, acs], axis=-1))
+        #for i in range(len(acs)):
+        #    x[i, :, 0] = obs[i][2].item()
+        #    x[i, :, 1] = obs[i][3].item()
+        #    x[i, :, 2] = obs[i][4].item()
+        #    x[i, :, 3] = obs[i][5].item()
+        #    x[i, :, 4 + acs[i]] = 1.0
+        # return x
 
-        return x
+        obs = self.normalize_obs(
+            obs, self.current_obs_mean, self.current_obs_var, self.clip_obs)
+        acs = self.reshape_actions(acs)
+        acs = self.clip_actions(acs, self.action_low, self.action_high)
 
+        concat = self.select_appropriate_dims(
+            np.concatenate([obs, acs], axis=-1))
+
+        return torch.tensor(concat, dtype=torch.float32).to(self.device)
+        
         """
         obs = self.normalize_obs(
             obs, self.current_obs_mean, self.current_obs_var, self.clip_obs)

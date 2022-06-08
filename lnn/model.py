@@ -19,14 +19,26 @@ class LNN(nn.Module):
 
     def forward(self, x):
         #return self.or1(x)
-        y1 = self.and1(torch.cat((x[:,:,0][:,:,None], x[:,:,4][:,:,None]), dim=2))[:,:,None]
-        y2 = self.and2(torch.cat((x[:,:,1][:,:,None], x[:,:,5][:,:,None]), dim=2))[:,:,None]
-        y3 = self.and3(torch.cat((x[:,:,2][:,:,None], x[:,:,6][:,:,None]), dim=2))[:,:,None]
-        y4 = self.and4(torch.cat((x[:,:,3][:,:,None], x[:,:,7][:,:,None]), dim=2))[:,:,None]
+        y1 = self.and1(torch.cat((x[:,0][:,None], x[:,4][:,None]), dim=-1))[:,None]
+        y2 = self.and2(torch.cat((x[:,1][:,None], x[:,5][:,None]), dim=-1))[:,None]
+        y3 = self.and3(torch.cat((x[:,2][:,None], x[:,6][:,None]), dim=-1))[:,None]
+        y4 = self.and4(torch.cat((x[:,3][:,None], x[:,7][:,None]), dim=-1))[:,None]
 
-        y5 = self.or1(torch.cat((y1, y2), dim=-1))[:,:,None]
-        y6 = self.or2(torch.cat((y3, y4), dim=-1))[:,:,None]
-        return self.or3(torch.cat((y5,y6), dim=-1))
+        temp=torch.cat((y1, y2), dim=-1)
+        y5 = self.or1(torch.cat((y1, y2), dim=-1))[:,None]
+        y6 = self.or2(torch.cat((y3, y4), dim=-1))[:,None]
+        return self.or3(torch.cat((y5,y6), dim=-1))[:,None]
+
+    #def forward(self, x):
+    #    #return self.or1(x)
+    #    y1 = self.and1(torch.cat((x[:,:,0][:,:,None], x[:,:,4][:,:,None]), dim=2))[:,:,None]
+    #    y2 = self.and2(torch.cat((x[:,:,1][:,:,None], x[:,:,5][:,:,None]), dim=2))[:,:,None]
+    #    y3 = self.and3(torch.cat((x[:,:,2][:,:,None], x[:,:,6][:,:,None]), dim=2))[:,:,None]
+    #    y4 = self.and4(torch.cat((x[:,:,3][:,:,None], x[:,:,7][:,:,None]), dim=2))[:,:,None]
+#
+    #    y5 = self.or1(torch.cat((y1, y2), dim=-1))[:,:,None]
+    #    y6 = self.or2(torch.cat((y3, y4), dim=-1))[:,:,None]
+    #    return self.or3(torch.cat((y5,y6), dim=-1))
 
     @torch.no_grad()
     def project_params(self):
