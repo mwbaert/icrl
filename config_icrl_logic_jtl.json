@@ -44,7 +44,7 @@
 "n_iters"	:	20,
 "n_steps"	:	2048,
 "no_importance_sampling"	:	false,
-"num_threads"	:	1,
+"num_threads"	:	5,
 "penalty_initial_value"	:	1,
 "penalty_learning_rate"	:	0.1,
 "per_step_importance_sampling"	:	false,

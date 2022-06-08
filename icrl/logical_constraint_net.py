@@ -301,35 +301,18 @@ class LogicalConstraintNet(nn.Module):
             acs: np.ndarray,
     ) -> torch.tensor:
         # TODO concat selected obs and action dims
-        #x = torch.Tensor([[[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]] for i in range(len(acs))])
         x = torch.Tensor([[[0.0 for i in range(8)], [0.0 for i in range(8)]] for i in range(len(acs))])
         # TODO optimize this by eliminating for loop
-        # for i in range(len(acs)):
-        #    x[i, :, acs[i]] = 1.0
-        # if acs[0]==0:
-        #    x[0, :, 0] = 1.0
-        # if acs[0]==3:
-        #    x[0, :, 0] = 1.0
 
-        #x[0, :, 0] = 1-obs[0][2].item()
-        x[0, :, 0] = obs[0][2].item()
-        x[0, :, 1] = obs[0][3].item()
-        x[0, :, 2] = obs[0][4].item()
-        x[0, :, 3] = obs[0][5].item()
-        x[0, :, 4 + acs[0]] = 1.0
-        
-        #if(acs[3] == 1):
-        #    x[0, :, 1] = 1.0
-
-        # use selected_dims here (see constraint_net.py)
-        #x[0, :, -1] = obs[0][2].item()
-
-        return x
-
-        x = torch.Tensor([[[0.0], [0.0]] for i in range(len(acs))])
-        # TODO optimize this by eliminating for loop
         for i in range(len(acs)):
-            x[i, :, 0] = acs[i]
+            x[i, :, 0] = obs[i][2].item()
+            x[i, :, 1] = obs[i][3].item()
+            x[i, :, 2] = obs[i][4].item()
+            x[i, :, 3] = obs[i][5].item()
+            x[i, :, 4 + acs[i]] = 1.0
+
+        #concat = self.select_appropriate_dims(
+        #    np.concatenate([obs, acs], axis=-1))
 
         return x
 
