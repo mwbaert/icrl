@@ -37,7 +37,7 @@ def train(dataloader, model, loss_fn, optimizer):
     size = len(dataloader.dataset)
     model.train()
     torch.autograd.set_detect_anomaly(True)
-    for i in range(50):
+    for i in range(40):
         for batch, (X, y) in enumerate(dataloader):
             # Compute prediction error
             pred = model(X)
@@ -68,7 +68,8 @@ def train(dataloader, model, loss_fn, optimizer):
     model.print_weights()
 
 
-x = [np.array([[1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0], [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0]]),
+x = [np.array([[1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0],    
+               [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0]]),
      np.array([[1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0],
               [1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0]]),
      np.array([[1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0],
@@ -119,7 +120,7 @@ y = [np.array([1.0]),
      np.array([1.0])]
 
 dataloader = DataLoader(TensorDataset(
-    torch.Tensor(x), torch.Tensor(y)), batch_size=1, shuffle=True)
+    torch.Tensor(x), torch.Tensor(y)), batch_size=1, shuffle=False)
 
 model = LogicalNet()
 
