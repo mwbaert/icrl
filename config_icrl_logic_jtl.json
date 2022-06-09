@@ -26,6 +26,7 @@
 64],
 "derivative_control_coeff"	:	0,
 "derivative_cost_ema_alpha"	:	0.5,
+"deterministic": true,
 "device"	:	"cpu",
 "dont_normalize_cost"	:	false,
 "dont_normalize_obs"	:	false,
