@@ -122,6 +122,7 @@ def lap_grid_world(obs, acs):
             cost += [0]
     return np.array(cost)
 
+
 def junction_traffic_lights(env, obs, acs):
     obs = copy.deepcopy(obs)
     acs = copy.deepcopy(acs)
@@ -138,9 +139,26 @@ def junction_traffic_lights(env, obs, acs):
         # Need to unnormalize obs
         ob = unnormalize(env, ob)
         ac = env.action_map_dict[int(ac)]
+
+        #invalid = False
+        #if (env.isNoRoadN(ob[0], ob[1])) and (ac == 0):
+        #    invalid = True
+        #if (env.isNoRoadE(ob[0], ob[1])) and (ac == 1):
+        #    invalid = True
+        #if (env.isNoRoadS(ob[0], ob[1])) and (ac == 2):
+        #    invalid = True
+        #if (env.isNoRoadW(ob[0], ob[1])) and (ac == 3):
+        #    invalid = True
+        #if (env.isOffRoad(ob[0], ob[1])):
+        #    ivalid = True
+#
+        #if invalid:
+        #    cost += [1]
+        #else:
+        #    cost += [0]
         next_ob = ob
         next_ob = np.around(next_ob[:2]+ac, 6)
-        
+#
         if ce_utils.in_regions(ob, next_ob, env.constraint_regions):
             cost += [1]
         else:

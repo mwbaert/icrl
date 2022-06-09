@@ -304,20 +304,6 @@ class LogicalConstraintNet(nn.Module):
             obs: np.ndarray,
             acs: np.ndarray,
     ) -> torch.tensor:
-        # TODO concat selected obs and action dims
-        # x = torch.Tensor(
-        #    [[[0.0 for i in range(8)], [0.0 for i in range(8)]] for i in range(len(acs))])
-        # TODO optimize this by eliminating for loop
-
-
-        #for i in range(len(acs)):
-        #    x[i, :, 0] = obs[i][2].item()
-        #    x[i, :, 1] = obs[i][3].item()
-        #    x[i, :, 2] = obs[i][4].item()
-        #    x[i, :, 3] = obs[i][5].item()
-        #    x[i, :, 4 + acs[i]] = 1.0
-        # return x
-
         obs = self.normalize_obs(
             obs, self.current_obs_mean, self.current_obs_var, self.clip_obs)
         acs = self.reshape_actions(acs)
@@ -327,18 +313,6 @@ class LogicalConstraintNet(nn.Module):
             np.concatenate([obs, acs], axis=-1))
 
         return torch.tensor(concat, dtype=torch.float32).to(self.device)
-        
-        """
-        obs = self.normalize_obs(
-            obs, self.current_obs_mean, self.current_obs_var, self.clip_obs)
-        acs = self.reshape_actions(acs)
-        acs = self.clip_actions(acs, self.action_low, self.action_high)
-
-        concat = self.select_appropriate_dims(
-            np.concatenate([obs, acs], axis=-1))
-
-        return torch.tensor(concat, dtype=torch.float32).to(self.device)
-        """
 
     def select_appropriate_dims(self, x: Union[np.ndarray, torch.tensor]) -> Union[np.ndarray, torch.tensor]:
         return x[..., self.select_dim]

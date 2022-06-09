@@ -9,7 +9,7 @@ class LogicalNet(nn.Module):
     def __init__(self):
         super(LogicalNet, self).__init__()
 
-        self.model = LNN()
+        self.model = LNN(alpha=0.7)
         self.print_weights()
         self.optimizer = torch.optim.Adam(self.model.parameters(), lr=0.01)
         self.criterion = nn.MSELoss()
@@ -37,7 +37,7 @@ def train(dataloader, model, loss_fn, optimizer):
     size = len(dataloader.dataset)
     model.train()
     torch.autograd.set_detect_anomaly(True)
-    for i in range(40):
+    for i in range(10):
         for batch, (X, y) in enumerate(dataloader):
             # Compute prediction error
             pred = model(X)
@@ -103,7 +103,7 @@ y = [np.array([1.0]),
      np.array([1.0])]
 
 dataloader = DataLoader(TensorDataset(
-    torch.Tensor(x), torch.Tensor(y)), batch_size=1, shuffle=False)
+    torch.Tensor(x), torch.Tensor(y)), batch_size=1, shuffle=True)
 
 model = LogicalNet()
 
