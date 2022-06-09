@@ -45,9 +45,9 @@ def in_regions(prev_state, next_state, regions):
                 return True
             if in_rectangle(next_state, region):
                 return True
-            for bound in boundaries(*region):
-                if intersects((prev_state, next_state), bound):
-                    return True
+            #for bound in boundaries(*region):
+            #    if intersects((prev_state, next_state), bound):
+            #        return True
         return False
 
 def state_in_region(state, regions):

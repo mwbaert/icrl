@@ -40,10 +40,10 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
             dtype=np.float32)
         self.action_space = spaces.Discrete(4)
         scale = 1
-        self.action_map_dict = {0: scale*np.array((1, 0)),
-                                1: scale*np.array((-1, 0)),
-                                2: scale*np.array((0, 1)),
-                                3: scale*np.array((0, -1))}
+        self.action_map_dict = {0: scale*np.array((0, 1)),  #N
+                                1: scale*np.array((1, 0)),  #E
+                                2: scale*np.array((0, -1)), #S
+                                3: scale*np.array((-1, 0))} #W
 
         # Keep track of all visited states.
         self.make_visited_states_plot()
@@ -223,21 +223,29 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
         return obs
 
     def isNoRoadN(self, x, y):
-        return (y == 7) and ((x < 4) or (x > 7))
+        if(y == 7) and ((x < 4) or (x > 7)):
+            return 1.0
+        return 0.0
 
     def isNoRoadS(self, x, y):
-        return (y == 4) and ((x < 4) or (x > 7))
+        if(y == 4) and ((x < 4) or (x > 7)):
+            return 1.0
+        return 0.0
 
     def isNoRoadE(self, x, y):
-        return (x == 7) and ((y < 4) or (y > 7))
+        if(x == 7) and ((y < 4) or (y > 7)):
+            return 1.0
+        return 0.0
 
     def isNoRoadW(self, x, y):
-        return (x == 4) and ((y < 4) or (y > 7))
+        if(x == 4) and ((y < 4) or (y > 7)):
+            return 1.0
+        return 0.0
 
     def isOffRoad(self, x, y):
-        if(y < 4) or (y > 7):
-            return (x < 4) or (x > 7)
-        return False
+        if((y < 4) or (y > 7)) and ((x < 4) or (x > 7)):
+            return 1.0
+        return 0.0
 
 class ConstrainedJunctionTrafficLights(JunctionTrafficLights):
     def __init__(self, *args):
