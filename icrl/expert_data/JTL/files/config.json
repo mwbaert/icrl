@@ -56,7 +56,7 @@
 "reward_vf_coef"	:	0.5,
 "reward_vf_layers"	:	[64,
 64],
-"save_dir"	:	"./cpg/wandb/run-20220608_105414-1chccibb/files",
+"save_dir"	:	"./cpg/wandb/run-20220609_114902-3pgm9js9/files",
 "save_every"	:	40000.0,
 "sde_sample_freq"	:	-1,
 "seed"	:	20,
