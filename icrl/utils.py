@@ -340,7 +340,7 @@ def eval_and_make_video(env, model, folder, name_prefix, n_rollouts=3, determini
     env.close()
 
 
-def sample_from_agent(agent, env, rollouts):
+def sample_from_agent(agent, env, rollouts, deterministic=False):
     if isinstance(env, vec_env.VecEnv):
         assert env.num_envs == 1, "You must pass only one environment when using this function"
 
@@ -355,7 +355,7 @@ def sample_from_agent(agent, env, rollouts):
         episode_length = 0
         while not done:
             action, state = agent.predict(
-                obs, state=state, deterministic=False)
+                obs, state=state, deterministic=deterministic)
             obs, reward, done, _info = env.step(action)
             observations.append(obs)
             if isinstance(env, vec_env.VecNormalize):

@@ -256,7 +256,7 @@ def icrl(config):
         # Sample nominal trajectories
         sync_envs_normalization(train_env, sampling_env)
         orig_observations, observations, actions, rewards, lengths = utils.sample_from_agent(
-            nominal_agent, sampling_env, config.expert_rollouts)
+            nominal_agent, sampling_env, config.expert_rollouts, deterministic=config.deterministic)
 
         # Plot constraint net periodically
         if itr % config.cn_plot_every == 0:
@@ -275,8 +275,9 @@ def icrl(config):
         mean, var = None, None
         if config.cn_normalize:
             mean, var = sampling_env.obs_rms.mean, sampling_env.obs_rms.var
-        backward_metrics = constraint_net.train(config.backward_iters, orig_observations, actions, lengths,
-                                                mean, var, current_progress_remaining)
+        # COMMENT THIS OUT
+        #backward_metrics = constraint_net.train(config.backward_iters, orig_observations, actions, lengths,
+        #                                        mean, var, current_progress_remaining)
 
         # Pass updated cost_function to cost wrapper (train_env)
         train_env.set_cost_function(constraint_net.cost_function)
@@ -310,7 +311,7 @@ def icrl(config):
         # (2): Reward on true environment
         sync_envs_normalization(train_env, eval_env)
         average_true_reward, std_true_reward = evaluate_policy(nominal_agent, eval_env, n_eval_episodes=10,
-                                                               deterministic=True)
+                                                               deterministic=config.deterministic)
         # (3): KLs
         forward_kl = utils.compute_kl(
             nominal_agent, expert_obs, expert_acs, expert_agent)
@@ -367,7 +368,8 @@ def icrl(config):
             "best_true/best_reverse_kl": best_reverse_kl
         }
         metrics.update({k.replace("train/", "forward/")                        : v for k, v in forward_metrics.items()})
-        metrics.update(backward_metrics)
+        # COMMENT THIS OUT
+        #metrics.update(backward_metrics)
 
         # Log
         if config.verbose > 0:
@@ -379,7 +381,7 @@ def icrl(config):
     if not config.wandb_sweep:
         sync_envs_normalization(train_env, eval_env)
         utils.eval_and_make_video(
-            eval_env, nominal_agent, config.save_dir, "final_policy")
+            eval_env, nominal_agent, config.save_dir, "final_policy", deterministic=config.deterministic)
 
     if config.sync_wandb:
         utils.sync_wandb(config.save_dir, 120)
@@ -437,6 +439,7 @@ def main():
                         type=float, default=0.95)
     parser.add_argument("--cost_gamma", "-cg", type=float, default=0.99)
     parser.add_argument("--cost_gae_lambda", "-cgl", type=float, default=0.95)
+    parser.add_argument("--deterministic", action="store_true")
     # ========================= Losses ============================== #
     parser.add_argument("--clip_range", "-cr", type=float, default=0.2)
     parser.add_argument("--clip_range_reward_vf",
