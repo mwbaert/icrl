@@ -103,24 +103,13 @@ class LogicalConstraintNet(nn.Module):
         self.input_dims = len(self.select_dim)
 
     def _build(self) -> None:
-        self.model = LNN()
+        self.model = LNN(num_inputs=self.input_dims)
         self.model.to(self.device)
-
-        # Create network and add sigmoid at the end
-        # self.network = nn.Sequential(
-        #     *create_mlp(self.input_dims, 1, self.hidden_sizes),
-        #     nn.Sigmoid()
-        # )
-        # self.network.to(self.device)
-
-        # Build optimizer
-        # TODO maybe hard code (in the beginning)
         print(self.parameters)
 
         if self.optimizer_class is not None:
             self.optimizer = self.optimizer_class(
                 self.parameters(), lr=self.lr_schedule(1), **self.optimizer_kwargs)
-            # self.optimizer = torch.optim.Adam(self.parameters(), lr=1e-1)
         else:
             self.optimizer = None
         if self.train_gail_lambda:
@@ -244,6 +233,7 @@ class LogicalConstraintNet(nn.Module):
 
                 # Update
                 self.optimizer.zero_grad()
+
                 loss.backward()
                 self.optimizer.step()
                 # projected gradient descent

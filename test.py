@@ -6,10 +6,10 @@ import torch
 
 
 class LogicalNet(nn.Module):
-    def __init__(self):
+    def __init__(self, num_inputs):
         super(LogicalNet, self).__init__()
 
-        self.model = LNN(alpha=0.7)
+        self.model = LNN(num_inputs)
         self.print_weights()
         self.optimizer = torch.optim.Adam(self.model.parameters(), lr=0.01)
         self.criterion = nn.MSELoss()
@@ -37,7 +37,7 @@ def train(dataloader, model, loss_fn, optimizer):
     size = len(dataloader.dataset)
     model.train()
     torch.autograd.set_detect_anomaly(True)
-    for i in range(10):
+    for i in range(200):
         for batch, (X, y) in enumerate(dataloader):
             # Compute prediction error
             pred = model(X)
@@ -53,6 +53,7 @@ def train(dataloader, model, loss_fn, optimizer):
 
             # model.print_weights()
             optimizer.step()
+            model.model.project_params()
 
             if batch % 1 == 0:
                 loss, current = loss.item(), batch * len(X)
@@ -68,22 +69,22 @@ def train(dataloader, model, loss_fn, optimizer):
     model.print_weights()
 
 
-x = [np.array([1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0]),
-     np.array([1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0]),
+x = [np.array([1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0]),
      np.array([1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0]),
      np.array([1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0]),
-     np.array([0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0]),
+     np.array([1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]),
      np.array([0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0]),
      np.array([0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0]),
      np.array([0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0]),
-     np.array([0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0]),
+     np.array([0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]),
      np.array([0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0]),
      np.array([0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0]),
      np.array([0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0]),
-     np.array([0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0]),
+     np.array([0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]),
      np.array([0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0]),
      np.array([0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0]),
-     np.array([0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0])]
+     np.array([0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0]),
+     np.array([0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0])]
 
 y = [np.array([1.0]),
      np.array([0.0]),
@@ -103,8 +104,8 @@ y = [np.array([1.0]),
      np.array([1.0])]
 
 dataloader = DataLoader(TensorDataset(
-    torch.Tensor(x), torch.Tensor(y)), batch_size=1, shuffle=True)
+    torch.Tensor(x), torch.Tensor(y)), batch_size=8, shuffle=True)
 
-model = LogicalNet()
+model = LogicalNet(9)
 
 train(dataloader, model, model.criterion, model.optimizer)

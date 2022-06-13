@@ -7,6 +7,22 @@ import torch
 import numpy as np
 
 
+class StaticAnd(nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x):
+        return torch.prod(x, dim=-1)
+
+
+class StaticOr(nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x):
+        return torch.clamp(torch.sum(x, dim=-1), min=0, max=1)
+
+
 class LogicNeuron(nn.Module):
     def __init__(self, num_inputs):
         super().__init__()
@@ -56,16 +72,21 @@ class Or(LogicNeuron):
 
 
 class DynamicNeuron(nn.Module):
-    def __init__(self, num_inputs, alpha=0.5):
+    def __init__(self, num_inputs, alpha, final=False):
         super().__init__()
 
+        if alpha is None:
+            alpha = num_inputs/(num_inputs+1)
+
         self.num_inputs = num_inputs
-        #self.weights = nn.Parameter(torch.rand(self.num_inputs))
+        # self.weights = nn.Parameter(torch.rand(self.num_inputs))
         self.weights = nn.Parameter(torch.Tensor(self.num_inputs))
-        torch.nn.init.constant_(self.weights, 1.0)
-        #torch.nn.init.xavier_uniform_(self.weights)
+        torch.nn.init.constant_(self.weights, 0.7)
+        # torch.nn.init.xavier_uniform_(self.weights)
         self.f = DynamicActivation(self.num_inputs, alpha)
         self.kappa = None
+        self.final = final
+        self.temp = 1
 
     def forward(self, x):
         x = x @ self.weights
@@ -73,7 +94,12 @@ class DynamicNeuron(nn.Module):
         self.f.update_activation(self.weights, self.kappa)
 
         # call activation function
-        return self.f(x)
+        out = self.f(x)
+
+        if self.final:
+            out = torch.sigmoid(self.temp*(out - self.f.x_t))
+        
+        return out
 
     def plotActivation(self):
         self.f.plot()
@@ -82,21 +108,47 @@ class DynamicNeuron(nn.Module):
     def project_params(self):
         self.weights.data = self.weights.data.clamp(0, 1)
 
+
 class DynamicOr(DynamicNeuron):
-    def __init__(self, num_inputs, alpha=0.6):
-        super().__init__(num_inputs, alpha)
+    def __init__(self, num_inputs, alpha, final=False):
+        super().__init__(num_inputs, alpha, final)
         self.kappa = torch.tensor(0.0)
 
 
 class DynamicAnd(DynamicNeuron):
-    def __init__(self, num_inputs, alpha=0.6):
-        super().__init__(num_inputs, alpha)
+    def __init__(self, num_inputs, alpha, final=False):
+        super().__init__(num_inputs, alpha, final)
         self.kappa = torch.tensor(1.0)
+
+"""
+class DynamicOr(nn.Module):
+
+        #An n-ary dynamic neuron is implemented as the concatenation of n-1 binary dynamic neurons
+        #to maintain the interpretability of the logical neuron.
+
+
+    def __init__(self, num_inputs, alpha=0.6):
+        super().__init__()
+
+        self.num_inputs = num_inputs
+        self.neurons = nn.ModuleList([DynamicBinaryOr(alpha=alpha)
+                                for i in range(num_inputs-1)])
+
+    def forward(self, x):
+        assert x.size(-1) == self.num_inputs, "the dimension of x should correspond with the configured number of inputs"
+
+        for i in range(self.num_inputs):
+            y = self.neurons()
+
+class DynamicAnd(nn.Module):
+    def __init__(self, num_inputs, alpha=0.6):
+        super().__init__()
+"""
 
 class Attention(nn.Module):
     def __init__(self, num_inputs):
         super().__init__(num_inputs)
-        
+
         self.num_inputs = num_inputs
         self.weights = nn.Parameter(torch.Tensor(self.num_inputs))
         self.temp = 1
@@ -111,6 +163,7 @@ class Attention(nn.Module):
     def update_temp(self):
         # TODO
         print("temp update not implemented")
+
 
 class DynamicActivation(nn.Module):
     def __init__(self, num_inputs, alpha=0.6):
@@ -137,9 +190,13 @@ class DynamicActivation(nn.Module):
 
         a = (2*torch.log((1-self.alpha)/self.alpha))/(self.x_f - self.x_t)
         b = torch.log(self.alpha/(1-self.alpha)) + (a*self.x_f)
-        #b = torch.clamp(b, max=70)
+        #b = torch.clamp(b, max=50)
 
         y = 1/(1+torch.exp((-a*x)+b))
+
+        # remove this after debugging
+        if torch.any(torch.isnan(y)):
+            print("y is nan")
 
         if torch.any(y < 0) or torch.any(y > 1) or torch.any(y == -1):
             raise ValueError(
