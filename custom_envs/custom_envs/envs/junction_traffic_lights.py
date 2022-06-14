@@ -14,8 +14,25 @@ from custom_envs.envs.utils import *
 # are the x and y coordinates. This follows the standard mathematical
 # convention for graphs.
 
-BRIDGE_GRID_SIZE = 12
+GRID_SIZE = 12
 BRIDGE_MAX_TIME_STEPS = 1000
+ORIENTATION_N = 0
+ORIENTATION_E = 1
+ORIENTATION_S = 2
+ORIENTATION_W = 3
+
+STATE_X = 0
+STATE_Y = 1
+STATE_ORIENTATION = 2
+STATE_NO_ROAD_LEFT = 3
+STATE_NO_ROAD_RIGHT = 4
+STATE_NO_ROAD_IN_FRONT = 5
+STATE_OFF_ROAD = 6
+
+ACTION_STILL = 0
+ACTION_STRAIGHT = 1
+ACTION_LEFT = 2
+ACTION_RIGHT = 3
 
 
 class JunctionTrafficLights(mujoco_env.MujocoEnv):
@@ -24,10 +41,11 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
     def __init__(self, constraint_regions=[], track_agent=False,
                  normalize_obs=False):
         # Environment setup.
-        self.size = BRIDGE_GRID_SIZE
+        self.size = GRID_SIZE
         self.max_time_steps = BRIDGE_MAX_TIME_STEPS
-        self.start_pos = np.array([[6, 0], [6, 12], [0, 6], [12, 6]])
-        self.goals = self.start_pos
+        #self.start_pos = np.array([[6, 0], [6, 12], [0, 6], [12, 6]])
+        self.start_pos = np.array([[0, 4], [0, 5], [0, 6], [0, 7]])
+        #self.goals = np.array([[4, 0], [5, 0], [6, 0], [7, 0]])
         self.action_dim = 2
         self.state_dim = 3
         self.track_agent = track_agent
@@ -36,34 +54,37 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
 
         # Define spaces.
         self.observation_space = spaces.Box(
-            low=np.array((0, 0, 0, 0, 0, 0, 0)), high=np.array((BRIDGE_GRID_SIZE, BRIDGE_GRID_SIZE, 1, 1, 1, 1, 1)),
+            low=np.array((0, 0, 0, 0, 0, 0, 0)), high=np.array((GRID_SIZE, GRID_SIZE, 4, 1, 1, 1, 1)),
             dtype=np.float32)
+        # |still|straight|left|right|
         self.action_space = spaces.Discrete(4)
         scale = 1
-        self.action_map_dict = {0: scale*np.array((0, 1)),  #N
-                                1: scale*np.array((1, 0)),  #E
-                                2: scale*np.array((0, -1)), #S
-                                3: scale*np.array((-1, 0))} #W
+
+        # absolute actions
+        self.action_map_dict = {0: scale*np.array((0, 1)),  # N
+                                1: scale*np.array((1, 0)),  # E
+                                2: scale*np.array((0, -1)),  # S
+                                3: scale*np.array((-1, 0))}  # W
 
         # Keep track of all visited states.
         self.make_visited_states_plot()
 
     def reset(self):
-        self.start_i = 2  # np.random.randint(0, 4)
+        self.start_i = np.random.randint(0, 4)
         start_x, start_y = self.start_pos[self.start_i][0], self.start_pos[self.start_i][1]
         self.curr_state = np.array(
-            [start_x, start_y, 
-            self.isNoRoadN(start_x, start_y),
-            self.isNoRoadE(start_x, start_y),
-            self.isNoRoadS(start_x, start_y),
-            self.isNoRoadW(start_x, start_y),
-            self.isOffRoad(start_x, start_y)
-            ], dtype=np.float32)
+            [start_x, start_y,
+             ORIENTATION_E,
+             self.isNoRoadLeft(start_x, start_y, ORIENTATION_E),
+             self.isNoRoadRight(start_x, start_y, ORIENTATION_E),
+             self.isNoRoadInFront(start_x, start_y, ORIENTATION_E),
+             self.isOffRoad(start_x, start_y)
+             ], dtype=np.float32)
 
         self.goal_i = 0  # np.random.randint(0, 4)
         # while self.goal_i == self.start_i:
         #    self.goal_i = np.random.randint(0, 4)
-        self.goal = self.goals[self.goal_i]
+        self.goal = [7,0] #self.goals[self.goal_i]
         self.done = False
         self.timesteps = 0
         self.score = 0.
@@ -81,7 +102,6 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
         assert self.done == False, 'Need to call reset first'
 
         # Get reward, next state.
-        action = self.action_map_dict[action]
         self.curr_state, reward, self.done = self.reward(
             self.curr_state, action)
         self.score += reward
@@ -105,35 +125,25 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
         an invalid state.
         """
         done = False
-        next_state = np.around(state[:2]+action, 6)
+        next_state = state.copy()
+        next_state = self.applyAction(next_state, action)
 
         # do not move when at a border
-        if (np.min(next_state) < 0) or (np.max(next_state) > self.size):
-            next_state = state[:2]
+        if (np.min(next_state[:STATE_Y+1]) < 0) or (np.max(next_state[:STATE_Y+1]) > self.size):
+            next_state = state
 
-        if in_regions(state[:2], next_state, self.constraint_regions):
+        if in_regions(state[:STATE_Y+1], next_state[:STATE_Y+1], self.constraint_regions):
             reward = -10000
             #done = True
         else:
-            reward = -np.sum(np.abs((next_state-self.goal)))/BRIDGE_GRID_SIZE
+            reward = - \
+                np.sum(np.abs((next_state[:STATE_Y+1]-self.goal)))/GRID_SIZE
 
-            if(next_state == self.goal).all():
+            if(next_state[:STATE_Y+1] == self.goal).all():
                 # Within 1 unit circle of the goal (states within unit circle
                 # but outside grid have already been handled).
                 reward = 10000
                 done = True
-
-        # add predicates to next_state
-        next_state = np.append(next_state, self.isNoRoadN(
-            next_state[0], next_state[1]))
-        next_state = np.append(next_state, self.isNoRoadE(
-            next_state[0], next_state[1]))
-        next_state = np.append(next_state, self.isNoRoadS(
-            next_state[0], next_state[1]))
-        next_state = np.append(next_state, self.isNoRoadW(
-            next_state[0], next_state[1]))
-        next_state = np.append(next_state, self.isOffRoad(
-            next_state[0], next_state[1]))
 
         return next_state, reward, done
 
@@ -222,30 +232,70 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
             obs -= 1
         return obs
 
-    def isNoRoadN(self, x, y):
-        if(y == 7) and ((x < 4) or (x > 7)):
-            return 1.0
-        return 0.0
+    def applyAction(self, state, action):
+        if (action > ACTION_STILL) and (action <= ACTION_RIGHT):
+            state = self.updateOrientation(state, action)
+            state = self.updatePosition(state, action)
+            state = self.updatePropositionals(state)
 
-    def isNoRoadS(self, x, y):
-        if(y == 4) and ((x < 4) or (x > 7)):
-            return 1.0
-        return 0.0
+        return state
 
-    def isNoRoadE(self, x, y):
-        if(x == 7) and ((y < 4) or (y > 7)):
-            return 1.0
-        return 0.0
+    def updateOrientation(self, state, action):
+        if action == ACTION_LEFT:
+            state[STATE_ORIENTATION] = (state[STATE_ORIENTATION]+3) % 4
+        elif action == ACTION_RIGHT:
+            state[STATE_ORIENTATION] = (state[STATE_ORIENTATION]+1) % 4
 
-    def isNoRoadW(self, x, y):
-        if(x == 4) and ((y < 4) or (y > 7)):
-            return 1.0
-        return 0.0
+        return state
+
+    def updatePosition(self, state, action):
+        state[:STATE_Y+1] += self.action_map_dict[state[STATE_ORIENTATION]]
+
+        return state
+
+    def updatePropositionals(self, state):
+        state[STATE_NO_ROAD_LEFT] = self.isNoRoadLeft(
+            state[STATE_X], state[STATE_Y], state[STATE_ORIENTATION])
+        state[STATE_NO_ROAD_RIGHT] = self.isNoRoadRight(
+            state[STATE_X], state[STATE_Y], state[STATE_ORIENTATION])
+        state[STATE_NO_ROAD_IN_FRONT] = self.isNoRoadInFront(
+            state[STATE_X], state[STATE_Y], state[STATE_ORIENTATION])
+        state[STATE_OFF_ROAD] = self.isOffRoad(state[STATE_X], state[STATE_Y])
+
+        return state
+
+    def isNoRoadLeft(self, x, y, orientation):
+        return self.isNoRoad(x, y, (orientation+3) % 4)
+
+    def isNoRoadRight(self, x, y, orientation):
+        return self.isNoRoad(x, y, (orientation+1) % 4)
+
+    def isNoRoadInFront(self, x, y, orientation):
+        return self.isNoRoad(x, y, orientation)
+
+    def isNoRoad(self, x, y, orientation):
+        if orientation == ORIENTATION_N:
+            if(y == 7) and ((x < 4) or (x > 7)):
+                return 1.0
+            return 0.0
+        elif orientation == ORIENTATION_S:
+            if(y == 4) and ((x < 4) or (x > 7)):
+                return 1.0
+            return 0.0
+        elif orientation == ORIENTATION_E:
+            if(x == 7) and ((y < 4) or (y > 7)):
+                return 1.0
+            return 0.0
+        elif orientation == ORIENTATION_W:
+            if(x == 4) and ((y < 4) or (y > 7)):
+                return 1.0
+            return 0.0
 
     def isOffRoad(self, x, y):
         if((y < 4) or (y > 7)) and ((x < 4) or (x > 7)):
             return 1.0
         return 0.0
+
 
 class ConstrainedJunctionTrafficLights(JunctionTrafficLights):
     def __init__(self, *args):

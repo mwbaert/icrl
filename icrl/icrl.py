@@ -103,6 +103,7 @@ def icrl(config):
             expert_obs,
             expert_acs,
             is_discrete,
+            config.cn_l1_coeff,
             config.cn_reg_coeff,
             config.cn_obs_select_dim,
             config.cn_acs_select_dim,
@@ -118,7 +119,7 @@ def icrl(config):
             target_kl_new_old=config.cn_target_kl_new_old,
             train_gail_lambda=config.train_gail_lambda,
             eps=config.cn_eps,
-            device=config.device
+            device=config.device,
         )
     else:
         constraint_net = ConstraintNet(
@@ -145,7 +146,7 @@ def icrl(config):
             target_kl_new_old=config.cn_target_kl_new_old,
             train_gail_lambda=config.train_gail_lambda,
             eps=config.cn_eps,
-            device=config.device
+            device=config.device,
         )
 
     # Pass constraint net cost function to cost wrapper (train env)
@@ -275,9 +276,8 @@ def icrl(config):
         mean, var = None, None
         if config.cn_normalize:
             mean, var = sampling_env.obs_rms.mean, sampling_env.obs_rms.var
-        # COMMENT THIS OUT
-        #backward_metrics = constraint_net.train(config.backward_iters, orig_observations, actions, lengths,
-        #                                        mean, var, current_progress_remaining)
+        backward_metrics = constraint_net.train(config.backward_iters, orig_observations, actions, lengths,
+                                                mean, var, current_progress_remaining)
 
         # Pass updated cost_function to cost wrapper (train_env)
         train_env.set_cost_function(constraint_net.cost_function)
@@ -368,8 +368,7 @@ def icrl(config):
             "best_true/best_reverse_kl": best_reverse_kl
         }
         metrics.update({k.replace("train/", "forward/")                        : v for k, v in forward_metrics.items()})
-        # COMMENT THIS OUT
-        #metrics.update(backward_metrics)
+        metrics.update(backward_metrics)
 
         # Log
         if config.verbose > 0:
@@ -501,6 +500,7 @@ def main():
                         default=[64, 64], nargs='*')
     parser.add_argument("--anneal_clr_by_factor",
                         "-aclr", type=float, default=1.0)
+    parser.add_argument("--cn_l1_coeff", type=float, default=0.0)
     parser.add_argument("--cn_learning_rate", "-clr", type=float, default=3e-4)
     parser.add_argument("--cn_reg_coeff", "-crc", type=float, default=0)
     parser.add_argument("--cn_batch_size", "-cbs", type=int, default=None)

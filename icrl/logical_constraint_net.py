@@ -24,6 +24,7 @@ class LogicalConstraintNet(nn.Module):
         expert_obs: np.ndarray,
         expert_acs: np.ndarray,
         is_discrete: bool,
+        l1_coeff: float= 0.,
         regularizer_coeff: float = 0.,
         obs_select_dim: Optional[Tuple[int, ...]] = None,
         acs_select_dim: Optional[Tuple[int, ...]] = None,
@@ -58,6 +59,7 @@ class LogicalConstraintNet(nn.Module):
         self.hidden_sizes = hidden_sizes
         self.batch_size = batch_size
         self.is_discrete = is_discrete
+        self.l1_coeff = l1_coeff
         self.regularizer_coeff = regularizer_coeff
         self.importance_sampling = not no_importance_sampling
         self.per_step_importance_sampling = per_step_importance_sampling
@@ -131,7 +133,7 @@ class LogicalConstraintNet(nn.Module):
         #     assert acs.shape[-1] == self.acs_dim, ""
         #cost_fn = get_true_cost_function('CJTL-v0')
         #cost = cost_fn(obs, acs)
-        #return cost
+        # return cost
 
         x = self.prepare_data(obs, acs)
         # if(1.0 in acs):
@@ -228,8 +230,12 @@ class LogicalConstraintNet(nn.Module):
                     nominal_loss = torch.mean(
                         is_batch * torch.log(nominal_preds + self.eps))
                     regularizer_loss = self.regularizer_coeff * \
-                        (torch.mean(1-expert_preds) + torch.mean(1-nominal_preds))
-                    loss = (-expert_loss + nominal_loss) + regularizer_loss
+                        (torch.mean(expert_preds) + torch.mean(nominal_preds))
+                    l1_loss = self.l1_coeff * \
+                        torch.norm(torch.cat([x.view(-1)
+                                   for x in self.model.parameters()]), 1)
+                    loss = (expert_loss - nominal_loss) + \
+                        regularizer_loss + l1_loss
 
                 # Update
                 self.optimizer.zero_grad()

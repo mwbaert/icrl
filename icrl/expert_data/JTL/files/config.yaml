@@ -31,13 +31,7 @@ cn_device:
   value: null
 cn_obs_select_dim:
   desc: null
-  value:
-  - 2
-  - 3
-  - 4
-  - 5
-  - 6
-  - 7
+  value: null
 cn_path:
   desc: null
   value: null
@@ -126,7 +120,7 @@ name:
   value: D2B-v0_CDD2B-v0_tk_0.01_s_20_sid_0_s_20_sid_-1
 num_threads:
   desc: null
-  value: 1
+  value: 5
 penalty_initial_value:
   desc: null
   value: 1
@@ -172,7 +166,7 @@ reward_vf_layers:
   - 64
 save_dir:
   desc: null
-  value: ./cpg/wandb/run-20220609_114902-3pgm9js9/files
+  value: ./cpg/wandb/run-20220613_133810-32ratmhy/files
 save_every:
   desc: null
   value: 40000.0
@@ -193,7 +187,7 @@ target_kl:
   value: 0.01
 timesteps:
   desc: null
-  value: 200000.0
+  value: 100000.0
 train_env_id:
   desc: null
   value: JTL-v0
