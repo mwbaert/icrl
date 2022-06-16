@@ -1,0 +1,25 @@
+{
+    "name": "ICRL",
+    "description": "Inverse constrained reinforcement learning",
+    "request": {
+        "resources": {
+            "cpus": 4,
+            "gpus": 0,
+            "cpuMemoryGb": 32,
+            "clusterId": 4
+        },
+        "docker": {
+            "image": "gitlab+deploy-token-8:Wqs68kQkygxsdjXEtSS2@gitlab.ilabt.imec.be:4567/mwbaert/constraint-inference/icrl:latest",
+            "command":"bash -c -i \"chmod +x docker_init.sh && ./docker_init.sh && python3.8 run_me.py icrl --config_file config_icrl_logic_jtl.json -ws True --n_iters 20 --l2_coeff 1e-5\"",
+            "storage": [
+                {
+                    "containerPath": "/project",
+                    "hostPath": "/project"
+                }
+            ]
+        },
+        "scheduling": {
+            "interactive": true
+        }
+    }
+}

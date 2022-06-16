@@ -69,43 +69,83 @@ def train(dataloader, model, loss_fn, optimizer):
     model.print_weights()
 
 
-x = [np.array([1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0]),
-     np.array([1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0]),
-     np.array([1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0]),
-     np.array([1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]),
-     np.array([0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0]),
-     np.array([0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0]),
-     np.array([0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0]),
-     np.array([0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]),
-     np.array([0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0]),
-     np.array([0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0]),
-     np.array([0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0]),
-     np.array([0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]),
-     np.array([0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0]),
-     np.array([0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0]),
-     np.array([0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0]),
-     np.array([0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0])]
+and10 = [0.0489, 0.0041]
+and20 = [0.0000, 5.6331]
+and30 = [0.0000, 2.0223]
+and40 = [2.7826, 3.2358]
+and50 = [5.3796, 5.2826]
+and60 = [3.5189, 2.8880]
+and70 = [5.3398, 3.5037]
+and11 = [5.5248, 5.5544]
+and21 = [7.0914, 0.0000]
+and31 = [4.9871, 3.2532]
+and41 = [3.1845, 3.3110]
+and51 = [5.8729, 5.2679]
+and61 = [3.6962, 3.7909]
+and71 = [5.2022, 3.9120]
+or1 = [5.0019, 4.8384]
 
-y = [np.array([1.0]),
-     np.array([0.0]),
-     np.array([0.0]),
-     np.array([0.0]),
-     np.array([0.0]),
-     np.array([1.0]),
-     np.array([0.0]),
-     np.array([0.0]),
-     np.array([0.0]),
-     np.array([0.0]),
-     np.array([1.0]),
-     np.array([0.0]),
-     np.array([0.0]),
-     np.array([0.0]),
-     np.array([0.0]),
-     np.array([1.0])]
+neurons = [and10,
+           and20,
+           and30,
+           and40,
+           and50,
+           and60,
+           and70,
+           and11,
+           and21,
+           and31,
+           and41,
+           and51,
+           and61,
+           and71,
+           or1]
 
-dataloader = DataLoader(TensorDataset(
-    torch.Tensor(x), torch.Tensor(y)), batch_size=8, shuffle=True)
+max_val = np.max(neurons)
+print(max_val)
+neurons /= max_val
 
-model = LogicalNet(9)
+for neuron in neurons:
+    print(neuron)
 
-train(dataloader, model, model.criterion, model.optimizer)
+#x = [np.array([1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0]),
+#     np.array([1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0]),
+#     np.array([1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0]),
+#     np.array([1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]),
+#     np.array([0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0]),
+#     np.array([0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0]),
+#     np.array([0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0]),
+#     np.array([0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]),
+#     np.array([0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0]),
+#     np.array([0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0]),
+#     np.array([0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0]),
+#     np.array([0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]),
+#     np.array([0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0]),
+#     np.array([0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0]),
+#     np.array([0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0]),
+#     np.array([0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0])]
+#
+#y = [np.array([1.0]),
+#     np.array([0.0]),
+#     np.array([0.0]),
+#     np.array([0.0]),
+#     np.array([0.0]),
+#     np.array([1.0]),
+#     np.array([0.0]),
+#     np.array([0.0]),
+#     np.array([0.0]),
+#     np.array([0.0]),
+#     np.array([1.0]),
+#     np.array([0.0]),
+#     np.array([0.0]),
+#     np.array([0.0]),
+#     np.array([0.0]),
+#     np.array([1.0])]
+#
+#dataloader = DataLoader(TensorDataset(
+#    torch.Tensor(x), torch.Tensor(y)), batch_size=8, shuffle=True)
+#
+#model = LogicalNet(9)
+#
+#train(dataloader, model, model.criterion, model.optimizer)
+#

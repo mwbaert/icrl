@@ -6,6 +6,8 @@ import torch.nn.functional as F
 import torch
 import numpy as np
 
+from matplotlib import pyplot as plt
+
 
 class StaticAnd(nn.Module):
     def __init__(self):
@@ -72,21 +74,23 @@ class Or(LogicNeuron):
 
 
 class DynamicNeuron(nn.Module):
-    def __init__(self, num_inputs, alpha, final=False):
+    def __init__(self, num_inputs, alpha, final=False, name=""):
         super().__init__()
 
         if alpha is None:
             alpha = num_inputs/(num_inputs+1)
 
         self.num_inputs = num_inputs
-        # self.weights = nn.Parameter(torch.rand(self.num_inputs))
         self.weights = nn.Parameter(torch.Tensor(self.num_inputs))
-        torch.nn.init.constant_(self.weights, 1.0)
+        torch.nn.init.constant_(self.weights, torch.rand(1)[0])
+        #torch.nn.init.constant_(self.weights, 0.7)
         # torch.nn.init.xavier_uniform_(self.weights)
+        # torch.nn.init.normal_(self.weights,
         self.f = DynamicActivation(self.num_inputs, alpha)
         self.kappa = None
         self.final = final
         self.temp = 1
+        self.name = name
 
     def forward(self, x):
         x = x @ self.weights
@@ -98,27 +102,32 @@ class DynamicNeuron(nn.Module):
 
         if self.final:
             out = torch.sigmoid(self.temp*(out - self.f.x_t))
-        
+
         return out
 
     def plotActivation(self):
         self.f.plot()
 
+    def regLoss(self):
+        a = (-torch.sigmoid(10*self.weights)+1)*(-self.weights)
+        b = (torch.sigmoid(10*(self.weights-1))*(self.weights-1))
+        return torch.mean(a + b)
+
     @torch.no_grad()
     def project_params(self):
-        self.weights.data = self.weights.data.clamp(0, 1)
-
+        self.weights.data = self.weights.data.clamp(min=0.0)
 
 class DynamicOr(DynamicNeuron):
-    def __init__(self, num_inputs, alpha, final=False):
-        super().__init__(num_inputs, alpha, final)
+    def __init__(self, num_inputs, alpha, final=False, name=""):
+        super().__init__(num_inputs, alpha, final, name)
         self.kappa = torch.tensor(0.0)
 
 
 class DynamicAnd(DynamicNeuron):
-    def __init__(self, num_inputs, alpha, final=False):
-        super().__init__(num_inputs, alpha, final)
+    def __init__(self, num_inputs, alpha, final=False, name=""):
+        super().__init__(num_inputs, alpha, final, name)
         self.kappa = torch.tensor(1.0)
+
 
 """
 class DynamicOr(nn.Module):
@@ -144,6 +153,7 @@ class DynamicAnd(nn.Module):
     def __init__(self, num_inputs, alpha=0.6):
         super().__init__()
 """
+
 
 class Attention(nn.Module):
     def __init__(self, num_inputs):
@@ -186,6 +196,8 @@ class DynamicActivation(nn.Module):
         self.y_f = 1 - self.alpha
 
     def forward(self, x):
+        return torch.sigmoid(1.0*(x - self.x_t))
+
         y = torch.zeros_like(x) - 1
 
         a = (2*torch.log((1-self.alpha)/self.alpha))/(self.x_f - self.x_t)
@@ -232,6 +244,7 @@ class DynamicActivation(nn.Module):
             )
         return result
 
+    @torch.no_grad()
     def update_activation(self, weights, kappa):
         # bias = weights[0] = weights[1:].sum()
         bias = weights.sum()
@@ -258,21 +271,21 @@ class DynamicActivation(nn.Module):
         )
         self.x_t = self.alpha * \
             (w_m + ((k - 1) / (n - 1 + self.eps)) * (bias - w_m))
-        self.g_f = self.divide(self.y_f, self.x_f, fill=0)
-        self.g_z = self.divide(self.y_t - self.y_f, self.x_t -
-                               self.x_f, fill=float("inf"))
-        self.g_t = self.divide(1 - self.y_t, self.x_max - self.x_t, fill=0)
-        self.g_f_inv = self.divide(torch.ones_like(
-            self.g_f), self.g_f, fill=float("inf"))
-        self.g_z_inv = self.divide(torch.ones_like(self.g_z), self.g_z, fill=0)
-        self.g_t_inv = self.divide(torch.ones_like(
-            self.g_t), self.g_t, fill=float("inf"))
-        uniques = [self.x_min, self.x_f, self.x_t, self.x_max]
-        if len(uniques) < len(set(uniques)):
-            raise ValueError(
-                "expected unique values for input control "
-                f"points, received {uniques}"
-            )
+        #self.g_f = self.divide(self.y_f, self.x_f, fill=0)
+        # self.g_z = self.divide(self.y_t - self.y_f, self.x_t -
+        #                       self.x_f, fill=float("inf"))
+        #self.g_t = self.divide(1 - self.y_t, self.x_max - self.x_t, fill=0)
+        # self.g_f_inv = self.divide(torch.ones_like(
+        #    self.g_f), self.g_f, fill=float("inf"))
+        #self.g_z_inv = self.divide(torch.ones_like(self.g_z), self.g_z, fill=0)
+        # self.g_t_inv = self.divide(torch.ones_like(
+        #    self.g_t), self.g_t, fill=float("inf"))
+        #uniques = [self.x_min, self.x_f, self.x_t, self.x_max]
+        # if len(uniques) < len(set(uniques)):
+        #    raise ValueError(
+        #        "expected unique values for input control "
+        #        f"points, received {uniques}"
+        #    )
 
     @ staticmethod
     def divide(divident: torch.Tensor, divisor: torch.Tensor, fill=1.0) -> torch.Tensor:
@@ -289,3 +302,9 @@ class DynamicActivation(nn.Module):
         result = divident.masked_scatter(divisor != 0, div)
         result = result.masked_fill(divisor == 0, fill)
         return result.reshape(shape)
+
+#temp = DynamicNeuron(2, 0.75)
+#temp.weights = torch.tensor(np.linspace(-1,2,num=100), dtype=torch.float32)
+#y = temp.regLoss()
+#plt.plot(np.linspace(-1,2,num=100), np.array(y))
+#plt.show()

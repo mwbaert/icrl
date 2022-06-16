@@ -104,6 +104,7 @@ def icrl(config):
             expert_acs,
             is_discrete,
             config.cn_l1_coeff,
+            config.cn_l2_coeff,
             config.cn_reg_coeff,
             config.cn_obs_select_dim,
             config.cn_acs_select_dim,
@@ -283,8 +284,9 @@ def icrl(config):
         train_env.set_cost_function(constraint_net.cost_function)
 
         if config.use_logical_net:
-            for param in constraint_net.parameters():
-                print(param.data)
+            #for param in constraint_net.parameters():
+            #    print(param)
+            constraint_net.model.print()
 
             #out = constraint_net.forward_with_bounds(
             #   torch.Tensor([[[1.0, 0.0], [1.0, 0.0]]]))
@@ -501,6 +503,7 @@ def main():
     parser.add_argument("--anneal_clr_by_factor",
                         "-aclr", type=float, default=1.0)
     parser.add_argument("--cn_l1_coeff", type=float, default=0.0)
+    parser.add_argument("--cn_l2_coeff", type=float, default=0.0)
     parser.add_argument("--cn_learning_rate", "-clr", type=float, default=3e-4)
     parser.add_argument("--cn_reg_coeff", "-crc", type=float, default=0)
     parser.add_argument("--cn_batch_size", "-cbs", type=int, default=None)

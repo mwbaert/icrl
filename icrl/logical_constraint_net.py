@@ -25,6 +25,7 @@ class LogicalConstraintNet(nn.Module):
         expert_acs: np.ndarray,
         is_discrete: bool,
         l1_coeff: float= 0.,
+        l2_coeff: float=0.,
         regularizer_coeff: float = 0.,
         obs_select_dim: Optional[Tuple[int, ...]] = None,
         acs_select_dim: Optional[Tuple[int, ...]] = None,
@@ -60,6 +61,7 @@ class LogicalConstraintNet(nn.Module):
         self.batch_size = batch_size
         self.is_discrete = is_discrete
         self.l1_coeff = l1_coeff
+        self.l2_coeff = l2_coeff
         self.regularizer_coeff = regularizer_coeff
         self.importance_sampling = not no_importance_sampling
         self.per_step_importance_sampling = per_step_importance_sampling
@@ -111,7 +113,7 @@ class LogicalConstraintNet(nn.Module):
 
         if self.optimizer_class is not None:
             self.optimizer = self.optimizer_class(
-                self.parameters(), lr=self.lr_schedule(1), **self.optimizer_kwargs)
+                self.parameters(), lr=self.lr_schedule(1), weight_decay=self.l2_coeff, **self.optimizer_kwargs)
         else:
             self.optimizer = None
         if self.train_gail_lambda:
@@ -234,8 +236,10 @@ class LogicalConstraintNet(nn.Module):
                     l1_loss = self.l1_coeff * \
                         torch.norm(torch.cat([x.view(-1)
                                    for x in self.model.parameters()]), 1)
+                    #weight_reg_loss = 0.1*self.model.regLoss()
+
                     loss = (expert_loss - nominal_loss) + \
-                        regularizer_loss + l1_loss
+                        regularizer_loss + l1_loss #+ weight_reg_loss
 
                 # Update
                 self.optimizer.zero_grad()
@@ -250,6 +254,7 @@ class LogicalConstraintNet(nn.Module):
                       "backward/unweighted_nominal_loss": torch.mean(torch.log(nominal_preds + self.eps)).item(),
                       "backward/nominal_loss": nominal_loss.item(),
                       "backward/regularizer_loss": regularizer_loss.item(),
+                      "backward/l1_loss": l1_loss.item(),
                       "backward/is_mean": torch.mean(is_weights).detach().item(),
                       "backward/is_max": torch.max(is_weights).detach().item(),
                       "backward/is_min": torch.min(is_weights).detach().item(),
@@ -258,7 +263,8 @@ class LogicalConstraintNet(nn.Module):
                       "backward/nominal_preds_mean": torch.mean(nominal_preds).item(),
                       "backward/expert_preds_max": torch.max(expert_preds).item(),
                       "backward/expert_preds_min": torch.min(expert_preds).item(),
-                      "backward/expert_preds_mean": torch.mean(expert_preds).item(), }
+                      "backward/expert_preds_mean": torch.mean(expert_preds).item(),}
+                      #"backward/weight_reg_loss": torch.mean(weight_reg_loss).item(), }
         if self.importance_sampling:
             stop_metrics = {"backward/kl_old_new": kl_old_new.item(),
                             "backward/kl_new_old": kl_new_old.item(),
