@@ -9,9 +9,9 @@
             "clusterId": 4
         },
         "docker": {
-            "image": "gitlab+deploy-token-8:Wqs68kQkygxsdjXEtSS2@gitlab.ilabt.imec.be:4567/mwbaert/constraint-inference/icrl:latest",
+            "image": "gitlab+deploy-token-8:Wqs68kQkygxsdjXEtSS2@gitlab.ilabt.imec.be:4567/mwbaert/constraint-inference/icrl:v2",
             "command": 
-            "bash -c \"git clone https://github.com/mwbaert/icrl.git; cd icrl; chmod +x docker_init.sh; ./docker_init.sh; python run_me.py icrl --config_file config_icrl_logic_jtl.json -ws True --n_iters 20 --l2_coeff 1e-5\"",
+            "bash -c \"git clone https://github.com/mwbaert/icrl.git; cd icrl; chmod +x docker_init.sh; ./docker_init.sh; python3.8 run_me.py icrl --config_file config_icrl_logic_jtl.json -ws True --n_iters 20 --l2_coeff 1e-5\"",
             "storage": [
                 {
                     "containerPath": "/project",

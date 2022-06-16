@@ -18,7 +18,7 @@ RUN echo "**** Installing Python ****" && \
     python3.8 get-pip.py && \
     rm -rf /var/lib/apt/lists/*
 
-RUN sudo update-alternatives  --set python /usr/bin/python3.8
+#RUN sudo update-alternatives  --set python /usr/bin/python3.8
 RUN sudo apt-get install libosmesa6-dev -y
 RUN sudo apt-get install patchelf
 RUN pip3.8 install --upgrade pip
