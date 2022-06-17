@@ -318,14 +318,10 @@ def icrl(config):
         average_true_reward, std_true_reward = evaluate_policy(nominal_agent, eval_env, n_eval_episodes=10,
                                                                deterministic=config.deterministic)
         # (3): KLs
-        print(nominal_agent.device)
-        print(expert_obs.device)
-        print(expert_acs.device)
-        print(expert_agent.device)
         forward_kl = utils.compute_kl(
-            nominal_agent, expert_obs, expert_acs, expert_agent)
+            nominal_agent, expert_obs, expert_acs, expert_agent, device=device)
         reverse_kl = utils.compute_kl(
-            expert_agent, orig_observations, actions, nominal_agent)
+            expert_agent, orig_observations, actions, nominal_agent, device=device)
 
         # Save:
         # (1): Periodically
