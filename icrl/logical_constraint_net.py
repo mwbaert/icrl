@@ -42,7 +42,8 @@ class LogicalConstraintNet(nn.Module):
         target_kl_new_old: float = -1,
         train_gail_lambda: Optional[bool] = False,
         eps: float = 1e-5,
-        device: str = "cpu"
+        device: str = "cpu",
+        update_temp: bool = False
     ):
         super(LogicalConstraintNet, self).__init__()
 
@@ -68,6 +69,7 @@ class LogicalConstraintNet(nn.Module):
         self.clip_obs = clip_obs
         self.device = device
         self.eps = eps
+        self.update_temp = update_temp
 
         self.train_gail_lambda = train_gail_lambda
 
@@ -248,6 +250,10 @@ class LogicalConstraintNet(nn.Module):
                 self.optimizer.step()
                 # projected gradient descent
                 self.model.project_params()
+
+        # update sigmoid temperature
+        if self.update_temp:
+            self.model.updateTemp()
 
         bw_metrics = {"backward/cn_loss": loss.item(),
                       "backward/expert_loss": expert_loss.item(),

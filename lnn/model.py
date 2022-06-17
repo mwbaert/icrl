@@ -9,21 +9,21 @@ class LNN(nn.Module):
         super().__init__()
 
         self.and1 = DynamicAnd(num_inputs=8, alpha=0.9,
-                                name="and1", final=False)
-        #self.and2 = DynamicAnd(num_inputs=8, alpha=0.9,
+                               name="and1", final=False)
+        # self.and2 = DynamicAnd(num_inputs=8, alpha=0.9,
         #                        name="and2", final=False)
         self.and3 = DynamicAnd(num_inputs=8, alpha=0.9,
-                                name="and3", final=False)
-        #self.and4 = DynamicAnd(num_inputs=8, alpha=0.9,
+                               name="and3", final=False)
+        # self.and4 = DynamicAnd(num_inputs=8, alpha=0.9,
         #                        name="and4", final=False)
 
         self.or1 = DynamicOr(num_inputs=2, alpha=0.9, name="or1")
 
         self.layers = []
         self.layers.append(self.and1)
-        #self.layers.append(self.and2)
+        # self.layers.append(self.and2)
         self.layers.append(self.and3)
-        #self.layers.append(self.and4)
+        # self.layers.append(self.and4)
         self.layers.append(self.or1)
 
     def forward(self, x):
@@ -37,9 +37,9 @@ class LNN(nn.Module):
     @torch.no_grad()
     def project_params(self):
         self.and1.project_params()
-        #self.and2.project_params()
+        # self.and2.project_params()
         self.and3.project_params()
-        #self.and4.project_params()
+        # self.and4.project_params()
         self.or1.project_params()
 
     def regLoss(self):
@@ -48,6 +48,10 @@ class LNN(nn.Module):
             loss += layer.regLoss()
 
         return loss/len(self.layers)
+
+    def updateTemp(self):
+        for layer in self.layers:
+            layer.updateTemp()
 
     def print(self):
         for layer in self.layers:

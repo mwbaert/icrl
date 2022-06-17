@@ -113,9 +113,13 @@ class DynamicNeuron(nn.Module):
         b = (torch.sigmoid(10*(self.weights-1))*(self.weights-1))
         return torch.mean(a + b)
 
+    def updateTemp(self):
+        self.f.updateTemp()
+
     @torch.no_grad()
     def project_params(self):
         self.weights.data = self.weights.data.clamp(min=0.0)
+
 
 class DynamicOr(DynamicNeuron):
     def __init__(self, num_inputs, alpha, final=False, name=""):
@@ -154,27 +158,6 @@ class DynamicAnd(nn.Module):
         super().__init__()
 """
 
-
-class Attention(nn.Module):
-    def __init__(self, num_inputs):
-        super().__init__(num_inputs)
-
-        self.num_inputs = num_inputs
-        self.weights = nn.Parameter(torch.Tensor(self.num_inputs))
-        self.temp = 1
-
-    def forward(self, x):
-        one_hot = F.gumbel_softmax(self.weights, tau=self.temp, hard=True)
-        index = (one_hot == 1).nonzero(as_tuple=True)[0]
-
-        # this is probaby not correct
-        return x[index]
-
-    def update_temp(self):
-        # TODO
-        print("temp update not implemented")
-
-
 class DynamicActivation(nn.Module):
     def __init__(self, num_inputs, alpha=0.6):
         super().__init__()
@@ -194,9 +177,10 @@ class DynamicActivation(nn.Module):
         self.x_max = 1
         self.y_t = self.alpha
         self.y_f = 1 - self.alpha
+        self.temp = 1.0
 
     def forward(self, x):
-        return torch.sigmoid(1.0*(x - self.x_t))
+        return torch.sigmoid(self.temp*(x - self.x_t))
 
         y = torch.zeros_like(x) - 1
 
@@ -215,6 +199,9 @@ class DynamicActivation(nn.Module):
                 "output of activation expected in [0, 1], " f"received {y}"
             )
         return y
+
+    def update_temp(self):
+        self.temp += 1
 
     def plot(self):
         x_max_ = self.x_max.item()
@@ -303,8 +290,28 @@ class DynamicActivation(nn.Module):
         result = result.masked_fill(divisor == 0, fill)
         return result.reshape(shape)
 
+class Attention(nn.Module):
+    def __init__(self, num_inputs):
+        super().__init__(num_inputs)
+
+        self.num_inputs = num_inputs
+        self.weights = nn.Parameter(torch.Tensor(self.num_inputs))
+        self.temp = 1
+
+    def forward(self, x):
+        one_hot = F.gumbel_softmax(self.weights, tau=self.temp, hard=True)
+        index = (one_hot == 1).nonzero(as_tuple=True)[0]
+
+        # this is probaby not correct
+        return x[index]
+
+    def update_temp(self):
+        # TODO
+        print("temp update not implemented")
+
+
 #temp = DynamicNeuron(2, 0.75)
 #temp.weights = torch.tensor(np.linspace(-1,2,num=100), dtype=torch.float32)
 #y = temp.regLoss()
 #plt.plot(np.linspace(-1,2,num=100), np.array(y))
-#plt.show()
+# plt.show()

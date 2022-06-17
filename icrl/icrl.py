@@ -124,6 +124,7 @@ def icrl(config):
             train_gail_lambda=config.train_gail_lambda,
             eps=config.cn_eps,
             device=device,
+            update_temp=config.cn_update_temp
         )
     else:
         constraint_net = ConstraintNet(
@@ -287,24 +288,8 @@ def icrl(config):
         train_env.set_cost_function(constraint_net.cost_function)
 
         if config.use_logical_net:
-            #for param in constraint_net.parameters():
-            #    print(param)
             constraint_net.model.print()
 
-            #out = constraint_net.forward_with_bounds(
-            #   torch.Tensor([[[1.0, 0.0], [1.0, 0.0]]]))
-            #print(out)
-            #out = constraint_net.forward_with_bounds(
-            #   torch.Tensor([[[0.0, 1.0], [0.0, 1.0]]]))
-            #print(out)
-            #out = constraint_net.forward_with_bounds(
-            #   torch.Tensor([[[1.0, 1.0], [1.0, 1.0]]]))
-            #print(out)
-            #out = constraint_net.forward_with_bounds(
-            #   torch.Tensor([[[0.0, 1.0, 1.0], [0.0, 1.0, 1.0]]]))
-            #print(out)
-    
-        # constraint_net.model.layers[0].plotActivation()
 
         # ------------
         # Evaluate:
@@ -500,6 +485,7 @@ def main():
     parser.add_argument('--reset_policy', '-rp', action='store_true')
     # ====================== Constraint Net ========================= #
     parser.add_argument("--use_logical_net", action='store_true')
+    parser.add_argument("--cn_update_temp", action='store true')
     parser.add_argument("--cn_layers", "-cl", type=int,
                         default=[64, 64], nargs='*')
     parser.add_argument("--anneal_clr_by_factor",
