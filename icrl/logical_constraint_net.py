@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import torch
 from stable_baselines3.common.torch_layers import create_mlp
-from stable_baselines3.common.utils import update_learning_rate
+from stable_baselines3.common.utils import is_vectorized_observation, update_learning_rate
 from torch import nn
 from tqdm import tqdm
 from lnn.model import LNN
@@ -212,7 +212,7 @@ class LogicalConstraintNet(nn.Module):
                 # Get batch data
                 nominal_batch = nominal_data[nom_batch_indices]
                 expert_batch = expert_data[exp_batch_indices]
-                is_batch = is_weights[nom_batch_indices][..., None]
+                is_batch = is_weights[nom_batch_indices][..., None].to(self.device)
 
                 # Make predictions
                 nominal_preds = self.__call__(nominal_batch)
@@ -231,6 +231,8 @@ class LogicalConstraintNet(nn.Module):
                         torch.log(expert_preds + self.eps))
                     nominal_loss = torch.mean(
                         is_batch * torch.log(nominal_preds + self.eps))
+                    print(is_batch.device)
+                    print(nominal_preds.device)
                     regularizer_loss = self.regularizer_coeff * \
                         (torch.mean(expert_preds) + torch.mean(nominal_preds))
                     l1_loss = self.l1_coeff * \
