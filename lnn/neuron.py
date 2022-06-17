@@ -200,7 +200,7 @@ class DynamicActivation(nn.Module):
             )
         return y
 
-    def update_temp(self):
+    def updateTemp(self):
         self.temp += 1
 
     def plot(self):
