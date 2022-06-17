@@ -88,7 +88,7 @@ def icrl(config):
     (expert_obs, expert_acs), expert_mean_reward = load_expert_data(
         config.expert_path, config.expert_rollouts)
     expert_agent = PPOLagrangian.load(os.path.join(
-        config.expert_path, "files/best_model.zip"))
+        config.expert_path, "files/best_model.zip"), device=device)
 
     # Logger
     icrl_logger = logger.HumanOutputFormat(sys.stdout)
