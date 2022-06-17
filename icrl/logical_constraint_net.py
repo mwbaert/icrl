@@ -231,8 +231,6 @@ class LogicalConstraintNet(nn.Module):
                         torch.log(expert_preds + self.eps))
                     nominal_loss = torch.mean(
                         is_batch * torch.log(nominal_preds + self.eps))
-                    print(is_batch.device)
-                    print(nominal_preds.device)
                     regularizer_loss = self.regularizer_coeff * \
                         (torch.mean(expert_preds) + torch.mean(nominal_preds))
                     l1_loss = self.l1_coeff * \
