@@ -485,7 +485,7 @@ def main():
     parser.add_argument('--reset_policy', '-rp', action='store_true')
     # ====================== Constraint Net ========================= #
     parser.add_argument("--use_logical_net", action='store_true')
-    parser.add_argument("--cn_update_temp", action='store true')
+    parser.add_argument("--cn_update_temp", action='store_true')
     parser.add_argument("--cn_layers", "-cl", type=int,
                         default=[64, 64], nargs='*')
     parser.add_argument("--anneal_clr_by_factor",
