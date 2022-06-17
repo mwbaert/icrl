@@ -441,14 +441,14 @@ def sample_from_agent_airl(agent, env, rollouts):
 # Policy utilities
 # =============================================================================
 
-def compute_kl(agent_2, observations, actions, agent_1=None):
+def compute_kl(agent_2, observations, actions, agent_1=None, device='cpu'):
     """Compute KL(agent_1 || agent_2). Observatiosn and actions must have been sampled
     from agent 1. If agent_1 is None, then all observations and actions are assumed to
     have equal probability. agent_1 and agent_2 are functions that compute (return)
     p(actions|observations).
     """
-    observations = th.tensor(observations, dtype=th.float32)
-    actions = th.tensor(actions, dtype=th.float32)
+    observations = th.tensor(observations, dtype=th.float32).to(device)
+    actions = th.tensor(actions, dtype=th.float32).to(device)
     def log_prob(agent): return agent.policy.evaluate_actions(
         observations, actions)[1]
 

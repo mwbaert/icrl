@@ -319,9 +319,9 @@ def icrl(config):
                                                                deterministic=config.deterministic)
         # (3): KLs
         forward_kl = utils.compute_kl(
-            nominal_agent, expert_obs, expert_acs, expert_agent, device=device)
+            nominal_agent, expert_obs, expert_acs, expert_agent, device)
         reverse_kl = utils.compute_kl(
-            expert_agent, orig_observations, actions, nominal_agent, device=device)
+            expert_agent, orig_observations, actions, nominal_agent, device)
 
         # Save:
         # (1): Periodically
