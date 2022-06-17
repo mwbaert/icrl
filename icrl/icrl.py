@@ -51,6 +51,9 @@ def icrl(config):
     use_cost_wrapper_train = True
     use_cost_wrapper_eval = False
 
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    print(device)
+
     # Create the vectorized environments
     train_env = utils.make_train_env(env_id=config.train_env_id,
                                      save_dir=config.save_dir,
@@ -120,7 +123,7 @@ def icrl(config):
             target_kl_new_old=config.cn_target_kl_new_old,
             train_gail_lambda=config.train_gail_lambda,
             eps=config.cn_eps,
-            device=config.device,
+            device=device,
         )
     else:
         constraint_net = ConstraintNet(
@@ -147,7 +150,7 @@ def icrl(config):
             target_kl_new_old=config.cn_target_kl_new_old,
             train_gail_lambda=config.train_gail_lambda,
             eps=config.cn_eps,
-            device=config.device,
+            device=device,
         )
 
     # Pass constraint net cost function to cost wrapper (train env)
@@ -201,7 +204,7 @@ def icrl(config):
         penalty_learning_rate=config.penalty_learning_rate,
         budget=config.budget,
         seed=config.seed,
-        device=config.device,
+        device=device,
         verbose=0,
         pid_kwargs=dict(alpha=config.budget,
                         penalty_init=config.penalty_initial_value,
@@ -219,7 +222,7 @@ def icrl(config):
     all_callbacks = []
     if config.use_curiosity_driven_exploration:
         explorationCallback = ExplorationRewardCallback(
-            obs_dim, acs_dim, device=config.device)
+            obs_dim, acs_dim, device=device)
         all_callbacks.append(explorationCallback)
 
     # Warmup
@@ -398,7 +401,6 @@ def main():
     parser.add_argument("--project", "-p", type=str, default="ABC")
     parser.add_argument("--name", "-n", type=str, default=None)
     parser.add_argument("--group", "-g", type=str, default=None)
-    parser.add_argument("--device", "-d", type=str, default="cpu")
     parser.add_argument("--verbose", "-v", type=int, default=2)
     parser.add_argument("--sync_wandb", "-sw", action="store_true")
     parser.add_argument("--wandb_sweep", "-ws", type=bool, default=False)
