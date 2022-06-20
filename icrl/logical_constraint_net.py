@@ -43,7 +43,7 @@ class LogicalConstraintNet(nn.Module):
         train_gail_lambda: Optional[bool] = False,
         eps: float = 1e-5,
         device: str = "cpu",
-        update_temp: bool = False
+        temp_delta: float = 0.0
     ):
         super(LogicalConstraintNet, self).__init__()
 
@@ -69,7 +69,7 @@ class LogicalConstraintNet(nn.Module):
         self.clip_obs = clip_obs
         self.device = device
         self.eps = eps
-        self.update_temp = update_temp
+        self.temp_delta = temp_delta
 
         self.train_gail_lambda = train_gail_lambda
 
@@ -109,7 +109,7 @@ class LogicalConstraintNet(nn.Module):
         self.input_dims = len(self.select_dim)
 
     def _build(self) -> None:
-        self.model = LNN(num_inputs=self.input_dims)
+        self.model = LNN(num_inputs=self.input_dims, temp_delta=self.temp_delta)
         self.model.to(self.device)
         print(self.parameters)
 
@@ -252,8 +252,7 @@ class LogicalConstraintNet(nn.Module):
                 self.model.project_params()
 
         # update sigmoid temperature
-        if self.update_temp:
-            self.model.updateTemp()
+        self.model.updateTemp()
 
         bw_metrics = {"backward/cn_loss": loss.item(),
                       "backward/expert_loss": expert_loss.item(),

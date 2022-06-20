@@ -5,7 +5,7 @@ import torch
 
 
 class LNN(nn.Module):
-    def __init__(self, num_inputs):
+    def __init__(self, num_inputs, temp_delta=0.0):
         super().__init__()
 
         self.and1 = DynamicAnd(num_inputs=8, alpha=0.9,
