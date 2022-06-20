@@ -10,36 +10,36 @@ class LNN(nn.Module):
 
         self.and1 = DynamicAnd(num_inputs=8, alpha=0.9,
                                name="and1", final=False)
-        self.and2 = DynamicAnd(num_inputs=8, alpha=0.9,
-                               name="and2", final=False)
+        #self.and2 = DynamicAnd(num_inputs=8, alpha=0.9,
+        #                       name="and2", final=False)
         self.and3 = DynamicAnd(num_inputs=8, alpha=0.9,
                                name="and3", final=False)
-        self.and4 = DynamicAnd(num_inputs=8, alpha=0.9,
-                               name="and4", final=False)
+        #self.and4 = DynamicAnd(num_inputs=8, alpha=0.9,
+        #                       name="and4", final=False)
 
-        self.or1 = DynamicOr(num_inputs=4, alpha=0.9, name="or1")
+        self.or1 = DynamicOr(num_inputs=2, alpha=0.9, name="or1")
 
         self.layers = []
         self.layers.append(self.and1)
-        self.layers.append(self.and2)
+        #self.layers.append(self.and2)
         self.layers.append(self.and3)
-        self.layers.append(self.and4)
+        #self.layers.append(self.and4)
         self.layers.append(self.or1)
 
     def forward(self, x):
         y1 = self.and1(x)[:, None]
-        y2 = self.and2(x)[:, None]
+        #y2 = self.and2(x)[:, None]
         y3 = self.and3(1-x)[:, None]
-        y4 = self.and4(1-x)[:, None]
+        #y4 = self.and4(1-x)[:, None]
 
-        return self.or1(torch.cat((y1, y2, y3, y4), dim=-1))[:, None]
+        return self.or1(torch.cat((y1, y3), dim=-1))[:, None]
 
     @torch.no_grad()
     def project_params(self):
         self.and1.project_params()
-        self.and2.project_params()
+        #self.and2.project_params()
         self.and3.project_params()
-        self.and4.project_params()
+        #self.and4.project_params()
         self.or1.project_params()
 
     def regLoss(self):
