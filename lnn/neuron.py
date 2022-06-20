@@ -75,7 +75,7 @@ class Or(LogicNeuron):
 
 
 class DynamicNeuron(nn.Module):
-    def __init__(self, num_inputs, alpha, final=False, name="", temp_delta=0.0):
+    def __init__(self, num_inputs, alpha, final=False, name="", temp=1.0, temp_delta=0.0):
         super().__init__()
 
         if alpha is None:
@@ -84,13 +84,9 @@ class DynamicNeuron(nn.Module):
         self.num_inputs = num_inputs
         self.weights = nn.Parameter(torch.Tensor(self.num_inputs))
         torch.nn.init.constant_(self.weights, torch.rand(1)[0])
-        #torch.nn.init.constant_(self.weights, 0.7)
-        # torch.nn.init.xavier_uniform_(self.weights)
-        # torch.nn.init.normal_(self.weights,
-        self.f = DynamicActivation(self.num_inputs, alpha, temp_delta)
+        self.f = DynamicActivation(self.num_inputs, alpha, temp, temp_delta)
         self.kappa = None
         self.final = final
-        self.temp = 1
         self.name = name
         
     def forward(self, x):
@@ -101,8 +97,8 @@ class DynamicNeuron(nn.Module):
         # call activation function
         out = self.f(x)
 
-        if self.final:
-            out = torch.sigmoid(self.temp*(out - self.f.x_t))
+        #if self.final:
+        #    out = torch.sigmoid(self.temp*(out - self.f.x_t))
 
         return out
 
@@ -123,14 +119,14 @@ class DynamicNeuron(nn.Module):
 
 
 class DynamicOr(DynamicNeuron):
-    def __init__(self, num_inputs, alpha, final=False, name="", temp_delta=0.0):
-        super().__init__(num_inputs, alpha, final, name, temp_delta)
+    def __init__(self, num_inputs, alpha, final=False, name="", temp=1.0, temp_delta=0.0):
+        super().__init__(num_inputs, alpha, final, name, temp, temp_delta)
         self.kappa = torch.tensor(0.0)
 
 
 class DynamicAnd(DynamicNeuron):
-    def __init__(self, num_inputs, alpha, final=False, name="", temp_delta=0.0):
-        super().__init__(num_inputs, alpha, final, name, temp_delta)
+    def __init__(self, num_inputs, alpha, final=False, name="", temp=1.0, temp_delta=0.0):
+        super().__init__(num_inputs, alpha, final, name, temp, temp_delta)
         self.kappa = torch.tensor(1.0)
 
 
@@ -160,7 +156,7 @@ class DynamicAnd(nn.Module):
 """
 
 class DynamicActivation(nn.Module):
-    def __init__(self, num_inputs, alpha=0.6, temp_delta=0.0):
+    def __init__(self, num_inputs, alpha=0.6, temp=1.0, temp_delta=0.0):
         super().__init__()
 
         # bound given in paper
@@ -178,7 +174,7 @@ class DynamicActivation(nn.Module):
         self.x_max = 1
         self.y_t = self.alpha
         self.y_f = 1 - self.alpha
-        self.temp = 1.0
+        self.temp = temp
         self.temp_delta = temp_delta
 
     def forward(self, x):

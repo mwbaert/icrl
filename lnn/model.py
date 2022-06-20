@@ -5,19 +5,19 @@ import torch
 
 
 class LNN(nn.Module):
-    def __init__(self, num_inputs, temp_delta=0.0):
+    def __init__(self, num_inputs, temp=1.0, temp_delta=0.0):
         super().__init__()
 
         self.and1 = DynamicAnd(num_inputs=8, alpha=0.9,
-                               name="and1", final=False)
+                               name="and1", final=False, temp=temp, temp_delta=temp_delta)
         #self.and2 = DynamicAnd(num_inputs=8, alpha=0.9,
         #                       name="and2", final=False)
         self.and3 = DynamicAnd(num_inputs=8, alpha=0.9,
-                               name="and3", final=False)
+                               name="and3", final=False, temp=temp, temp_delta=temp_delta)
         #self.and4 = DynamicAnd(num_inputs=8, alpha=0.9,
         #                       name="and4", final=False)
 
-        self.or1 = DynamicOr(num_inputs=2, alpha=0.9, name="or1")
+        self.or1 = DynamicOr(num_inputs=2, alpha=0.9, name="or1", temp=temp, temp_delta=temp_delta)
 
         self.layers = []
         self.layers.append(self.and1)

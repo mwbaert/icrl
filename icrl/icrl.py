@@ -124,6 +124,7 @@ def icrl(config):
             train_gail_lambda=config.train_gail_lambda,
             eps=config.cn_eps,
             device=device,
+            temp=config.cn_temp,
             temp_delta=config.cn_temp_delta
         )
     else:
@@ -345,6 +346,8 @@ def icrl(config):
             "time(m)": (time.time()-start_time)/60,
             "iteration": itr,
             "timesteps": timesteps,
+            "learning_rate": cn_lr_schedule(current_progress_remaining),
+            "temperature": constraint_net.model.layers[0].f.temp,
             "true/reward": average_true_reward,
             "true/reward_std": std_true_reward,
             "true/cost": average_true_cost,
@@ -485,6 +488,7 @@ def main():
     parser.add_argument('--reset_policy', '-rp', action='store_true')
     # ====================== Constraint Net ========================= #
     parser.add_argument("--use_logical_net", action='store_true')
+    parser.add_argument("--cn_temp", type=float, default=1.0)
     parser.add_argument("--cn_temp_delta", type=float, default=0.0)
     parser.add_argument("--cn_layers", "-cl", type=int,
                         default=[64, 64], nargs='*')

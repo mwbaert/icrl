@@ -43,6 +43,7 @@ class LogicalConstraintNet(nn.Module):
         train_gail_lambda: Optional[bool] = False,
         eps: float = 1e-5,
         device: str = "cpu",
+        temp: float = 0.0,
         temp_delta: float = 0.0
     ):
         super(LogicalConstraintNet, self).__init__()
@@ -69,6 +70,7 @@ class LogicalConstraintNet(nn.Module):
         self.clip_obs = clip_obs
         self.device = device
         self.eps = eps
+        self.temp = temp
         self.temp_delta = temp_delta
 
         self.train_gail_lambda = train_gail_lambda
@@ -109,7 +111,7 @@ class LogicalConstraintNet(nn.Module):
         self.input_dims = len(self.select_dim)
 
     def _build(self) -> None:
-        self.model = LNN(num_inputs=self.input_dims, temp_delta=self.temp_delta)
+        self.model = LNN(num_inputs=self.input_dims, temp=self.temp, temp_delta=self.temp_delta)
         self.model.to(self.device)
         print(self.parameters)
 
