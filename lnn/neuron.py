@@ -5,6 +5,7 @@ from matplotlib import pyplot as plt
 import torch.nn.functional as F
 import torch
 import numpy as np
+import math
 
 from matplotlib import pyplot as plt
 
@@ -82,7 +83,7 @@ class DynamicNeuron(nn.Module):
 
         self.num_inputs = num_inputs
         self.weights = nn.Parameter(torch.Tensor(self.num_inputs))
-        torch.nn.init.constant_(self.weights, torch.rand(1)[0])
+        torch.nn.init.constant_(self.weights, (1/math.sqrt(self.num_inputs))*torch.rand(1)[0])
         #torch.nn.init.constant_(self.weights, 0.7)
         # torch.nn.init.xavier_uniform_(self.weights)
         # torch.nn.init.normal_(self.weights,
