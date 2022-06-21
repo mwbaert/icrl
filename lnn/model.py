@@ -17,7 +17,7 @@ class LNN(nn.Module):
         self.and4 = DynamicAnd(num_inputs=8, alpha=0.9,
                                name="and4", final=False, temp=temp, temp_delta=temp_delta)
 
-        self.or1 = DynamicOr(num_inputs=2, alpha=0.9,
+        self.or1 = DynamicOr(num_inputs=4, alpha=0.9,
                              name="or1", temp=temp, temp_delta=temp_delta)
 
         self.layers = []
