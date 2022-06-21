@@ -29,7 +29,7 @@ class LNN(nn.Module):
     def forward(self, x):
         y1 = self.and1(x)[:, None]
         #y2 = self.and2(x)[:, None]
-        y3 = self.and3(1-x)[:, None]
+        y3 = self.and3(x)[:, None]
         #y4 = self.and4(1-x)[:, None]
 
         return self.or1(torch.cat((y1, y3), dim=-1))[:, None]
