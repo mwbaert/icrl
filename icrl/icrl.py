@@ -127,6 +127,9 @@ def icrl(config):
             temp=config.cn_temp,
             temp_delta=config.cn_temp_delta
         )
+
+        print("initial weights:")
+        constraint_net.model.print()
     else:
         constraint_net = ConstraintNet(
             obs_dim,
