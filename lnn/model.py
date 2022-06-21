@@ -16,8 +16,16 @@ class LNN(nn.Module):
                                name="and3", final=False, temp=temp, temp_delta=temp_delta)
         self.and4 = DynamicAnd(num_inputs=8, alpha=0.9,
                                name="and4", final=False, temp=temp, temp_delta=temp_delta)
+        self.and5 = DynamicAnd(num_inputs=8, alpha=0.9,
+                               name="and5", final=False, temp=temp, temp_delta=temp_delta)
+        self.and6 = DynamicAnd(num_inputs=8, alpha=0.9,
+                               name="and6", final=False, temp=temp, temp_delta=temp_delta)
+        self.and7 = DynamicAnd(num_inputs=8, alpha=0.9,
+                               name="and7", final=False, temp=temp, temp_delta=temp_delta)
+        self.and8 = DynamicAnd(num_inputs=8, alpha=0.9,
+                               name="and8", final=False, temp=temp, temp_delta=temp_delta)
 
-        self.or1 = DynamicOr(num_inputs=4, alpha=0.9,
+        self.or1 = DynamicOr(num_inputs=8, alpha=0.9,
                              name="or1", temp=temp, temp_delta=temp_delta)
 
         self.layers = []
@@ -25,6 +33,10 @@ class LNN(nn.Module):
         self.layers.append(self.and2)
         self.layers.append(self.and3)
         self.layers.append(self.and4)
+        self.layers.append(self.and5)
+        self.layers.append(self.and6)
+        self.layers.append(self.and7)
+        self.layers.append(self.and8)
         self.layers.append(self.or1)
 
     def forward(self, x):
@@ -32,8 +44,12 @@ class LNN(nn.Module):
         y2 = self.and2(x)[:, None]
         y3 = self.and3(x)[:, None]
         y4 = self.and4(x)[:, None]
+        y5 = self.and5(x)[:, None]
+        y6 = self.and6(x)[:, None]
+        y7 = self.and7(x)[:, None]
+        y8 = self.and8(x)[:, None]
 
-        return self.or1(torch.cat((y1, y2, y3, y4), dim=-1))[:, None]
+        return self.or1(torch.cat((y1, y2, y3, y4, y5, y6, y7, y8), dim=-1))[:, None]
 
     @torch.no_grad()
     def project_params(self):
@@ -41,6 +57,10 @@ class LNN(nn.Module):
         self.and2.project_params()
         self.and3.project_params()
         self.and4.project_params()
+        self.and5.project_params()
+        self.and6.project_params()
+        self.and7.project_params()
+        self.and8.project_params()
         self.or1.project_params()
 
     def regLoss(self):
