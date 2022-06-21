@@ -27,12 +27,13 @@ class StaticOr(nn.Module):
 
 
 class LogicNeuron(nn.Module):
-    def __init__(self, num_inputs):
+    def __init__(self, num_inputs, name=""):
         super().__init__()
 
         self.num_inputs = num_inputs
-        self.weights = nn.Parameter(torch.Tensor(self.num_inputs))
-        self.bias = nn.Parameter(torch.Tensor(1))
+        self.weights = nn.Parameter(torch.Tensor(self.num_inputs), requires_grad=False)
+        self.bias = nn.Parameter(torch.Tensor(1), requires_grad=False)
+        self.name = name
 
         torch.nn.init.constant_(self.weights, 1.0)
         torch.nn.init.constant_(self.bias, 1.0)
@@ -42,6 +43,9 @@ class LogicNeuron(nn.Module):
         self.weights.data = self.weights.data.clamp(0, 1)
         self.bias.data = self.bias.data.clamp(0, self.num_inputs)
 
+    def updateTemp(self):
+        # placeholder to be compatible with dynamic neurons
+        return
 
 class And(LogicNeuron):
     def __init__(self, num_inputs):
@@ -59,8 +63,8 @@ class And(LogicNeuron):
 
 
 class Or(LogicNeuron):
-    def __init__(self, num_inputs):
-        super().__init__(num_inputs)
+    def __init__(self, num_inputs, name=""):
+        super().__init__(num_inputs, name)
 
     def forward(self, x):
         """
@@ -71,7 +75,7 @@ class Or(LogicNeuron):
 
         # x = val_clamp(1 - self.bias + (x @ self.weights))
         x = torch.sigmoid(1 - self.bias + (x @ self.weights))
-        return x.view(-1, 2, 1)
+        return x#.view(-1, 2, 1)
 
 
 class DynamicNeuron(nn.Module):
