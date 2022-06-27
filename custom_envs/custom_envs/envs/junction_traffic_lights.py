@@ -82,7 +82,7 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
     def reset(self):
         start_i = np.random.randint(0, 2)
         start_x, start_y = self.start_pos[start_i][0], self.start_pos[start_i][1]
-        goal_i = 0 #np.random.randint(0, 6)
+        goal_i = np.random.randint(0, 6)
         self.goal = self.goal_pos[goal_i]
         goal_x, goal_y = self.goal[0], self.goal[1]
 
