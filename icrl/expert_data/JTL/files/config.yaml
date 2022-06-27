@@ -64,6 +64,9 @@ derivative_control_coeff:
 derivative_cost_ema_alpha:
   desc: null
   value: 0.5
+deterministic:
+  desc: null
+  value: false
 device:
   desc: null
   value: cpu
@@ -117,7 +120,7 @@ n_steps:
   value: 2048
 name:
   desc: null
-  value: D2B-v0_CDD2B-v0_tk_0.01_s_20_sid_0_s_20_sid_-1
+  value: JTL-v0_CJTL-v0_s_20_sid_-1
 num_threads:
   desc: null
   value: 5
@@ -166,7 +169,7 @@ reward_vf_layers:
   - 64
 save_dir:
   desc: null
-  value: ./cpg/wandb/run-20220621_103331-3vlh9ls9/files
+  value: ./cpg/wandb/run-20220627_121126-38m5sron/files
 save_every:
   desc: null
   value: 40000.0
@@ -187,7 +190,7 @@ target_kl:
   value: 0.01
 timesteps:
   desc: null
-  value: 100000.0
+  value: 3000000
 train_env_id:
   desc: null
   value: JTL-v0

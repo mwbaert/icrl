@@ -380,7 +380,7 @@ register(
     entry_point=ABS_PATH+".junction_traffic_lights:JunctionTrafficLights",
     max_episode_steps=JUNCTION_WORLD_LEN,
     reward_threshold=None,
-    nondeterministic=False,
+    nondeterministic=True,
 )
 
 register(
@@ -388,7 +388,7 @@ register(
     entry_point=ABS_PATH+".junction_traffic_lights:ConstrainedJunctionTrafficLights",
     max_episode_steps=JUNCTION_WORLD_LEN,
     reward_threshold=None,
-    nondeterministic=False,
+    nondeterministic=True,
 )
 
 

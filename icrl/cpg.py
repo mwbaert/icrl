@@ -186,7 +186,7 @@ def cpg(config):
     save_best = callbacks.EvalCallback(
         eval_env, eval_freq=config.eval_every,
         best_model_save_path=config.save_dir, verbose=0,
-        deterministic=False,
+        deterministic=config.deterministic,
         callback_on_new_best=save_env_stats
     )
     adjusted_reward = utils.AdjustedRewardCallback(
@@ -230,7 +230,7 @@ def cpg(config):
     if not config.wandb_sweep:
         sync_envs_normalization(train_env, eval_env)
         utils.eval_and_make_video(eval_env, model, config.save_dir, "final_policy",
-                                  deterministic=False)
+                                  deterministic=config.deterministic)
 
     if config.sync_wandb:
         utils.sync_wandb(config.save_dir, 120)
@@ -291,6 +291,7 @@ def main():
                         type=float, default=0.95)
     parser.add_argument("--cost_gamma", "-cg", type=float, default=0.99)
     parser.add_argument("--cost_gae_lambda", "-cgl", type=float, default=0.95)
+    parser.add_argument("--deterministic", action="store_true")
     # ========================= Losses ============================== #
     parser.add_argument("--clip_range", "-cr", type=float, default=0.2)
     parser.add_argument("--clip_range_reward_vf",
