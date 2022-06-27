@@ -286,25 +286,22 @@ def make_train_env(env_id, save_dir, use_cost_wrapper, base_seed=0, num_threads=
     env = vec_env.SubprocVecEnv(env)
     if use_cost_wrapper:
         env = vec_env.VecCostWrapper(env)
-    #if normalize_reward and normalize_cost:
-    #    assert(all(key in kwargs for key in [
-    #           'cost_info_str', 'reward_gamma', 'cost_gamma']))
-    #    env = vec_env.VecNormalizeWithCost(
-    #        env, training=True, norm_obs=normalize_obs, norm_reward=normalize_reward,
-    #        norm_cost=normalize_cost, cost_info_str=kwargs['cost_info_str'],
-    #        reward_gamma=kwargs['reward_gamma'], cost_gamma=kwargs['cost_gamma'])
-    #elif normalize_reward:
-    #    assert(all(key in kwargs for key in ['reward_gamma']))
-    #    env = vec_env.VecNormalizeWithCost(
-    #        env, training=True, norm_obs=normalize_obs, norm_reward=normalize_reward,
-    #        norm_cost=normalize_cost, reward_gamma=kwargs['reward_gamma'])
-    #else:
-    #    env = vec_env.VecNormalizeWithCost(
-    #        env, training=True, norm_obs=normalize_obs, norm_reward=normalize_reward,
-    #        norm_cost=normalize_cost)
-    env = vec_env.VecNormalizeWithCost(
-        env, training=True, norm_obs=False, norm_reward=False,
-        norm_cost=False)
+    if normalize_reward and normalize_cost:
+        assert(all(key in kwargs for key in [
+               'cost_info_str', 'reward_gamma', 'cost_gamma']))
+        env = vec_env.VecNormalizeWithCost(
+            env, training=True, norm_obs=normalize_obs, norm_reward=normalize_reward,
+            norm_cost=normalize_cost, cost_info_str=kwargs['cost_info_str'],
+            reward_gamma=kwargs['reward_gamma'], cost_gamma=kwargs['cost_gamma'])
+    elif normalize_reward:
+        assert(all(key in kwargs for key in ['reward_gamma']))
+        env = vec_env.VecNormalizeWithCost(
+            env, training=True, norm_obs=normalize_obs, norm_reward=normalize_reward,
+            norm_cost=normalize_cost, reward_gamma=kwargs['reward_gamma'])
+    else:
+        env = vec_env.VecNormalizeWithCost(
+            env, training=True, norm_obs=normalize_obs, norm_reward=normalize_reward,
+            norm_cost=normalize_cost)
     return env
 
 
@@ -314,7 +311,7 @@ def make_eval_env(env_id, use_cost_wrapper, normalize_obs=True):
     if use_cost_wrapper:
         env = vec_env.VecCostWrapper(env)
     print("Wrapping eval env in a VecNormalize.")
-    env = vec_env.VecNormalizeWithCost(env, training=False, norm_obs=False,
+    env = vec_env.VecNormalizeWithCost(env, training=False, norm_obs=normalize_obs,
                                        norm_reward=False, norm_cost=False)
 
     if is_image_space(env.observation_space) and not isinstance(env, vec_env.VecTransposeImage):
