@@ -6,7 +6,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/jovyan/.mujoco/mujoco210/bin
 echo $LD_LIBRARY_PATH
 . ~/.bashrc
 pip3.8 install torch pandas tqdm imageio wandb matplotlib mpl-scatter-density glfw mujoco mujoco-py
-pip3.8 install --upgrade gym==0.15.7
+#pip3.8 install --upgrade gym==0.15.7
 pip3.8 install -e ./custom_envs
 wandb login fa44fb586bc0ae1f03502cb1b6268f3b916b163b
 
