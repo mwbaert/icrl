@@ -161,7 +161,7 @@ def junction_traffic_lights(env, obs, acs):
 def unnormalize(env, obs):
     if env.normalize:
         obs += 1
-        obs *= (env.observation_space.high - env.observation_space.low)
+        obs *= (env.obs_max - env.obs_min)
         obs /= 2
-        obs += env.observation_space.low
+        obs += env.obs_min
     return obs

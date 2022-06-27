@@ -56,9 +56,13 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
         self.normalize = True #normalize_obs
 
         # Define spaces.
-        self.observation_space = spaces.Box(
-           low=np.array((0, 0, 0, 0, 0, 0, 0, 0, 0, 0)), high=np.array((GRID_SIZE-1, GRID_SIZE-1, GRID_SIZE-1, GRID_SIZE-1, 4, 1, 1, 1, 1, 1)),
-           dtype=np.float32)
+        #self.observation_space = spaces.Box(
+        #   low=np.array((0, 0, 0, 0, 0, 0, 0, 0, 0, 0)), high=np.array((GRID_SIZE-1, GRID_SIZE-1, GRID_SIZE-1, GRID_SIZE-1, 4, 1, 1, 1, 1, 1)),
+        #   dtype=np.float32)
+        self.observation_space = spaces.Box(low=-1, high=1, shape=(10,), dtype=np.float64)
+        self.obs_min = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+        self.obs_max = np.array([GRID_SIZE-1, GRID_SIZE-1, GRID_SIZE-1, GRID_SIZE-1, 4, 1, 1, 1, 1, 1])
+
         #self.observation_space = spaces.MultiDiscrete(
         #    [GRID_SIZE, GRID_SIZE, GRID_SIZE, GRID_SIZE, 5, 2, 2, 2, 2, 2])
 
@@ -244,9 +248,9 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
 
     def normalize_obs(self, obs):
         if self.normalize:
-            obs = obs-self.observation_space.low
+            obs = obs-self.obs_min
             obs *= 2
-            obs /= (self.observation_space.high - self.observation_space.low)
+            obs /= (self.obs_max - self.obs_min)
             obs -= 1
         return obs
 
