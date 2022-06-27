@@ -144,7 +144,7 @@ def junction_traffic_lights(env, obs, acs):
             cost += [1]
         #elif (ob[-1] == 1) and (ac == 1):
         #    cost += [1]
-        elif (ob[-1] == 1) and (not(next_ob[0] == ob[0])):
+        elif (ob[-1] == 1) and (not(ac == 0)):
         #elif ce_utils.in_state_action_pair(ob, ac, env.constraint_state_action_pairs):
             cost += [1]
         else:
