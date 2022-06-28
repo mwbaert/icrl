@@ -223,8 +223,11 @@ def cpg(config):
 
     # Train
     cost_info_str = config.cost_info_str if config.cost_info_str is not None else cost_function
-    model.learn(total_timesteps=int(config.timesteps), cost_function=cost_info_str,
-                callback=all_callbacks)
+    for _ in range(config.num_curriculum_updates+1):
+        model.learn(total_timesteps=int(config.timesteps/(config.num_curriculum_updates+1)), cost_function=cost_info_str,
+                    callback=all_callbacks)
+        if config.num_curriculum_updates > 0:
+            model.env.curriculum_update()
 
     # Make video of final model
     if not config.wandb_sweep:
@@ -285,6 +288,7 @@ def main():
     parser.add_argument("--save_every", "-se", type=float, default=5e5)
     parser.add_argument("--eval_every", "-ee", type=float, default=2048)
     parser.add_argument("--plot_every", "-pe", type=float, default=2048)
+    parser.add_argument("--num_curriculum_updates", type=int, default=0)
     # =========================== MDP =============================== #
     parser.add_argument("--reward_gamma", "-rg", type=float, default=0.99)
     parser.add_argument("--reward_gae_lambda", "-rgl",

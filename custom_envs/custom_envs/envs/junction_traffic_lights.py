@@ -53,17 +53,20 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
         self.track_agent = track_agent
         self.constraint_regions = constraint_regions
         self.constraint_state_action_pairs = constraint_state_action_pairs
-        self.normalize = True #normalize_obs
-
+        self.normalize = True  # normalize_obs
+        self.num_goals = 2
+        self.max_num_goals = 6
         # Define spaces.
-        #self.observation_space = spaces.Box(
+        # self.observation_space = spaces.Box(
         #   low=np.array((0, 0, 0, 0, 0, 0, 0, 0, 0, 0)), high=np.array((GRID_SIZE-1, GRID_SIZE-1, GRID_SIZE-1, GRID_SIZE-1, 4, 1, 1, 1, 1, 1)),
         #   dtype=np.float32)
-        self.observation_space = spaces.Box(low=-1, high=1, shape=(10,), dtype=np.float64)
+        self.observation_space = spaces.Box(
+            low=-1, high=1, shape=(10,), dtype=np.float64)
         self.obs_min = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
-        self.obs_max = np.array([GRID_SIZE-1, GRID_SIZE-1, GRID_SIZE-1, GRID_SIZE-1, 4, 1, 1, 1, 1, 1])
+        self.obs_max = np.array(
+            [GRID_SIZE-1, GRID_SIZE-1, GRID_SIZE-1, GRID_SIZE-1, 4, 1, 1, 1, 1, 1])
 
-        #self.observation_space = spaces.MultiDiscrete(
+        # self.observation_space = spaces.MultiDiscrete(
         #    [GRID_SIZE, GRID_SIZE, GRID_SIZE, GRID_SIZE, 5, 2, 2, 2, 2, 2])
 
         # |still|straight|left|right|
@@ -82,7 +85,7 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
     def reset(self):
         start_i = np.random.randint(0, 2)
         start_x, start_y = self.start_pos[start_i][0], self.start_pos[start_i][1]
-        goal_i = np.random.randint(0, 2)
+        goal_i = np.random.randint(0, self.num_goals)
         self.goal = self.goal_pos[goal_i]
         goal_x, goal_y = self.goal[0], self.goal[1]
 
@@ -101,8 +104,11 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
         self.timesteps = 0
         self.score = 0.
         self.add_new_visited_state(self.curr_state)
-        #return self.curr_state
+        # return self.curr_state
         return self.normalize_obs(self.curr_state)
+
+    def curriculum_update(self):
+        self.num_goals = min(self.num_goals + 2, self.max_num_goals)
 
     def seed(self, seed):
         pass
@@ -200,7 +206,8 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
         # Add agent at appropriate location.
         if hasattr(self, 'curr_state'):
             add_circle(ax, self.curr_state[:STATE_Y+1], 'y', 0.2, False)
-            add_triangle(ax, self.curr_state[:STATE_Y+1], self.curr_state[STATE_ORIENTATION], 'r', 0.2, False)
+            add_triangle(
+                ax, self.curr_state[:STATE_Y+1], self.curr_state[STATE_ORIENTATION], 'r', 0.2, False)
 
             # add traffic light
             if self.curr_state[STATE_IN_FRONT_OF_RED_LIGHT]:
@@ -277,7 +284,7 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
 
     def updatePosition(self, state, action, next_state):
         next_state[:STATE_Y+1] = state[:STATE_Y+1]
-            
+
         if action != ACTION_STILL:
             next_state[:STATE_Y +
                        1] += self.action_map_dict[state[STATE_ORIENTATION]]
@@ -285,7 +292,7 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
             # do not move when at a border
             if (np.min(next_state[:STATE_Y+1]) < 0) or (np.max(next_state[:STATE_Y+1]) >= self.size):
                 next_state[:STATE_Y+1] = state[:STATE_Y+1]
-                
+
         return next_state
 
     def updatePropositionals(self, next_state):

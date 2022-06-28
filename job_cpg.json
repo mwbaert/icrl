@@ -6,12 +6,12 @@
             "cpus": 4,
             "gpus": 0,
             "cpuMemoryGb": 10,
-            "clusterId": 4
+            "clusterId": 3
         },
         "docker": {
             "image": "gitlab+deploy-token-8:Wqs68kQkygxsdjXEtSS2@gitlab.ilabt.imec.be:4567/mwbaert/constraint-inference/icrl:v2",
             "command": 
-            "bash -c \"git clone https://github.com/mwbaert/icrl.git; cd icrl; chmod +x docker_init.sh; ./docker_init.sh; python3.8 run_me.py cpg --config_file config_exp_jtl.json -tk 0.01 --timesteps 35e3 --learning_rate 0.0003\"",
+            "bash -c \"git clone https://github.com/mwbaert/icrl.git; cd icrl; chmod +x docker_init.sh; ./docker_init.sh; python3.8 run_me.py cpg --config_file config_exp_jtl.json -tk 0.01 --timesteps 3e6 --learning_rate 0.0003 -ws True -dnc -dnr -dno\"",
             "storage": [
                 {
                     "containerPath": "/project",
