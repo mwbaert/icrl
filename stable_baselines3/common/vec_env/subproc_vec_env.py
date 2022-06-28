@@ -30,7 +30,7 @@ def _worker(remote, parent_remote, env_fn_wrapper):
                 observation = env.reset()
                 remote.send(observation)
             elif cmd == "render":
-                remote.send(env.render(data))
+                remote.send(env.render())
             elif cmd == "close":
                 env.close()
                 remote.close()
