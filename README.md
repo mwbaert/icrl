@@ -4,9 +4,7 @@ This repository contains the code for the paper Inverse Constrained Reinforcemen
 
 ## Good to know
 
-* The config file contains a fiels `timesteps` which is the total amount of time steps. These time steps will be divided in `n_epochs` epochs. When `timesteps=10000` and `n_epochs=10` then each epoch will run for 1000 timesteps.
-* What is `n_steps`?
-
+* ICRL total_timesteps = `n_iter * forward_timesteps`
 ## Code Dependency
 
 It is recommended to use Python 3.8 to run this code within a virtual environment. Within the virtual environment, run the following commands to download the essential python packages for this codebase. You will also need to setup [mujoco](https://github.com/openai/mujoco-py).
