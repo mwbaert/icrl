@@ -3,11 +3,27 @@ wandb_version: 1
 _wandb:
   desc: null
   value:
-    cli_version: 0.10.12
+    cli_version: 0.12.19
     framework: torch
     is_jupyter_run: false
     is_kaggle_kernel: false
-    python_version: 3.8.12
+    python_version: 3.8.13
+    start_time: 1656360383
+    t:
+      1:
+      - 1
+      - 55
+      2:
+      - 1
+      - 55
+      3:
+      - 13
+      - 16
+      - 19
+      4: 3.8.13
+      5: 0.12.19
+      8:
+      - 5
 batch_size:
   desc: null
   value: 64
@@ -75,13 +91,13 @@ dont_normalize:
   value: false
 dont_normalize_cost:
   desc: null
-  value: false
+  value: true
 dont_normalize_obs:
   desc: null
-  value: false
+  value: true
 dont_normalize_reward:
   desc: null
-  value: false
+  value: true
 ent_coef:
   desc: null
   value: 0.0
@@ -120,7 +136,7 @@ n_steps:
   value: 2048
 name:
   desc: null
-  value: JTL-v0_CJTL-v0_s_20_sid_-1
+  value: JTL-v0_CJTL-v0_dnc_True_dno_True_dnr_True_ws_True_s_20_sid_-1
 num_threads:
   desc: null
   value: 5
@@ -169,7 +185,7 @@ reward_vf_layers:
   - 64
 save_dir:
   desc: null
-  value: ./cpg/wandb/run-20220627_121126-38m5sron/files
+  value: /tmp/wandb/run-20220627_200623-3tk3hyba/files
 save_every:
   desc: null
   value: 40000.0
@@ -190,7 +206,7 @@ target_kl:
   value: 0.01
 timesteps:
   desc: null
-  value: 3000000
+  value: 5000000
 train_env_id:
   desc: null
   value: JTL-v0
@@ -217,4 +233,4 @@ verbose:
   value: 2
 wandb_sweep:
   desc: null
-  value: false
+  value: true
