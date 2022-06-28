@@ -661,6 +661,28 @@ class SaveEnvStatsCallback(callbacks.BaseCallback):
         if isinstance(self.env, vec_env.VecNormalize):
             self.env.save(os.path.join(self.save_path, "train_env_stats.pkl"))
 
+
+class UpdateCurriculumCallback(callbacks.BaseCallback):
+    def __init__(self, train_env, eval_env, num_timesteps, num_updates, num_threads, step_size):
+        super(UpdateCurriculumCallback, self).__init__()
+
+        self.train_env = train_env
+        self.eval_env = eval_env
+
+        # the true number of timesteps will eventually be a multiple of the step_size
+        num_timesteps = ((int(num_timesteps)//step_size) + 1) * step_size
+        self.update_freq = (num_timesteps//(num_updates+1))+1
+        self.num_threads = num_threads
+        self.current_step = 0
+
+    def _on_step(self):
+        if self.current_step > self.update_freq:
+            print('curriculum udpate')
+            self.train_env.env_method('curriculum_update')
+            self.eval_env.env_method('curriculum_update')
+            self.current_step = 0
+
+        self.current_step += self.num_threads
 # =============================================================================
 # Miscellaneous
 # =============================================================================

@@ -222,14 +222,15 @@ def cpg(config):
     if any(env in config.train_env_id for env in ['Ant', 'HalfCheetah', 'Point', 'Swimmer', 'Walker', 'HC']):
         all_callbacks.append(utils.LogTorqueCallback())
 
+    # Callback to update task (curriculum learning)
+    if config.num_curriculum_updates > 0:
+        all_callbacks.append(utils.UpdateCurriculumCallback(
+            train_env, eval_env, int(config.timesteps), config.num_curriculum_updates, config.num_threads, config.n_steps))
+
     # Train
     cost_info_str = config.cost_info_str if config.cost_info_str is not None else cost_function
-    for _ in range(config.num_curriculum_updates+1):
-        model.learn(total_timesteps=int(config.timesteps/(config.num_curriculum_updates+1)), cost_function=cost_info_str,
-                    callback=all_callbacks)
-        if config.num_curriculum_updates > 0:
-            train_env.env_method('curriculum_update')
-            eval_env.env_method('curriculum_update') 
+    model.learn(total_timesteps=int(config.timesteps), cost_function=cost_info_str,
+                callback=all_callbacks)
 
     # Make video of final model
     if not config.wandb_sweep:
