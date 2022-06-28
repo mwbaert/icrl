@@ -11,6 +11,7 @@ import stable_baselines3.common.callbacks as callbacks
 from stable_baselines3 import PPOLagrangian
 from stable_baselines3.common.vec_env import (VecNormalize,
                                               sync_envs_normalization)
+from stable_baselines3.common.vec_env.base_vec_env import VecEnv
 from typing import Callable
 
 import icrl.utils as utils
@@ -227,7 +228,8 @@ def cpg(config):
         model.learn(total_timesteps=int(config.timesteps/(config.num_curriculum_updates+1)), cost_function=cost_info_str,
                     callback=all_callbacks)
         if config.num_curriculum_updates > 0:
-            model.env.curriculum_update()
+            train_env.env_method('curriculum_update')
+            eval_env.env_method('curriculum_update') 
 
     # Make video of final model
     if not config.wandb_sweep:
