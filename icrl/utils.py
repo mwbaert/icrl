@@ -670,8 +670,8 @@ class UpdateCurriculumCallback(callbacks.BaseCallback):
         self.eval_env = eval_env
 
         # the true number of timesteps will eventually be a multiple of the step_size
-        num_timesteps = ((int(num_timesteps)//step_size) + 1) * step_size
-        self.update_freq = (num_timesteps//(num_updates+1))+1
+        self.num_timesteps = ((int(num_timesteps)//step_size) + 1) * step_size
+        self.update_freq = (self.num_timesteps//(num_updates+1))+1
         self.num_threads = num_threads
         self.current_step = 0
 
