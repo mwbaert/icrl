@@ -2,7 +2,6 @@
 
 import argparse
 import os
-import shutil
 
 import numpy as np
 from stable_baselines3 import PPOLagrangian
@@ -44,8 +43,7 @@ def run_policy(args):
         run_path = os.path.join(USER, args.load_dir)
         wandb.restore("config.json", run_path=run_path, root=load_dir)
         config = load_config(load_dir)
-        if not config.dont_normalize_obs:
-            wandb.restore("train_env_stats.pkl",
+        wandb.restore("train_env_stats.pkl",
                           run_path=run_path, root=load_dir)
         wandb.restore(f+".zip", run_path=run_path, root=load_dir)
     else:
@@ -78,7 +76,7 @@ def run_policy(args):
     if not args.dont_make_video:
         env = make_env()
         utils.eval_and_make_video(
-            env, model, save_dir, "video", args.n_rollouts)
+            env, model, save_dir, "video", args.n_rollouts, deterministic=config.deterministic)
 
     # Check if we want to save using airl scheme
     if args.save_using_airl_scheme:
@@ -93,7 +91,7 @@ def run_policy(args):
         utils.del_and_make(rollouts_dir)
         idx = 0
         while True:
-            saving_dict = sampling_func(model, env, 1)
+            saving_dict = sampling_func(model, env, 1, deterministic=config.deterministic)
             if not args.save_using_airl_scheme:
                 observations, _, actions, rewards, lengths = saving_dict
                 saving_dict = dict(
@@ -129,6 +127,7 @@ def main():
                         "-suas", action="store_true")
     parser.add_argument("--reward_threshold", "-rt", type=float, default=None)
     parser.add_argument("--length_threshold", "-lt", type=int, default=None)
+    parser.add_argument("--deterministic", action="store_true")
     args = parser.parse_args()
 
     run_policy(args)
