@@ -41,7 +41,7 @@ ACTION_RIGHT = 3
 
 
 class JunctionTrafficLights(mujoco_env.MujocoEnv):
-    metadata = {"render.modes": ["rgb_array"]}
+    metadata = {"render_modes": ["rgb_array"]}
 
     def __init__(self, constraint_regions=[], constraint_state_action_pairs=[], track_agent=False, normalize_obs=False):
         # Environment setup.
@@ -82,7 +82,7 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
     def reset(self):
         start_i = np.random.randint(0, 2)
         start_x, start_y = self.start_pos[start_i][0], self.start_pos[start_i][1]
-        goal_i = np.random.randint(0, 6)
+        goal_i = np.random.randint(0, 2)
         self.goal = self.goal_pos[goal_i]
         goal_x, goal_y = self.goal[0], self.goal[1]
 
