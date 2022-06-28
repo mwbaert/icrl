@@ -22,3 +22,12 @@ python run_me.py run_policy --load_dir icrl/expert_data/JTL/ --env_id CJTL-v0 -n
 python run_me.py icrl -p ICRL-FE2 --group LapGrid-ICRL -er 20 -ep icrl/expert_data/LGW_ -tei LGW-v0 -eei CLGW-v0 -tk 0.01 -cl 20 -clr 0.003 -ft 0.5e5 -ni 10 -bi 20 -dno -dnr -dnc
 python run_me.py icrl --config_file config_icrl_jtl.json
 python run_me.py icrl --config_file config_icrl_logic_jtl.json
+
+
+# generate rollouts jtl (single goal)
+# run_me.py cpg --config_file config_exp_jtl.json -tk 0.01 --timesteps 4e6 --learning_rate 0.0003 -ws True -dnc -dnr -dno
+# generate rollouts jtl (multi goal)
+# run_me.py cpg --config_file config_exp_jtl.json -tk 0.01 --timesteps 4e6 --learning_rate 0.0003 -ws True -dnc -dnr -dno --num_curriculum_updates 2
+
+# train icrl jtl (single goal)
+# run_me.py icrl --config_file config_icrl_jtl.json -ws True -dnc -dno -dnr
