@@ -8,15 +8,16 @@ class LNN(nn.Module):
     def __init__(self, num_inputs, temp=1.0, temp_delta=0.0):
         super().__init__()
 
-        self.and1 = DynamicAnd(num_inputs=8, alpha=0.9,
+        self.and1 = DynamicAnd(num_inputs=9, alpha=0.95,
                                name="and1", final=False, temp=temp, temp_delta=temp_delta)
-        self.and2 = DynamicAnd(num_inputs=8, alpha=0.9,
+        self.and2 = DynamicAnd(num_inputs=9, alpha=0.95,
                                name="and2", final=False, temp=temp, temp_delta=temp_delta)
-        self.and3 = DynamicAnd(num_inputs=8, alpha=0.9,
+        self.and3 = DynamicAnd(num_inputs=9, alpha=0.95,
                                name="and3", final=False, temp=temp, temp_delta=temp_delta)
-        self.and4 = DynamicAnd(num_inputs=8, alpha=0.9,
+        self.and4 = DynamicAnd(num_inputs=9, alpha=0.95,
                                name="and4", final=False, temp=temp, temp_delta=temp_delta)
         
+        # use a static OR neuron (no weight updates here)
         self.or1 = Or(num_inputs=4)
 
         self.layers = []

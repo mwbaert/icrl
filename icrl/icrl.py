@@ -345,24 +345,43 @@ def icrl(config):
             best_reverse_kl = reverse_kl
 
         # Collect metrics
-        metrics = {
-            "time(m)": (time.time()-start_time)/60,
-            "iteration": itr,
-            "timesteps": timesteps,
-            "learning_rate": cn_lr_schedule(current_progress_remaining),
-            "temperature": constraint_net.model.layers[0].f.temp,
-            "true/reward": average_true_reward,
-            "true/reward_std": std_true_reward,
-            "true/cost": average_true_cost,
-            "true/samples_infront": samples_infront,
-            "true/samples_behind": samples_behind,
-            "true/forward_kl": forward_kl,
-            "true/reverse_kl": reverse_kl,
-            "best_true/best_reward": best_true_reward,
-            "best_true/best_cost": best_true_cost,
-            "best_true/best_forward_kl": best_forward_kl,
-            "best_true/best_reverse_kl": best_reverse_kl
-        }
+        if (config.use_logical_net):
+            metrics = {
+                "time(m)": (time.time()-start_time)/60,
+                "iteration": itr,
+                "timesteps": timesteps,
+                "learning_rate": cn_lr_schedule(current_progress_remaining),
+                "temperature": constraint_net.model.layers[0].f.temp,
+                "true/reward": average_true_reward,
+                "true/reward_std": std_true_reward,
+                "true/cost": average_true_cost,
+                "true/samples_infront": samples_infront,
+                "true/samples_behind": samples_behind,
+                "true/forward_kl": forward_kl,
+                "true/reverse_kl": reverse_kl,
+                "best_true/best_reward": best_true_reward,
+                "best_true/best_cost": best_true_cost,
+                "best_true/best_forward_kl": best_forward_kl,
+                "best_true/best_reverse_kl": best_reverse_kl
+            }
+        else:
+            metrics = {
+                "time(m)": (time.time()-start_time)/60,
+                "iteration": itr,
+                "timesteps": timesteps,
+                "learning_rate": cn_lr_schedule(current_progress_remaining),
+                "true/reward": average_true_reward,
+                "true/reward_std": std_true_reward,
+                "true/cost": average_true_cost,
+                "true/samples_infront": samples_infront,
+                "true/samples_behind": samples_behind,
+                "true/forward_kl": forward_kl,
+                "true/reverse_kl": reverse_kl,
+                "best_true/best_reward": best_true_reward,
+                "best_true/best_cost": best_true_cost,
+                "best_true/best_forward_kl": best_forward_kl,
+                "best_true/best_reverse_kl": best_reverse_kl
+            }
         metrics.update({k.replace("train/", "forward/")                        : v for k, v in forward_metrics.items()})
         metrics.update(backward_metrics)
 

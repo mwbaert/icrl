@@ -3,21 +3,14 @@
     "description": "Inverse constrained reinforcement learning",
     "request": {
         "resources": {
-            "cpus": 4,
+            "cpus": 2,
             "gpus": 1,
-            "cpuMemoryGb": 32,
-            "clusterId": 4
+            "cpuMemoryGb": 16
         },
         "docker": {
             "image": "gitlab+deploy-token-8:Wqs68kQkygxsdjXEtSS2@gitlab.ilabt.imec.be:4567/mwbaert/constraint-inference/icrl:v2",
             "command": 
-            "bash -c \"git clone https://github.com/mwbaert/icrl.git; cd icrl; chmod +x docker_init.sh; ./docker_init.sh; python3.8 run_me.py icrl --config_file config_icrl_jtl.json -ws True\"",
-            "storage": [
-                {
-                    "containerPath": "/project",
-                    "hostPath": "/project"
-                }
-            ]
+            "bash -c \"git clone https://github.com/mwbaert/icrl.git; cd icrl; chmod +x docker_init.sh; ./docker_init.sh; python3.8 run_me.py icrl --config_file config_icrl_jtl.json -ws True -dnc -dnr -dno --n_iters 50\""
         },
         "scheduling": {
             "interactive": true
