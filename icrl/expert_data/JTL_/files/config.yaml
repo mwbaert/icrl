@@ -3,11 +3,27 @@ wandb_version: 1
 _wandb:
   desc: null
   value:
-    cli_version: 0.10.12
+    cli_version: 0.12.19
     framework: torch
     is_jupyter_run: false
     is_kaggle_kernel: false
-    python_version: 3.8.12
+    python_version: 3.8.13
+    start_time: 1656423202
+    t:
+      1:
+      - 1
+      - 55
+      2:
+      - 1
+      - 55
+      3:
+      - 13
+      - 16
+      - 19
+      4: 3.8.13
+      5: 0.12.19
+      8:
+      - 5
 anneal_clr_by_factor:
   desc: null
   value: 1.0
@@ -34,35 +50,37 @@ clip_range_reward_vf:
   value: null
 cn_acs_select_dim:
   desc: null
-  value:
-  - 0
-  - 1
-  - 2
-  - 3
+  value: null
 cn_batch_size:
   desc: null
   value: null
 cn_eps:
   desc: null
   value: 1.0e-05
+cn_l1_coeff:
+  desc: null
+  value: 0.0
+cn_l2_coeff:
+  desc: null
+  value: 0.0
 cn_layers:
   desc: null
   value:
   - 20
 cn_learning_rate:
   desc: null
-  value: 0.01
+  value: 0.003
 cn_normalize:
   desc: null
   value: false
 cn_obs_select_dim:
   desc: null
   value:
-  - 2
-  - 3
-  - 4
   - 5
   - 6
+  - 7
+  - 8
+  - 9
 cn_plot_every:
   desc: null
   value: 1
@@ -75,9 +93,15 @@ cn_target_kl_new_old:
 cn_target_kl_old_new:
   desc: null
   value: 10
+cn_temp:
+  desc: null
+  value: 1.0
+cn_temp_delta:
+  desc: null
+  value: 0.0
 config_file:
   desc: null
-  value: config_icrl_logic_jtl.json
+  value: config_icrl_jtl.json
 cost_gae_lambda:
   desc: null
   value: 0.95
@@ -103,19 +127,19 @@ derivative_cost_ema_alpha:
   value: 0.5
 deterministic:
   desc: null
-  value: true
+  value: false
 device:
   desc: null
   value: cpu
 dont_normalize_cost:
   desc: null
-  value: false
+  value: true
 dont_normalize_obs:
   desc: null
-  value: false
+  value: true
 dont_normalize_reward:
   desc: null
-  value: false
+  value: true
 ent_coef:
   desc: null
   value: 0.0
@@ -154,13 +178,13 @@ n_epochs:
   value: 10
 n_iters:
   desc: null
-  value: 20
+  value: 200
 n_steps:
   desc: null
   value: 2048
 name:
   desc: null
-  value: JTL-v0_CJTL-v0_s_83_sid_-1
+  value: JTL-v0_CJTL-v0_dnc_True_dno_True_dnr_True_ws_True_s_83_sid_-1
 no_importance_sampling:
   desc: null
   value: false
@@ -215,7 +239,7 @@ reward_vf_layers:
   - 64
 save_dir:
   desc: null
-  value: ./icrl/wandb/run-20220609_105900-ga6gkp9g/files
+  value: ./icrl/wandb/run-20220628_133322-3dh0rv0t/files
 save_every:
   desc: null
   value: 1
@@ -248,7 +272,7 @@ use_curiosity_driven_exploration:
   value: false
 use_logical_net:
   desc: null
-  value: true
+  value: false
 use_pid:
   desc: null
   value: false
@@ -260,7 +284,7 @@ verbose:
   value: 2
 wandb_sweep:
   desc: null
-  value: false
+  value: true
 warmup_timesteps:
   desc: null
   value: null
