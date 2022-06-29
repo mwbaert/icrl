@@ -54,6 +54,7 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
         self.constraint_regions = constraint_regions
         self.constraint_state_action_pairs = constraint_state_action_pairs
         self.normalize = True  # normalize_obs
+        self.goal = None
         self.num_goals = 2
         self.max_num_goals = 6
         # Define spaces.
@@ -85,8 +86,9 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
     def reset(self):
         start_i = np.random.randint(0, 2)
         start_x, start_y = self.start_pos[start_i][0], self.start_pos[start_i][1]
-        goal_i = np.random.randint(0, self.num_goals)
-        self.goal = self.goal_pos[goal_i]
+        #goal_i = np.random.randint(0, self.num_goals)
+        if self.goal == None:
+            self.goal = self.goal_pos[0]
         goal_x, goal_y = self.goal[0], self.goal[1]
 
         self.curr_state = np.array(
@@ -110,6 +112,9 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
     def curriculum_update(self):
         self.num_goals = min(self.num_goals + 2, self.max_num_goals)
 
+    def set_goal(self, goal_i):
+        self.goal = self.goal_pos[goal_i]
+    
     def seed(self, seed):
         pass
 
