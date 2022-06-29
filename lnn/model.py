@@ -8,21 +8,21 @@ class LNN(nn.Module):
     def __init__(self, num_inputs, temp=1.0, temp_delta=0.0):
         super().__init__()
 
-        self.and1 = DynamicAnd(num_inputs=10, alpha=0.95,
+        self.and1 = DynamicAnd(num_inputs=9, alpha=0.95,
                                name="and1", temp=temp, temp_delta=temp_delta)
-        self.and2 = DynamicAnd(num_inputs=10, alpha=0.95,
+        self.and2 = DynamicAnd(num_inputs=9, alpha=0.95,
                                name="and2", temp=temp, temp_delta=temp_delta)
-        self.and3 = DynamicAnd(num_inputs=10, alpha=0.95,
+        self.and3 = DynamicAnd(num_inputs=9, alpha=0.95,
                                name="and3", temp=temp, temp_delta=temp_delta)
-        self.and4 = DynamicAnd(num_inputs=10, alpha=0.95,
+        self.and4 = DynamicAnd(num_inputs=9, alpha=0.95,
                                name="and4", temp=temp, temp_delta=temp_delta)
-        self.and5 = DynamicAnd(num_inputs=10, alpha=0.95,
+        self.and5 = DynamicAnd(num_inputs=9, alpha=0.95,
                                name="and5", temp=temp, temp_delta=temp_delta)
-        self.and6 = DynamicAnd(num_inputs=10, alpha=0.95,
+        self.and6 = DynamicAnd(num_inputs=9, alpha=0.95,
                                name="and6", temp=temp, temp_delta=temp_delta)
-        self.and7 = DynamicAnd(num_inputs=10, alpha=0.95,
+        self.and7 = DynamicAnd(num_inputs=9, alpha=0.95,
                                name="and7", temp=temp, temp_delta=temp_delta)
-        self.and8 = DynamicAnd(num_inputs=10, alpha=0.95,
+        self.and8 = DynamicAnd(num_inputs=9, alpha=0.95,
                                name="and8", temp=temp, temp_delta=temp_delta)
 
         # do not calculate gradients wrt the parameters of the or neuron (weights are constant and equal to 1)
