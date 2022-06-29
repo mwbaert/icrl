@@ -5,22 +5,23 @@ import os
 import pickle
 import sys
 import time
-import torch
 
 import gym
 import numpy as np
+import torch
 from stable_baselines3 import PPOLagrangian
 from stable_baselines3.common import logger
 from stable_baselines3.common.evaluation import evaluate_policy
-from stable_baselines3.common.vec_env import sync_envs_normalization, VecNormalize
+from stable_baselines3.common.vec_env import (VecNormalize,
+                                              sync_envs_normalization)
 from tqdm import tqdm
 
 import icrl.utils as utils
-from icrl.plot_utils import plot_obs_ant
-from icrl.exploration import ExplorationRewardCallback, LambdaShapingCallback
 import wandb
 from icrl.constraint_net import ConstraintNet, plot_constraints
+from icrl.exploration import ExplorationRewardCallback, LambdaShapingCallback
 from icrl.logical_constraint_net import LogicalConstraintNet
+from icrl.plot_utils import plot_obs_ant
 from icrl.true_constraint_net import get_true_cost_function, null_cost
 
 

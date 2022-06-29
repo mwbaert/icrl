@@ -57,7 +57,7 @@ setuptools==39.0.1
 shortuuid==1.0.9
 six==1.16.0
 smmap==5.0.0
-torch==1.11.0
+torch==1.12.0
 tqdm==4.64.0
 typing-extensions==4.2.0
 urllib3==1.26.9

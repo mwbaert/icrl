@@ -267,7 +267,6 @@ def get_name(parser, default_config, actual_config, mod_name):
 # Gym utilities
 # =============================================================================
 
-
 def make_env(env_id, rank, log_dir, seed=0, goal=-1, eval=False):
     def _init():
         env = gym.make(env_id)

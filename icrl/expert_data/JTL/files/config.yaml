@@ -8,7 +8,7 @@ _wandb:
     is_jupyter_run: false
     is_kaggle_kernel: false
     python_version: 3.8.13
-    start_time: 1656360383
+    start_time: 1656506275
     t:
       1:
       - 1
@@ -110,6 +110,9 @@ eval_every:
 file_to_run:
   desc: null
   value: cpg
+goal:
+  desc: null
+  value: 0
 group:
   desc: null
   value: null
@@ -136,7 +139,10 @@ n_steps:
   value: 2048
 name:
   desc: null
-  value: JTL-v0_CJTL-v0_dnc_True_dno_True_dnr_True_ws_True_s_20_sid_-1
+  value: JTL-v0_CJTL-v0_dnc_True_dno_True_dnr_True_goal_0_ws_True_s_20_sid_-1
+num_curriculum_updates:
+  desc: null
+  value: 0
 num_threads:
   desc: null
   value: 5
@@ -185,7 +191,7 @@ reward_vf_layers:
   - 64
 save_dir:
   desc: null
-  value: /tmp/wandb/run-20220627_200623-3tk3hyba/files
+  value: /tmp/wandb/run-20220629_123755-1ouxm0ba/files
 save_every:
   desc: null
   value: 40000.0
@@ -206,7 +212,7 @@ target_kl:
   value: 0.01
 timesteps:
   desc: null
-  value: 5000000
+  value: 400000
 train_env_id:
   desc: null
   value: JTL-v0
