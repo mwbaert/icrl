@@ -49,7 +49,7 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
         self.max_time_steps = JTL_MAX_TIME_STEPS
         self.start_pos = np.array([[0, 4], [0, 5]])
         self.goal_pos = np.array(
-            [[4, 0], [5, 0], [11, 4], [11, 5], [6, 11], [7, 11]])
+            [[4, 0], [11, 4], [6, 11]])
         self.track_agent = track_agent
         self.constraint_regions = constraint_regions
         self.constraint_state_action_pairs = constraint_state_action_pairs
@@ -87,7 +87,7 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
         start_i = np.random.randint(0, 2)
         start_x, start_y = self.start_pos[start_i][0], self.start_pos[start_i][1]
         #goal_i = np.random.randint(0, self.num_goals)
-        if self.goal == None:
+        if self.goal is None:
             self.goal = self.goal_pos[0]
         goal_x, goal_y = self.goal[0], self.goal[1]
 
