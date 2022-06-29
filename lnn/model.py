@@ -9,24 +9,24 @@ class LNN(nn.Module):
         super().__init__()
 
         self.and1 = DynamicAnd(num_inputs=10, alpha=0.95,
-                               name="and1", final=False, temp=temp, temp_delta=temp_delta)
+                               name="and1", temp=temp, temp_delta=temp_delta)
         self.and2 = DynamicAnd(num_inputs=10, alpha=0.95,
-                               name="and2", final=False, temp=temp, temp_delta=temp_delta)
+                               name="and2", temp=temp, temp_delta=temp_delta)
         self.and3 = DynamicAnd(num_inputs=10, alpha=0.95,
-                               name="and3", final=False, temp=temp, temp_delta=temp_delta)
+                               name="and3", temp=temp, temp_delta=temp_delta)
         self.and4 = DynamicAnd(num_inputs=10, alpha=0.95,
-                               name="and4", final=False, temp=temp, temp_delta=temp_delta)
+                               name="and4", temp=temp, temp_delta=temp_delta)
         self.and5 = DynamicAnd(num_inputs=10, alpha=0.95,
-                               name="and1", final=False, temp=temp, temp_delta=temp_delta)
+                               name="and5", temp=temp, temp_delta=temp_delta)
         self.and6 = DynamicAnd(num_inputs=10, alpha=0.95,
-                               name="and2", final=False, temp=temp, temp_delta=temp_delta)
+                               name="and6", temp=temp, temp_delta=temp_delta)
         self.and7 = DynamicAnd(num_inputs=10, alpha=0.95,
-                               name="and3", final=False, temp=temp, temp_delta=temp_delta)
+                               name="and7", temp=temp, temp_delta=temp_delta)
         self.and8 = DynamicAnd(num_inputs=10, alpha=0.95,
-                               name="and4", final=False, temp=temp, temp_delta=temp_delta)
+                               name="and8", temp=temp, temp_delta=temp_delta)
 
-        # use a static OR neuron (no weight updates here)
-        self.or1 = Or(num_inputs=8)
+        # do not calculate gradients wrt the parameters of the or neuron (weights are constant and equal to 1)
+        self.or1 = DynamicOr(num_inputs=8, alpha=0.95, name="or1", temp=temp, temp_delta=temp_delta, random_init=False, requires_grad=False)
 
         self.layers = []
         self.layers.append(self.and1)
@@ -61,7 +61,7 @@ class LNN(nn.Module):
         self.and6.project_params()
         self.and7.project_params()
         self.and8.project_params()
-        self.or1.project_params()
+        #self.or1.project_params()
 
     def regLoss(self):
         loss = 0

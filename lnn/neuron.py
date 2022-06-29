@@ -75,11 +75,12 @@ class Or(LogicNeuron):
 
         # x = val_clamp(1 - self.bias + (x @ self.weights))
         x = torch.sigmoid(1 - self.bias + (x @ self.weights))
+
         return x#.view(-1, 2, 1)
 
 
 class DynamicNeuron(nn.Module):
-    def __init__(self, num_inputs, alpha, final=False, name="", temp=1.0, temp_delta=0.0):
+    def __init__(self, num_inputs, alpha, name="", temp=1.0, temp_delta=0.0, random_init=True, requires_grad=True):
         super().__init__()
 
         if alpha is None:
@@ -87,24 +88,23 @@ class DynamicNeuron(nn.Module):
 
         self.num_inputs = num_inputs
         self.weights = nn.Parameter(torch.Tensor(self.num_inputs))
-        torch.nn.init.constant_(self.weights, torch.rand(1)[0])
+        self.weights.requires_grad = requires_grad
+
+        if random_init:
+            torch.nn.init.constant_(self.weights, torch.rand(1)[0])
+        else: 
+            torch.nn.init.constant_(self.weights, 1.0)
+
         self.f = DynamicActivation(self.num_inputs, alpha, temp, temp_delta)
         self.kappa = None
-        self.final = final
         self.name = name
         
     def forward(self, x):
         x = x @ self.weights
+
         # update activation using weights (should go to DynamicNeuron.forward)
         self.f.update_activation(self.weights, self.kappa)
-
-        # call activation function
-        out = self.f(x)
-
-        #if self.final:
-        #    out = torch.sigmoid(self.temp*(out - self.f.x_t))
-
-        return out
+        return self.f(x)
 
     def plotActivation(self):
         self.f.plot()
@@ -123,14 +123,14 @@ class DynamicNeuron(nn.Module):
 
 
 class DynamicOr(DynamicNeuron):
-    def __init__(self, num_inputs, alpha, final=False, name="", temp=1.0, temp_delta=0.0):
-        super().__init__(num_inputs, alpha, final, name, temp, temp_delta)
+    def __init__(self, num_inputs, alpha, name="", temp=1.0, temp_delta=0.0, random_init=True, requires_grad=True):
+        super().__init__(num_inputs, alpha, name, temp, temp_delta, random_init, requires_grad)
         self.kappa = torch.tensor(0.0)
 
 
 class DynamicAnd(DynamicNeuron):
-    def __init__(self, num_inputs, alpha, final=False, name="", temp=1.0, temp_delta=0.0):
-        super().__init__(num_inputs, alpha, final, name, temp, temp_delta)
+    def __init__(self, num_inputs, alpha, name="", temp=1.0, temp_delta=0.0, random_init=True, requires_grad=True):
+        super().__init__(num_inputs, alpha, name, temp, temp_delta, random_init, requires_grad)
         self.kappa = torch.tensor(1.0)
 
 
