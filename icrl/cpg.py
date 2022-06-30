@@ -59,12 +59,14 @@ def cpg(config):
                                      cost_info_str=config.cost_info_str,
                                      reward_gamma=config.reward_gamma,
                                      cost_gamma=config.cost_gamma,
-                                     goal=config.goal)
+                                     goal=config.goal,
+                                     red_light_prob=config.red_light_prob)
 
     eval_env = utils.make_eval_env(env_id=config.eval_env_id,
                                    use_cost_wrapper=use_cost_wrapper_eval,
                                    normalize_obs=not config.dont_normalize_obs,
-                                   goal=config.goal)
+                                   goal=config.goal,
+                                   red_light_prob=config.red_light_prob)
 
     is_discrete = isinstance(train_env.action_space, gym.spaces.Discrete)
     obs_dim = train_env.observation_space.shape[0]
@@ -273,6 +275,7 @@ def main():
     parser.add_argument("--seed", "-s", type=int, default=None)
     # selected goal to train on in case the environment consists of multiple goals
     parser.add_argument("--goal", type=int, default=-1)
+    parser.add_argument("--red_light_prob", type=float, default=-1)
     # ======================== Networks ============================== #
     parser.add_argument("--policy_name", "-pn", type=str,
                         default="TwoCriticsMlpPolicy")

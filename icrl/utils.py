@@ -267,11 +267,14 @@ def get_name(parser, default_config, actual_config, mod_name):
 # Gym utilities
 # =============================================================================
 
-def make_env(env_id, rank, log_dir, seed=0, goal=-1, eval=False):
+def make_env(env_id, rank, log_dir, seed=0, goal=-1, red_light_prob=-1, eval=False):
     def _init():
         env = gym.make(env_id)
         if goal != -1:
             env.unwrapped.set_goal(goal)
+        if red_light_prob != -1:
+            env.unwrapped.set_red_light_prob(red_light_prob)
+
         if not eval:
             env.seed(seed + rank)
             env = Monitor(env, log_dir)
@@ -284,9 +287,9 @@ def make_env(env_id, rank, log_dir, seed=0, goal=-1, eval=False):
     return _init
 
 def make_train_env(env_id, save_dir, use_cost_wrapper, base_seed=0, num_threads=1,
-                   normalize_obs=True, normalize_reward=True, normalize_cost=True, goal=-1,
+                   normalize_obs=True, normalize_reward=True, normalize_cost=True, goal=-1, red_light_prob=-1,
                    **kwargs):
-    env = [make_env(env_id, i, save_dir, base_seed, goal)
+    env = [make_env(env_id, i, save_dir, base_seed, goal=goal, red_light_prob=red_light_prob)
            for i in range(num_threads)]
     env = vec_env.SubprocVecEnv(env)
     if use_cost_wrapper:
@@ -310,8 +313,8 @@ def make_train_env(env_id, save_dir, use_cost_wrapper, base_seed=0, num_threads=
     return env
 
 
-def make_eval_env(env_id, use_cost_wrapper, normalize_obs=True, goal=-1):
-    env = [make_env(env_id, 0, None, goal=goal, eval=True)]
+def make_eval_env(env_id, use_cost_wrapper, normalize_obs=True, goal=-1, red_light_prob=-1):
+    env = [make_env(env_id, 0, None, goal=goal, red_light_prob=red_light_prob, eval=True)]
     env = vec_env.SubprocVecEnv(env)
     if use_cost_wrapper:
         env = vec_env.VecCostWrapper(env)

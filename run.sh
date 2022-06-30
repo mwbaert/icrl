@@ -14,7 +14,7 @@ python run_me.py run_policy --load_dir icrl/expert_data/SW/ --env_id SW-v0 -nr 2
 # set reward threshold such that no violations will be part of the rollouts
 # this requires to evaluate on the constrained environment
 # keep this stochastic such that there is variation in the observed trajectories
-python run_me.py run_policy --load_dir icrl/expert_data/JTL/ --env_id CJTL-v0 -nr 20 --reward_threshold 0 --dont_make_video
+python run_me.py run_policy --load_dir icrl/expert_data/JTL/ --env_id CJTL-v0 -nr 20 --red_light_prob 0.8
 
 # train ICRL
     # first you have to copy the rollouts to the EXPERT directory

@@ -10,7 +10,7 @@
         "docker": {
             "image": "gitlab+deploy-token-8:Wqs68kQkygxsdjXEtSS2@gitlab.ilabt.imec.be:4567/mwbaert/constraint-inference/icrl:v2",
             "command": 
-            "bash -c \"git clone https://github.com/mwbaert/icrl.git; cd icrl; chmod +x docker_init.sh; ./docker_init.sh; python3.8 run_me.py icrl --config_file config_icrl_logic_jtl.json -ws True --n_iters 50 --cn_l2_coeff 1e-3 --cn_temp 10.0 --cn_temp_delta 0.0 --anneal_clr_by_factor 0.999 --cn_learning_rate 0.01 -dnc -dno -dnr --n_iters 200\""
+            "bash -c \"git clone https://github.com/mwbaert/icrl.git; cd icrl; chmod +x docker_init.sh; ./docker_init.sh; python3.8 run_me.py icrl --config_file config_icrl_logic_jtl.json -ws True --n_iters 50 --cn_l2_coeff 1e-3 --cn_temp 1.0 --cn_temp_delta 0.0 --anneal_clr_by_factor 0.999 --cn_learning_rate 0.01 -dnc -dno -dnr --n_iters 200\""
         },
         "scheduling": {
             "interactive": true

@@ -52,7 +52,8 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
         self.constraint_regions = constraint_regions
         self.constraint_state_action_pairs = constraint_state_action_pairs
         self.normalize = True  # normalize_obs
-        self.goal = None
+        self.goal = self.goal_pos[0]
+        self.red_light_prob = 0.5
 
         self.observation_space = spaces.Box(
             low=-1, high=1, shape=(STATE_SIZE,), dtype=np.float64)
@@ -76,8 +77,6 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
     def reset(self):
         start_i = np.random.randint(0, 2)
         start_x, start_y = self.start_pos[start_i][0], self.start_pos[start_i][1]
-        if self.goal is None:
-            self.goal = self.goal_pos[0]
 
         self.curr_state = np.array(
             [start_x, start_y,
@@ -98,7 +97,10 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
 
     def set_goal(self, goal_i):
         self.goal = self.goal_pos[goal_i]
-    
+
+    def set_red_light_prob(self, prob):
+        self.red_light_prob = prob
+
     def seed(self, seed):
         pass
 
@@ -140,7 +142,7 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
             np.sum(np.abs((next_state[:STATE_Y+1]-self.goal)))/GRID_SIZE
 
         if(next_state[:STATE_Y+1] == self.goal).all():
-            reward = 0 # reward already zero?
+            reward = 0  # reward already zero?
             done = True
 
         return next_state, reward, done
@@ -241,7 +243,7 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
         return obs
 
     def applyAction(self, state, action):
-        next_state = [0 for i in range(STATE_SIZE)]
+        next_state = [0 for _ in range(STATE_SIZE)]
 
         next_state = self.updateOrientation(state, action, next_state)
         next_state = self.updatePosition(state, action, next_state)
@@ -282,7 +284,7 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
         next_state[STATE_OFF_ROAD] = self.isOffRoad(
             next_state[STATE_X], next_state[STATE_Y])
 
-        if (next_state[STATE_X] == 3) and (random.random() >= 0.1):
+        if (next_state[STATE_X] == 3) and (random.random() < self.red_light_prob):
             next_state[STATE_IN_FRONT_OF_RED_LIGHT] = 1
         else:
             next_state[STATE_IN_FRONT_OF_RED_LIGHT] = 0

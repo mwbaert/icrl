@@ -3,7 +3,7 @@
     "description": "Inverse constrained reinforcement learning",
     "request": {
         "resources": {
-            "cpus": 2,
+            "cpus": 4,
             "gpus": 1,
             "cpuMemoryGb": 16
         },

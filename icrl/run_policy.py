@@ -33,7 +33,7 @@ def run_policy(args):
             f = "best_model"
 
     # Configure paths (restore from W&B server if needed)
-    if args.remote:
+    if args.remote: 
         # Save everything in wandb/remote/<run_id>
         load_dir = os.path.join("icrl/wandb/remote/",
                                 args.load_dir.split('/')[-1])
@@ -44,7 +44,7 @@ def run_policy(args):
         wandb.restore("config.json", run_path=run_path, root=load_dir)
         config = load_config(load_dir)
         wandb.restore("train_env_stats.pkl",
-                          run_path=run_path, root=load_dir)
+                      run_path=run_path, root=load_dir)
         wandb.restore(f+".zip", run_path=run_path, root=load_dir)
     else:
         load_dir = os.path.join(args.load_dir, "files")
@@ -61,7 +61,8 @@ def run_policy(args):
     def make_env():
         env_id = args.env_id or config.eval_env_id
         env = utils.make_eval_env(
-            env_id, use_cost_wrapper=False, normalize_obs=False)
+            env_id, use_cost_wrapper=False, normalize_obs=False, goal=config.goal,
+            red_light_prob=args.red_light_prob)
 
         # Restore enviroment stats
         if not config.dont_normalize_obs:
@@ -76,7 +77,7 @@ def run_policy(args):
     if not args.dont_make_video:
         env = make_env()
         utils.eval_and_make_video(
-            env, model, save_dir, "video", args.n_rollouts, deterministic=config.deterministic)
+            env, model, save_dir, "video", args.n_rollouts, deterministic=args.deterministic)
 
     # Check if we want to save using airl scheme
     if args.save_using_airl_scheme:
@@ -91,7 +92,8 @@ def run_policy(args):
         utils.del_and_make(rollouts_dir)
         idx = 0
         while True:
-            saving_dict = sampling_func(model, env, 1, deterministic=config.deterministic)
+            saving_dict = sampling_func(
+                model, env, 1, deterministic=args.deterministic)
             if not args.save_using_airl_scheme:
                 observations, _, actions, rewards, lengths = saving_dict
                 saving_dict = dict(
@@ -128,6 +130,8 @@ def main():
     parser.add_argument("--reward_threshold", "-rt", type=float, default=None)
     parser.add_argument("--length_threshold", "-lt", type=int, default=None)
     parser.add_argument("--deterministic", action="store_true")
+    parser.add_argument("--red_light_prob", type=float, default=-1.0)
+
     args = parser.parse_args()
 
     run_policy(args)
