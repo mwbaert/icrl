@@ -8,7 +8,7 @@ _wandb:
     is_jupyter_run: false
     is_kaggle_kernel: false
     python_version: 3.8.13
-    start_time: 1656584013
+    start_time: 1656583571
     t:
       1:
       - 1
@@ -178,7 +178,7 @@ n_epochs:
   value: 10
 n_iters:
   desc: null
-  value: 80
+  value: 40
 n_steps:
   desc: null
   value: 2048
@@ -242,7 +242,7 @@ reward_vf_layers:
   - 64
 save_dir:
   desc: null
-  value: ./icrl/wandb/run-20220630_101333-20kq29ev/files
+  value: ./icrl/wandb/run-20220630_100611-1qi774vp/files
 save_every:
   desc: null
   value: 1

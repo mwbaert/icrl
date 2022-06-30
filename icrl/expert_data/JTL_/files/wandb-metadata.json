@@ -1,8 +1,8 @@
 {
-    "os": "Linux-4.15.0-130-generic-x86_64-with-glibc2.27",
+    "os": "Linux-4.15.0-175-generic-x86_64-with-glibc2.27",
     "python": "3.8.13",
-    "heartbeatAt": "2022-06-30T10:13:34.152813",
-    "startedAt": "2022-06-30T10:13:33.213127",
+    "heartbeatAt": "2022-06-30T10:06:12.889713",
+    "startedAt": "2022-06-30T10:06:11.894083",
     "docker": null,
     "gpu": "Tesla V100-SXM3-32GB",
     "gpu_count": 1,
@@ -18,7 +18,7 @@
         "-dnr",
         "-dno",
         "--n_iters",
-        "80"
+        "40"
     ],
     "state": "running",
     "program": "run_me.py",
@@ -29,7 +29,7 @@
     },
     "email": null,
     "root": "/home/jovyan/icrl",
-    "host": "a54f1bd02494",
+    "host": "8d51a78a1476",
     "username": "root",
     "executable": "/usr/bin/python3.8"
 }
