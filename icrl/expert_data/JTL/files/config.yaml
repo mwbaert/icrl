@@ -3,12 +3,12 @@ wandb_version: 1
 _wandb:
   desc: null
   value:
-    cli_version: 0.12.19
+    cli_version: 0.12.20
     framework: torch
     is_jupyter_run: false
     is_kaggle_kernel: false
     python_version: 3.8.13
-    start_time: 1656506275
+    start_time: 1656564763
     t:
       1:
       - 1
@@ -21,7 +21,7 @@ _wandb:
       - 16
       - 19
       4: 3.8.13
-      5: 0.12.19
+      5: 0.12.20
       8:
       - 5
 batch_size:
@@ -191,7 +191,7 @@ reward_vf_layers:
   - 64
 save_dir:
   desc: null
-  value: /tmp/wandb/run-20220629_123755-1ouxm0ba/files
+  value: /tmp/wandb/run-20220630_045243-24nr5sjr/files
 save_every:
   desc: null
   value: 40000.0
@@ -212,7 +212,7 @@ target_kl:
   value: 0.01
 timesteps:
   desc: null
-  value: 400000
+  value: 1000000
 train_env_id:
   desc: null
   value: JTL-v0
