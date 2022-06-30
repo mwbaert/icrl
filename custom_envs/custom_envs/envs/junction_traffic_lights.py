@@ -282,7 +282,7 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
         next_state[STATE_OFF_ROAD] = self.isOffRoad(
             next_state[STATE_X], next_state[STATE_Y])
 
-        if (next_state[STATE_X] == 3) and (random.random() >= 0.5):
+        if (next_state[STATE_X] == 3) and (random.random() >= 0.1):
             next_state[STATE_IN_FRONT_OF_RED_LIGHT] = 1
         else:
             next_state[STATE_IN_FRONT_OF_RED_LIGHT] = 0
