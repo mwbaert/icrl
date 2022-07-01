@@ -142,9 +142,11 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
             np.sum(np.abs((next_state[:STATE_Y+1]-self.goal)))/GRID_SIZE
 
         if(next_state[:STATE_Y+1] == self.goal).all():
-            reward = 10000  # reward already zero?
+            reward = 1  # reward already zero?
             done = True
-
+        else:
+            reward = -1
+        
         return next_state, reward, done
 
     def template(self):
