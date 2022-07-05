@@ -145,7 +145,7 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
             reward = 1  # reward already zero?
             done = True
         else:
-            reward = -1
+            reward = -0.01
         
         return next_state, reward, done
 
