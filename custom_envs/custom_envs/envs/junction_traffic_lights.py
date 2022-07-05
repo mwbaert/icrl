@@ -147,6 +147,11 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
         else:
             reward = -0.01
         
+        if ce_utils.in_regions(state, next_state, self.constraint_regions):
+            reward = -100
+        elif (len(self.constraint_regions) > 0) and (state[-1] == 1) and (action == 1):
+            reward = -100
+
         return next_state, reward, done
 
     def template(self):
