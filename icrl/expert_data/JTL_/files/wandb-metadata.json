@@ -1,11 +1,9 @@
 {
-    "os": "Linux-4.15.0-130-generic-x86_64-with-glibc2.27",
+    "os": "Linux-4.15.0-175-generic-x86_64-with-glibc2.27",
     "python": "3.8.13",
-    "heartbeatAt": "2022-07-05T13:40:08.684816",
-    "startedAt": "2022-07-05T13:40:07.775297",
+    "heartbeatAt": "2022-07-06T10:02:15.598492",
+    "startedAt": "2022-07-06T10:02:14.581908",
     "docker": null,
-    "gpu": "Tesla V100-SXM3-32GB",
-    "gpu_count": 1,
     "cpu_count": 96,
     "cuda": "10.1.243",
     "args": [
@@ -15,21 +13,21 @@
         "-ws",
         "True",
         "-dno",
+        "-dnr",
+        "-dnc",
         "--n_iters",
-        "50",
-        "--penalty_learning_rate",
-        "0.2"
+        "20"
     ],
     "state": "running",
     "program": "run_me.py",
     "codePath": "run_me.py",
     "git": {
         "remote": "https://github.com/mwbaert/icrl.git",
-        "commit": "07ccafeea69c2b5872a5829c4380f3f76abd9749"
+        "commit": "895644fb0fc1e3862f4aed172a14842e40877b46"
     },
     "email": null,
     "root": "/home/jovyan/icrl",
-    "host": "27e5f67a0b5f",
+    "host": "2314c62f322a",
     "username": "root",
     "executable": "/usr/bin/python3.8"
 }
