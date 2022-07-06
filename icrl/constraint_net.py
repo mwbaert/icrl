@@ -205,7 +205,7 @@ class ConstraintNet(nn.Module):
                     regularizer_loss = self.regularizer_coeff * \
                         (th.mean(1-expert_preds) + th.mean(1-nominal_preds))
                     loss = (-expert_loss + nominal_loss) + regularizer_loss
-
+                
                 # Update
                 self.optimizer.zero_grad()
                 loss.backward()

@@ -144,8 +144,8 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
         if(next_state[:STATE_Y+1] == self.goal).all():
             reward = 1  # reward already zero?
             done = True
-        else:
-            reward = -0.01
+        #else:
+        #    reward = -0.01
         
         if ce_utils.in_regions(state, next_state, self.constraint_regions):
             reward = -100
@@ -255,6 +255,10 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
         next_state = self.updateOrientation(state, action, next_state)
         next_state = self.updatePosition(state, action, next_state)
         next_state = self.updatePropositionals(next_state)
+        if (next_state[STATE_X] == 3) and (state[STATE_X] != 3):
+            next_state[STATE_IN_FRONT_OF_RED_LIGHT] = 1
+        else:
+            next_state[STATE_IN_FRONT_OF_RED_LIGHT] = 0
 
         return next_state
 
@@ -291,10 +295,10 @@ class JunctionTrafficLights(mujoco_env.MujocoEnv):
         next_state[STATE_OFF_ROAD] = self.isOffRoad(
             next_state[STATE_X], next_state[STATE_Y])
 
-        if (next_state[STATE_X] == 3) and (random.random() < self.red_light_prob):
-            next_state[STATE_IN_FRONT_OF_RED_LIGHT] = 1
-        else:
-            next_state[STATE_IN_FRONT_OF_RED_LIGHT] = 0
+        #if (next_state[STATE_X] == 3) and (random.random() < self.red_light_prob):
+        #    next_state[STATE_IN_FRONT_OF_RED_LIGHT] = 1
+        #else:
+        #    next_state[STATE_IN_FRONT_OF_RED_LIGHT] = 0
 
         return next_state
 

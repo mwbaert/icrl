@@ -8,7 +8,7 @@ _wandb:
     is_jupyter_run: false
     is_kaggle_kernel: false
     python_version: 3.8.13
-    start_time: 1656583571
+    start_time: 1657028407
     t:
       1:
       - 1
@@ -75,12 +75,7 @@ cn_normalize:
   value: false
 cn_obs_select_dim:
   desc: null
-  value:
-  - 5
-  - 6
-  - 7
-  - 8
-  - 9
+  value: null
 cn_plot_every:
   desc: null
   value: 1
@@ -133,13 +128,13 @@ device:
   value: cpu
 dont_normalize_cost:
   desc: null
-  value: true
+  value: false
 dont_normalize_obs:
   desc: null
   value: true
 dont_normalize_reward:
   desc: null
-  value: true
+  value: false
 ent_coef:
   desc: null
   value: 0.0
@@ -178,13 +173,13 @@ n_epochs:
   value: 10
 n_iters:
   desc: null
-  value: 40
+  value: 50
 n_steps:
   desc: null
   value: 2048
 name:
   desc: null
-  value: JTL-v0_CJTL-v0_dnc_True_dno_True_dnr_True_ws_True_s_83_sid_-1
+  value: JTL-v0_CJTL-v0_dno_True_plr_0.2_ws_True_s_83_sid_-1
 no_importance_sampling:
   desc: null
   value: false
@@ -196,7 +191,7 @@ penalty_initial_value:
   value: 1
 penalty_learning_rate:
   desc: null
-  value: 0.1
+  value: 0.2
 per_step_importance_sampling:
   desc: null
   value: false
@@ -242,7 +237,7 @@ reward_vf_layers:
   - 64
 save_dir:
   desc: null
-  value: ./icrl/wandb/run-20220630_100611-1qi774vp/files
+  value: ./icrl/wandb/run-20220705_134007-1qht0j8h/files
 save_every:
   desc: null
   value: 1
