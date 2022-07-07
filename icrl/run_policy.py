@@ -61,7 +61,7 @@ def run_policy(args):
     def make_env():
         env_id = args.env_id or config.eval_env_id
         env = utils.make_eval_env(
-            env_id, use_cost_wrapper=False, normalize_obs=False, goal=config.goal,
+            env_id, use_cost_wrapper=False, normalize_obs=False, goal=0,
             red_light_prob=args.red_light_prob)
 
         # Restore enviroment stats
