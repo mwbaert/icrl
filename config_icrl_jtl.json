@@ -12,7 +12,7 @@
 "cn_layers"	:	[20],
 "cn_learning_rate"	:	0.003,
 "cn_normalize"	:	false,
-"cn_obs_select_dim"	:	null,
+"cn_obs_select_dim"	:	[3,4,5,6,7],
 "cn_plot_every"	:	1,
 "cn_reg_coeff"	:	0,
 "cn_target_kl_new_old"	:	10,
