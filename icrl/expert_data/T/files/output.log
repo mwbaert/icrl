@@ -1,0 +1,145 @@
+[32;1mConfigured folder ./cpg/wandb/run-20220707_135117-3luczdts/files for saving[0m
+[32;1mName: T-v0_CT-v0_dnc_True_dno_True_dnr_True_ws_True_s_20_sid_-1[0m
+Wrapping eval env in a VecNormalize.
+Using cpu device
+/home/mwbaert/Documents/research/icrl/stable_baselines3/common/base_class.py:348: DeprecationWarning: `np.bool` is a deprecated alias for the builtin `bool`. To silence this warning, use `bool` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.bool_` here.
+Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+  self._last_dones = np.zeros((self.env.num_envs,), dtype=np.bool)
+/home/mwbaert/anaconda3/envs/icrl/lib/python3.8/site-packages/torch/storage.py:34: FutureWarning: pickle support for Storage will be removed in 1.5. Use `torch.save` instead
+  warnings.warn("pickle support for Storage will be removed in 1.5. Use `torch.save` instead", FutureWarning)
+-----------------------------------
+| eval/               |           |
+|    best_mean_reward | -1.29e+03 |
+|    mean_ep_length   | 123       |
+|    mean_reward      | -1.29e+03 |
+|    true_cost        | 0.16      |
+| infos/              |           |
+|    cost             | 0.15      |
+| rollout/            |           |
+|    adjusted_reward  | -0.851    |
+|    ep_len_mean      | 137       |
+|    ep_rew_mean      | -100      |
+| time/               |           |
+|    fps              | 2162      |
+|    iterations       | 1         |
+|    time_elapsed     | 4         |
+|    total_timesteps  | 10240     |
+-----------------------------------
+-----------------------------------------
+| eval/                   |             |
+|    best_mean_reward     | -1.29e+03   |
+|    mean_ep_length       | 115         |
+|    mean_reward          | -1.3e+03    |
+|    true_cost            | 0.151       |
+| infos/                  |             |
+|    cost                 | 0.15        |
+| rollout/                |             |
+|    adjusted_reward      | -0.806      |
+|    ep_len_mean          | 145         |
+|    ep_rew_mean          | -104        |
+| time/                   |             |
+|    fps                  | 1388        |
+|    iterations           | 2           |
+|    time_elapsed         | 14          |
+|    total_timesteps      | 20480       |
+| train/                  |             |
+|    approx_kl            | 0.010384919 |
+|    average_cost         | 0.109277345 |
+|    clip_fraction        | 0.108       |
+|    clip_range           | 0.2         |
+|    cost_explained_va... | -33.8       |
+|    cost_value_loss      | 2.81        |
+|    early_stop_epoch     | 10          |
+|    entropy_loss         | -1.38       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 7.3         |
+|    mean_cost_advantages | 1.4375017   |
+|    mean_reward_advan... | -11.216705  |
+|    n_updates            | 10          |
+|    nu                   | 1.06        |
+|    nu_loss              | -0.109      |
+|    policy_gradient_loss | -0.00369    |
+|    reward_explained_... | -262        |
+|    reward_value_loss    | 23.2        |
+|    total_cost           | 1119.0      |
+-----------------------------------------
+Early stopping at step 8 due to reaching max kl: 0.02
+-----------------------------------------
+| eval/                   |             |
+|    best_mean_reward     | -920        |
+|    mean_ep_length       | 53.4        |
+|    mean_reward          | -920        |
+|    true_cost            | 0.121       |
+| infos/                  |             |
+|    cost                 | 0.06        |
+| rollout/                |             |
+|    adjusted_reward      | -0.707      |
+|    ep_len_mean          | 115         |
+|    ep_rew_mean          | -73.2       |
+| time/                   |             |
+|    fps                  | 1211        |
+|    iterations           | 3           |
+|    time_elapsed         | 25          |
+|    total_timesteps      | 30720       |
+| train/                  |             |
+|    approx_kl            | 0.015660882 |
+|    average_cost         | 0.105371095 |
+|    clip_fraction        | 0.185       |
+|    clip_range           | 0.2         |
+|    cost_explained_va... | -1.78       |
+|    cost_value_loss      | 4.01        |
+|    early_stop_epoch     | 8           |
+|    entropy_loss         | -1.36       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 22          |
+|    mean_cost_advantages | 0.93204844  |
+|    mean_reward_advan... | -7.767728   |
+|    n_updates            | 20          |
+|    nu                   | 1.13        |
+|    nu_loss              | -0.112      |
+|    policy_gradient_loss | -0.00879    |
+|    reward_explained_... | -1.73       |
+|    reward_value_loss    | 36.6        |
+|    total_cost           | 1079.0      |
+-----------------------------------------
+Early stopping at step 7 due to reaching max kl: 0.02
+-----------------------------------------
+| eval/                   |             |
+|    best_mean_reward     | -573        |
+|    mean_ep_length       | 122         |
+|    mean_reward          | -573        |
+|    true_cost            | 0.101       |
+| infos/                  |             |
+|    cost                 | 0           |
+| rollout/                |             |
+|    adjusted_reward      | -0.638      |
+|    ep_len_mean          | 104         |
+|    ep_rew_mean          | -59         |
+| time/                   |             |
+|    fps                  | 1128        |
+|    iterations           | 4           |
+|    time_elapsed         | 36          |
+|    total_timesteps      | 40960       |
+| train/                  |             |
+|    approx_kl            | 0.01554402  |
+|    average_cost         | 0.081933595 |
+|    clip_fraction        | 0.232       |
+|    clip_range           | 0.2         |
+|    cost_explained_va... | 0.34        |
+|    cost_value_loss      | 2.87        |
+|    early_stop_epoch     | 7           |
+|    entropy_loss         | -1.32       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 30.2        |
+|    mean_cost_advantages | 0.11994247  |
+|    mean_reward_advan... | -4.4989524  |
+|    n_updates            | 30          |
+|    nu                   | 1.2         |
+|    nu_loss              | -0.0927     |
+|    policy_gradient_loss | -0.0113     |
+|    reward_explained_... | -0.568      |
+|    reward_value_loss    | 46.4        |
+|    total_cost           | 839.0       |
+-----------------------------------------
+Early stopping at step 2 due to reaching max kl: 0.02
+[32;1mTime taken: 00.71 minutes[0m

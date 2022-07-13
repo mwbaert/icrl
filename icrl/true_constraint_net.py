@@ -31,6 +31,12 @@ def get_true_cost_function(env_id):
     elif env_id == "CJTL-v0":
         dummy_env = gym.make(env_id)
         return partial(junction_traffic_lights, dummy_env)
+    elif env_id == "CT-v0":
+        dummy_env = gym.make(env_id)
+        return partial(test_env, dummy_env)
+    elif env_id == "CRG-v0":
+        dummy_env = gym.make(env_id)
+        return partial(rg_env, dummy_env)
     elif env_id in ["AntTest-v0", 'HalfCheetahTest-v0', 'Walker2dTest-v0', 'SwimmerTest-v0']:
         return partial(torque_constraint, 0.5)
     else:
@@ -147,6 +153,69 @@ def junction_traffic_lights(env, obs, acs):
         elif (ob[-1] == 1) and (not(ac == 0)):
         #elif ce_utils.in_state_action_pair(ob, ac, env.constraint_state_action_pairs):
             cost += [1]
+        else:
+            cost += [0]
+
+    cost = np.reshape(np.array(cost), cost_shape)
+
+    return cost
+
+def test_env(env, obs, acs):
+    obs = copy.deepcopy(obs)
+    acs = copy.deepcopy(acs)
+    if len(obs.shape) > 2:
+        batch_size, n_envs, _ = obs.shape
+        cost_shape = (batch_size, n_envs)
+        obs = np.reshape(obs, (batch_size*n_envs, -1))
+        acs = np.reshape(acs, (batch_size*n_envs, -1))
+    else:
+        cost_shape = (obs.shape[0])
+
+    cost = []
+    for ob, ac in zip(obs, acs):
+        # Need to unnormalize obs
+        ob = unnormalize(env, ob)
+        next_ob = env.applyAction(ob, ac)
+        
+        if ce_utils.in_regions(ob, next_ob, env.constraint_regions):
+            cost += [1]
+        #elif (ob[-1] == 1) and (ac == 1):
+        #    cost += [1]
+        #elif (ob[-1] == 1) and (not(ac == 0)):
+        #elif ce_utils.in_state_action_pair(ob, ac, env.constraint_state_action_pairs):
+        #    cost += [1]
+        else:
+
+            cost += [0]
+
+    cost = np.reshape(np.array(cost), cost_shape)
+
+    return cost
+
+def rg_env(env, obs, acs):
+    obs = copy.deepcopy(obs)
+    acs = copy.deepcopy(acs)
+    if len(obs.shape) > 2:
+        batch_size, n_envs, _ = obs.shape
+        cost_shape = (batch_size, n_envs)
+        obs = np.reshape(obs, (batch_size*n_envs, -1))
+        acs = np.reshape(acs, (batch_size*n_envs, -1))
+    else:
+        cost_shape = (obs.shape[0])
+
+    cost = []
+    for ob, ac in zip(obs, acs):
+        # Need to unnormalize obs
+        ob = unnormalize(env, ob)
+        next_ob = env.applyAction(ob, ac)
+        
+        #if ce_utils.in_regions(ob, next_ob, env.constraint_regions):
+        #    cost += [1]
+        if (ob[-1] == 1) and (ac != 0):
+            cost += [1]
+        #elif (ob[-1] == 1) and (not(ac == 0)):
+        #elif ce_utils.in_state_action_pair(ob, ac, env.constraint_state_action_pairs):
+        #    cost += [1]
         else:
             cost += [0]
 

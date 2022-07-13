@@ -7,3 +7,5 @@ from custom_envs.envs.two_bridges import *
 from custom_envs.envs.three_bridges import *
 from custom_envs.envs.lap_grid_world import *
 from custom_envs.envs.junction_traffic_lights import *
+from custom_envs.envs.test_env import *
+from custom_envs.envs.red_green import *

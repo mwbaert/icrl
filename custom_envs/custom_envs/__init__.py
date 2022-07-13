@@ -391,4 +391,39 @@ register(
     nondeterministic=True,
 )
 
+TEST_WORLD_LEN = 500
+
+register(
+    id="T-v0",
+    entry_point=ABS_PATH+".test_env:TestEnv",
+    max_episode_steps=TEST_WORLD_LEN,
+    reward_threshold=None,
+    nondeterministic=False,
+)
+
+register(
+    id="CT-v0",
+    entry_point=ABS_PATH+".test_env:ConstrainedTestEnv",
+    max_episode_steps=TEST_WORLD_LEN,
+    reward_threshold=None,
+    nondeterministic=False,
+)
+
+RED_GREEN_LEN = 200
+
+register(
+    id="RG-v0",
+    entry_point=ABS_PATH+".red_green:RedGreenEnv",
+    max_episode_steps=RED_GREEN_LEN,
+    reward_threshold=None,
+    nondeterministic=True,
+)
+
+register(
+    id="CRG-v0",
+    entry_point=ABS_PATH+".red_green:ConstrainedRedGreenEnv",
+    max_episode_steps=RED_GREEN_LEN,
+    reward_threshold=None,
+    nondeterministic=True,
+)
 

@@ -14,6 +14,16 @@ files_to_download = {
         "train_env_stats.pkl",
         "wandb-metadata.json",
         "wandb-summary.json"],
+    'CPG-T': [
+        "best_model.zip",
+        "config.json",
+        "config.yaml",
+        "monitor.csv",
+        "output.log",
+        "requirements.txt",
+        "train_env_stats.pkl",
+        "wandb-metadata.json",
+        "wandb-summary.json"],
     'icrl': [
         "best_cn_model.pt",
         "best_nominal_model.zip",
