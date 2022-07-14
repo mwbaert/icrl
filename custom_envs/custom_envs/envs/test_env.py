@@ -340,7 +340,7 @@ class ConstrainedTestEnv(TestEnv):
         # constraint_regions = [
         #    (np.array((0, 0)), 4, 4), (np.array((0, 8)), 4, 4), (np.array((8, 0)), 4, 4), (np.array((8, 8)), 4, 4)]
         constraint_regions = [
-            (np.array((4, 0)), 4, 3)
+            (np.array((4, 0)), 4, 2)
         ]
         # "-1" represent don't cares
         # constraint_state_action_pairs = [
