@@ -123,7 +123,7 @@ n_steps:
   value: 2048
 name:
   desc: null
-  value: T-v0_CT-v0_dnc_True_dno_True_dnr_True_ws_True_s_20_sid_-1
+  value: T-v0_CT-v0_dnc_True_dno_True_dnr_True_s_20_sid_-1
 num_curriculum_updates:
   desc: null
   value: 0
@@ -178,7 +178,7 @@ reward_vf_layers:
   - 64
 save_dir:
   desc: null
-  value: ./cpg/wandb/run-20220707_135117-3luczdts/files
+  value: ./cpg/wandb/run-20220714_144259-3x6nf6cu/files
 save_every:
   desc: null
   value: 40000.0
@@ -199,7 +199,7 @@ target_kl:
   value: 0.01
 timesteps:
   desc: null
-  value: 40000
+  value: 200000
 train_env_id:
   desc: null
   value: T-v0
@@ -226,4 +226,4 @@ verbose:
   value: 2
 wandb_sweep:
   desc: null
-  value: true
+  value: false

@@ -178,7 +178,7 @@ reward_vf_layers:
   - 64
 save_dir:
   desc: null
-  value: ./cpg/wandb/run-20220708_062953-suopeg7d/files
+  value: ./cpg/wandb/run-20220714_143547-ejzhwggk/files
 save_every:
   desc: null
   value: 40000.0
