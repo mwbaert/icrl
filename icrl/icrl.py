@@ -289,6 +289,8 @@ def icrl(config):
         mean, var = None, None
         if config.cn_normalize:
             mean, var = sampling_env.obs_rms.mean, sampling_env.obs_rms.var
+            
+        constraint_net.set_nominal_agent(nominal_agent)
         backward_metrics = constraint_net.train(config.backward_iters, orig_observations, actions, lengths,
                                                 mean, var, current_progress_remaining)
 

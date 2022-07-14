@@ -15,7 +15,8 @@ python run_me.py run_policy --load_dir icrl/expert_data/SW/ --env_id SW-v0 -nr 2
 # this requires to evaluate on the constrained environment
 # keep this stochastic such that there is variation in the observed trajectories
 python run_me.py run_policy --load_dir icrl/expert_data/JTL/ --env_id CJTL-v0 -nr 20 --red_light_prob 0.8
-
+python run_me.py run_policy --load_dir icrl/expert_data/T/ --env_id CT-v0 -nr 20
+python run_me.py run_policy --load_dir icrl/expert_data/RG/ --env_id CRG-v0 -nr 20
 # train ICRL
     # first you have to copy the rollouts to the EXPERT directory
     # results are stored in icrl/wandb

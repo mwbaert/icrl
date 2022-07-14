@@ -358,21 +358,37 @@ def sample_from_agent(agent, env, rollouts, deterministic=False):
         # Avoid double reset, as VecEnv are reset automatically
         if not isinstance(env, vec_env.VecEnv) or i == 0:
             obs = env.reset()
+            observations.append(obs)
+            if isinstance(env, vec_env.VecNormalize):
+                orig_observations.append(env.get_original_obs())
+            else:
+                orig_observations.append(obs)
+                
         done, state = False, None
         episode_reward = 0.0
         episode_length = 0
         while not done:
             action, state = agent.predict(
                 obs, state=state, deterministic=deterministic)
-            obs, reward, done, _info = env.step(action)
-            observations.append(obs)
-            if isinstance(env, vec_env.VecNormalize):
-                orig_observations.append(env.get_original_obs())
-            else:
-                orig_observations.append(obs)
-            actions.append(action)
-            episode_reward += reward
-            episode_length += 1
+            obs, reward, done, info = env.step(action)
+
+            # do not add final state, because for this state no action is stored
+            if not done:
+                #observations.append(info[0]["terminal_observation"][np.newaxis, ...])
+                #if isinstance(env, vec_env.VecNormalize):
+                #    orig_observations.append(env.unnormalize_obs(info[0]["terminal_observation"][np.newaxis, ...]))
+                #else:
+                #    orig_observations.append(obs)
+            #else:
+                observations.append(obs)
+                if isinstance(env, vec_env.VecNormalize):
+                    orig_observations.append(env.get_original_obs())
+                else:
+                    orig_observations.append(obs)
+
+                actions.append(action)
+                episode_reward += reward
+                episode_length += 1
 
         rewards.append(episode_reward)
         lengths.append(episode_length)

@@ -115,6 +115,9 @@ class ConstraintNet(nn.Module):
         if self.train_gail_lambda:
             self.criterion = nn.BCELoss()
 
+    def set_nominal_agent(self, nominal_agent):
+        self.nominal_agent = nominal_agent
+        
     def forward(self, x: th.tensor) -> th.tensor:
         return self.network(x)
 
