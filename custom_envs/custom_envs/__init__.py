@@ -391,7 +391,7 @@ register(
     nondeterministic=True,
 )
 
-TEST_WORLD_LEN = 500
+TEST_WORLD_LEN = 600
 
 register(
     id="T-v0",
