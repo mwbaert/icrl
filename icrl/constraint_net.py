@@ -252,7 +252,7 @@ class ConstraintNet(nn.Module):
             else:
                 is_weights = []
                 for length, weight in zip(episode_lengths, normed):
-                    is_weights += [weight] * length
+                    is_weights += [weight] * (length+1)
                 is_weights = th.tensor(is_weights)
 
             # Compute KL(old, current)
