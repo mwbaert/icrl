@@ -6,6 +6,7 @@
 python run_me.py cpg --config_file config_exp_lgw.json
 python run_me.py cpg --config_file config_exp_sw.json
 python run_me.py cpg --config_file config_exp_jtl.json
+python run_me.py cpg --config_file config_exp_t.json --timesteps 2e5 --learning_rate 0.0003 -dnc -dnr -dno
 
 # generate rollouts from expert policy in the nominal environment
 # copy rollouts from run_policy/ to EXPERT/

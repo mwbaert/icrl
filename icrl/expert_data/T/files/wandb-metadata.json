@@ -1,8 +1,8 @@
 {
-    "os": "Linux-5.13.0-52-generic-x86_64-with-glibc2.17",
+    "os": "Linux-5.15.0-41-generic-x86_64-with-glibc2.17",
     "python": "3.8.12",
-    "heartbeatAt": "2022-07-14T12:42:59.819323",
-    "startedAt": "2022-07-14T12:42:59.136380",
+    "heartbeatAt": "2022-07-15T07:38:05.778117",
+    "startedAt": "2022-07-15T07:38:04.970586",
     "docker": null,
     "cpu_count": 12,
     "cuda": null,
@@ -11,19 +11,21 @@
         "--config_file",
         "config_exp_t.json",
         "--timesteps",
-        "2e5",
+        "4e5",
         "--learning_rate",
-        "0.0003",
+        "0.00005",
         "-dnc",
         "-dnr",
-        "-dno"
+        "-dno",
+        "-tk",
+        "0.01"
     ],
     "state": "running",
     "codePath": "run_me.py",
     "program": "run_me.py",
     "git": {
         "remote": "https://github.com/mwbaert/icrl.git",
-        "commit": "f819ed4e6235793a0b49304c010088c0177e92bd"
+        "commit": "5f9d2a9773f17b340d1aec21a9e745df5bfcd2c7"
     },
     "email": "mattijs.baert@ugent.be",
     "root": "/home/mwbaert/Documents/research/icrl",

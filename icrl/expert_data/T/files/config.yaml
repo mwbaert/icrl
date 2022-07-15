@@ -105,7 +105,7 @@ integral_control_coeff:
   value: 0.0001
 learning_rate:
   desc: null
-  value: 0.0003
+  value: 5.0e-05
 load_gail:
   desc: null
   value: false
@@ -123,7 +123,7 @@ n_steps:
   value: 2048
 name:
   desc: null
-  value: T-v0_CT-v0_dnc_True_dno_True_dnr_True_s_20_sid_-1
+  value: T-v0_CT-v0_dnc_True_dno_True_dnr_True_lr_5e-05_s_20_sid_-1
 num_curriculum_updates:
   desc: null
   value: 0
@@ -178,7 +178,7 @@ reward_vf_layers:
   - 64
 save_dir:
   desc: null
-  value: ./cpg/wandb/run-20220714_144259-3x6nf6cu/files
+  value: ./cpg/wandb/run-20220715_093804-1ewrsauu/files
 save_every:
   desc: null
   value: 40000.0
@@ -199,7 +199,7 @@ target_kl:
   value: 0.01
 timesteps:
   desc: null
-  value: 200000
+  value: 400000
 train_env_id:
   desc: null
   value: T-v0

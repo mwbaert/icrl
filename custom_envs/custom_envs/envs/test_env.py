@@ -136,11 +136,12 @@ class TestEnv(mujoco_env.MujocoEnv):
         done = False
         next_state = self.applyAction(state, action)
 
-        reward = - \
-            np.sum(np.abs((next_state[:STATE_Y+1]-self.goal)))/GRID_SIZE
+        reward = 0
+        #reward = - \
+        #    np.sum(np.abs((next_state[:STATE_Y+1]-self.goal)))/GRID_SIZE
 
         if(next_state[:STATE_Y+1] == self.goal).all():
-            reward = 0  # reward already zero?
+            reward = 1  # reward already zero?
             done = True
         # else:
         #    reward = -0.01
@@ -340,7 +341,7 @@ class ConstrainedTestEnv(TestEnv):
         # constraint_regions = [
         #    (np.array((0, 0)), 4, 4), (np.array((0, 8)), 4, 4), (np.array((8, 0)), 4, 4), (np.array((8, 8)), 4, 4)]
         constraint_regions = [
-            (np.array((4, 0)), 4, 2)
+            (np.array((5, 0)), 1, 2)
         ]
         # "-1" represent don't cares
         # constraint_state_action_pairs = [
